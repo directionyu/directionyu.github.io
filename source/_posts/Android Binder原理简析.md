@@ -1,5 +1,5 @@
 ---
-title: Android Binder 学习
+title: Android Binder 原理简析
 date: 2017-02-15 14:36:22
 categories: Android
 tag: Android

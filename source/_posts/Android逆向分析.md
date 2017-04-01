@@ -1,5 +1,5 @@
 ---
-title: Andoroid 逆向分析
+title: Andoroid 逆向分析语法简析
 date: 2016-07-23 16:51:29   
 categories: Android   
 tag: 逆向
@@ -162,6 +162,3 @@ invoke-virtual{v0, v1}, Ljava/io/PrintStream;->println(Ljava/lang/String;)V
 :goto_0
 return-void
 ```
-
-
-
