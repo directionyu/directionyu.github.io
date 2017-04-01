@@ -1,6 +1,6 @@
 ---
 title: Android 架构浅谈
-date: 2017‎-01‎-‎25‎，‏‎18:34:57
+date: 2017‎-01‎-‎25‎ ‏ 18:34:57
 categories: Android   
 tag: 架构
 toc: true  
