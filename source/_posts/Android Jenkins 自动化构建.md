@@ -325,6 +325,7 @@ GIT_TAG	Git Parameter	tag1.0.0等
 #!/bin/bash  
 
 # $1 PACKAGE_NAME
+echo -------- 开始Key文件生成，应用包名为 is $1
 
 key_path=/usr/share/jenkins/android-key/$1.jks
 key_s3_path=s3://justdownit/apps/gkt/android_jenkins/key/
@@ -385,17 +386,58 @@ http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/Cleaner_gpPackag
 
 ## Set build description
 
-```
+```HTML
+<img src='http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/qrcode/${APP_NAME}_${PRODUCT_FLAVORS}_${BUILD_TYPES}_v${APP_VERSION}.png'></img>
+
+<a href='http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/${APP_NAME}_${PRODUCT_FLAVORS}_${BUILD_TYPES}_v${APP_VERSION}.apk'>点击从S3下载Apk</a>
+
+<br><br>GooglePlay线上URL：https://play.google.com/store/apps/details?id=$APPLICATION_ID<br><br>
 包名：$APPLICATION_ID <br><br>
-APP_NAME:$APP_NAME <br><br>
+应用名:$APP_NAME <br><br>
 APP_ID：$APP_ID <br><br>
 APP_SECRET：$APP_SECRET <br><br>
 ANALYTICS_ID：$ANALYTICS_ID <br><br>
 FACEBOOK_ID：$FACEBOOK_ID <br><br>
+FB GooglePlay Package Name：$APPLICATION_ID <br><br>
 ADJUST_TOKEN：$ADJUST_TOKEN <br><br>
 ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
 ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
 
-<img src='"http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/qrcode/"+$APP_NAME+"_"+$PRODUCT_FLAVORS+"_"+$BUILD_TYPE+"_v"+$VERSION+".png"'><a href='"http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/"+$APP_NAME+"_"+$PRODUCT_FLAVORS+"_"+$BUILD_TYPE+"_v"+$VERSION+".png"'>Install Online</a>
 
 ```
+
+## icon-svn-down.sh
+```shell
+ #!/bin/bash                                                                                                                                                                                              
+# $1 jenkins workspace路径                  
+# $2 icon svm路径    
+
+svn_dir= $1/svnIconRes
+mkdir -p $svn_dir
+cd $svn_dir
+svn checkout $2
+
+```
+
+## change-node-value
+- 第一种实现
+```shell
+ #!/bin/bash  
+dos2unix AndroidManifest.xml    
+sed -i "s#android:icon=".*"#android:icon=\"$1\"#" AndroidManifest.xml
+echo "icon 路径替换为"
+cat AndroidManifest.xml |grep android:icon
+```
+
+- 第二种实现
+
+```shell
+ #!/bin/bash  
+dos2unix AndroidManifest.xml
+sed  "s#android:icon=".*"#android:icon=\"$1\"#" AndroidManifest.xml > test2.txt
+cat test2.txt > AndroidManifest.xml
+rm -rf test2.txt
+
+```
+
+svn://svn.dy/advertiser_project_manage/advertiserPM/03-产品原型/0302-UI原型/app/cleaner自研/宣传/icon/test/icon
