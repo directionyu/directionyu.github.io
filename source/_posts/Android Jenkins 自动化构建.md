@@ -1,15 +1,17 @@
 ---
 title: Android Jenkins自动化构建
-date: 2017-04-10 16:00:42
+date: 2017-04-10T16:00:42.000Z
 categories: Jenkins
-tag: Jenkins,Android
+tag: 'Jenkins,Android'
 toc: true
 ---
 
 # 环境搭建
 
 ## Android SDK
+
 android sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下：
+
 ```
 # aapt
 sudo dpkg --add-architecture i386
@@ -21,13 +23,13 @@ sudo apt-get update
 ```
 
 安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。
+
 ```
 wget http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
 tar xvzf android-sdk_r24.4.1-linux.tgz
 ```
-编辑 .profile 或者 .bash_profile 把下面的目录增加到 path的搜索路径中，确保android SDK的的一些命令工具可以直接在终端使用，比如 adb 命令。
-ANDROID_HOME=$HOME/android-sdk-linux
-PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+编辑 .profile 或者 .bash_profile 把下面的目录增加到 path的搜索路径中，确保android SDK的的一些命令工具可以直接在终端使用，比如 adb 命令。 ANDROID_HOME=$HOME/android-sdk-linux PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 使环境变量生效
 
@@ -42,6 +44,7 @@ android list sdk --all
 ```
 
 输出如下所示：
+
 ```
 Packages available for installation or update: 176
    1- Android SDK Tools, revision 25.2.5
@@ -91,14 +94,14 @@ Packages available for installation or update: 176
   45- SDK Platform Android 4.0.3, API 15, revision 5
   46- SDK Platform Android 4.0, API 14, revision 4
 ```
-这里包括不同的Android API 版本和不同的构建工具，选择你想要安装项目的序号，这里我想安装 build tools 25 ,build tools 25 及 android 4.4以上的SDK所以选择序号 “1,2,3,4,5,37,38,39,40,41”
 
-`
-android update sdk -u -a -t  1,2,3,4,5,37,38,39,40,41
-`
+这里包括不同的Android API 版本和不同的构建工具，选择你想要安装项目的序号，这里我想安装 build tools 25 ,build tools 25 及 android 4.4以上的SDK所以选择序号 "1,2,3,4,5,37,38,39,40,41"
+
+`android update sdk -u -a -t 1,2,3,4,5,37,38,39,40,41`
 
 ## Gradle 3.3
-wget https://services.gradle.org/distributions/gradle-3.3-bin.zip
+
+wget <https://services.gradle.org/distributions/gradle-3.3-bin.zip>
 
 释放到本地Home目录,创建名字为"gradle"的符号链接，符号连接的好处是方便版本更新，有了新的版本直接修改符号链接即可。
 
@@ -108,14 +111,13 @@ ln -s gradle-2.12 gradle
 ```
 
 配置gradle环境变量并使其生效,编辑 ~/.profje 文件增加下面内容
+
 ```
 GRADLE_HOME=$HOME/gradle
 export PATH=$PATH:$GRADLE_HOME/bin
 ```
 
-保存后使环境变量使其生效
-`source ~/.profile`
-环境变量生效后你可以在终端敲入'gradle'命令并运行用以检测gradle是否安装成功。
+保存后使环境变量使其生效 `source ~/.profile` 环境变量生效后你可以在终端敲入'gradle'命令并运行用以检测gradle是否安装成功。
 
 `gradle`
 
@@ -130,71 +132,28 @@ To see a list of command-line options, run gradle --help
 BUILD SUCCESSFUL
 ```
 
-# 脚本
+# 签名详解
 
 ## 生成*.keystore
 
-keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）和证书（certificates）
-存在一个keystore的文件中，或者是jks的文件
+keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）和证书（certificates）存在一个keystore的文件中，或者是jks的文件
 
-
--genkey:     在用户目录中创建一个默认.keystore文件
--alias       产生别名,不区分大小写
--keystore    指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称
--keyalg      指定密钥的算法 (如 RSA  DSA（如果不指定默认采用DSA）)
--validity    指定创建的证书有效期多少天
--keysize     指定密钥长度
--storepass   指定密钥库的密码(获取keystore信息所需的密码)
--keypass     指定别名条目的密码(私钥的密码)
--dname       指定证书拥有者信息 例如：  "CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名称,ST=州或省份名称,C=单位的两字母国家代码"
--list        显示密钥库中的证书信息      keytool -list -v -keystore 指定keystore -storepass 密码
--v           显示密钥库中的证书详细信息
--export      将别名指定的证书导出到文件  keytool -export -alias 需要导出的别名 -keystore 指定keystore -file 指定导出的证书位置及证书名称 -storepass 密码
--file        参数指定导出到文件的文件名
--delete      删除密钥库中某条目          keytool -delete -alias 指定需删除的别  -keystore 指定keystore  -storepass 密码
--printcert   查看导出的证书信息          keytool -printcert -file yushan.crt
--keypasswd   修改密钥库中指定条目口令    keytool -keypasswd -alias 需修改的别名 -keypass 旧密码 -new  新密码  -storepass keystore密码  -keystore sage
--storepasswd 修改keystore口令      keytool -storepasswd -keystore e:\yushan.keystore(需修改口令的keystore) -storepass 123456(原始密码) -new yushan(新密码)
--import      将已签名数字证书导入密钥库  keytool -import -alias 指定导入条目的别名 -keystore 指定keystore -file 需导入的证书
+-genkey: 在用户目录中创建一个默认.keystore文件 -alias 产生别名,不区分大小写 -keystore 指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称 -keyalg 指定密钥的算法 (如 RSA DSA（如果不指定默认采用DSA）) -validity 指定创建的证书有效期多少天 -keysize 指定密钥长度 -storepass 指定密钥库的密码(获取keystore信息所需的密码) -keypass 指定别名条目的密码(私钥的密码) -dname 指定证书拥有者信息 例如： "CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名称,ST=州或省份名称,C=单位的两字母国家代码" -list 显示密钥库中的证书信息 keytool -list -v -keystore 指定keystore -storepass 密码 -v 显示密钥库中的证书详细信息 -export 将别名指定的证书导出到文件 keytool -export -alias 需要导出的别名 -keystore 指定keystore -file 指定导出的证书位置及证书名称 -storepass 密码 -file 参数指定导出到文件的文件名 -delete 删除密钥库中某条目 keytool -delete -alias 指定需删除的别 -keystore 指定keystore -storepass 密码 -printcert 查看导出的证书信息 keytool -printcert -file yushan.crt -keypasswd 修改密钥库中指定条目口令 keytool -keypasswd -alias 需修改的别名 -keypass 旧密码 -new 新密码 -storepass keystore密码 -keystore sage -storepasswd 修改keystore口令 keytool -storepasswd -keystore e:\yushan.keystore(需修改口令的keystore) -storepass 123456(原始密码) -new yushan(新密码) -import 将已签名数字证书导入密钥库 keytool -import -alias 指定导入条目的别名 -keystore 指定keystore -file 需导入的证书
 
 - 一次性生成Key
 
-`
-keytool -genkey -alias $ALIAS -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore $PATH -storepass 123456 -dname "CN=fanle, OU=xx, O=xx, L=xx, ST=xx, C=xx"
-`
-
-
--certreq            生成证书请求
--changealias        更改条目的别名
--delete             删除条目
--exportcert         导出证书
--genkeypair         生成密钥对
--genseckey          生成密钥
--gencert            根据证书请求生成证书
--importcert         导入证书或证书链
--importpass         导入口令
--importkeystore     从其他密钥库导入一个或所有条目
--keypasswd          更改条目的密钥口令
--list               列出密钥库中的条目
--printcert          打印证书内容
--printcertreq       打印证书请求的内容
--printcrl           打印 CRL 文件的内容
--storepasswd        更改密钥库的存储口令
-
+`keytool -genkey -alias $ALIAS -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore $PATH -storepass 123456 -dname "CN=fanle, OU=xx, O=xx, L=xx, ST=xx, C=xx"`
 
 ## 签名 APK
 
-<!--more-->
+<!-- more -->
+
 ```
 # 输入完整信息签名一个应用，注意填写[]中对应的内容
 
 # [yourStorepass] 签名文件密码 [aliasesPass] 别名密码 [forSignAPKPath] 要签名的apk路径  [aliases] 别名
 
 jarsigner -verbose -keystore myKey.keystore -storepass [yourStorepass] -keypass [aliasesPass] [forSignAPKPath] [aliases]
-
-# 查看帮助
-
-jarsingner -help
 ```
 
 ## 校验签名
@@ -210,47 +169,35 @@ jarsigner -verbose -verify -keystore [keystorePath] -certs [verifyApkPath]
 ```
 
 ## 查看签名文件信息
-```xml
+
+```java
 # 查看一个路径为 [keystorePath] 的签名文件的信息，需要签名的库密码
 
 keytool -list -keystore [keystorePath]
 ```
 
+# 构建
+
+## 动态参数
+
+|--参数名-|参数类型| 参数值列表| BUILD_TYPE Choice Release or Debug IS_JENKINS Choice true PRODUCT_FLAVORS Choice Xiaomi 、Wandoujia等 BUILD_TIME Dynamic Parameter 2016-12-21-11-11 APP_VERSION Choice 1.0.0、1.0.1等 GIT_TAG Git Parameter tag1.0.0等
 
 ## 构建触发器
 
-Jenkins支持上图所示的触发时机配置，如果都不选，则为手动构建，需要点击“立即构建”按钮才构建。
+Jenkins支持上图所示的触发时机配置，如果都不选，则为手动构建，需要点击"立即构建"按钮才构建。
 
-Build periodically：周期进行项目构建（它不关心源码是否发生变化）；
-Build when a change is pushed to GItHub：表示只要GitHub上面源码一更新即进行构件；
-Poll SCM：定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。
+Build periodically：周期进行项目构建（它不关心源码是否发生变化）； Build when a change is pushed to GItHub：表示只要GitHub上面源码一更新即进行构件； Poll SCM：定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。
 
 Build periodically和Poll SCM都支持日程表的设置，这个与Spring框架中定时器的日程表配置类似，有5个参数：
 
-第一个参数代表的是分钟 minute，取值 0~59；
-第二个参数代表的是小时 hour，取值 0~23；
-第三个参数代表的是天 day，取值 1~31；
-第四个参数代表的是月 month，取值 1~12；
-最后一个参数代表的是星期 week，取值 0~7，0 和 7 都是表示星期天。
+第一个参数代表的是分钟 minute，取值 0~59； 第二个参数代表的是小时 hour，取值 0~23； 第三个参数代表的是天 day，取值 1~31； 第四个参数代表的是月 month，取值 1~12； 最后一个参数代表的是星期 week，取值 0~7，0 和 7 都是表示星期天。
 
 如：
 
-选择Build periodically并设置日程表为“0 4 ”，则表示每天凌晨4点构建一次源码。
-选择Poll SCM并设置日程表为“/10 ”，则表示每10分钟检查一次源码变化，如果有更新才进行构建。
-
-
-
-# Build Description
-在持续集成过程中，随着feature的不断加入，版本越来越多，你希望每个build成功之后能显示一些很重要的信息，比如版本号，当前该build支持的主要feature等。
-
-这样不论是开发还是测试，在拿build的时候都能一眼就看出该build对应的版本号以及主要的feature。
-
-description setter plugin
-该功能的强大之处在于，它可以在构建日志中通过正则表达式来匹配内容，并将匹配到的内容添加到BuildDescription中去。
-
-
+选择Build periodically并设置日程表为"0 4 "，则表示每天凌晨4点构建一次源码。 选择Poll SCM并设置日程表为"/10 "，则表示每10分钟检查一次源码变化，如果有更新才进行构建。
 
 # 上传S3
+
 ## 环境搭建
 
 ```shell
@@ -263,130 +210,24 @@ apt-get install awscli
 
 # 初始化配置
 aws configure
-# 做这一步时系统会要求你输入“访问密钥ID”、“私有访问密钥”、“默认区域名称”、“默认输出格式”，前两个在创建IAM用户时会自动生成，“默认区域名称”最好选择你们EC2所在的区域，如果不清楚自己的EC2所在区域对应的字符串是什么，可参考我下面提供的链接，如果实在不想填也没问题，它会自动选择离你最近的区域，“默认输出格式”可以填json和text格式，默认是json格式。
+# 做这一步时系统会要求输入“访问密钥ID”、“私有访问密钥”、“默认区域名称”、“默认输出格式”，前两个在创建IAM用户时会自动生成，“默认区域名称”最好选择桶EC2所在的区域，“默认输出格式”可以填json和text格式，默认是json格式。
 
 # 创建存储桶
-aws s3 mb s3://test20160307
+aws s3 mb s3://test20170418
 
 # 上传文件到存储桶
-aws s3 cp /etc/my.cnf s3://test20160307/
+aws s3 cp /usr/share/jenkins/test.txt s3://test20170418/
 ```
 
+# build description
 
-# 展示二维码图片
-二维码图片的URL链接有了，那要怎样才能将二维码图片展示在Jenkins项目的历史构建列表中呢？
+在持续集成过程中，随着feature的不断加入，版本越来越多，你希望每个build成功之后能显示一些很重要的信息，比如版本号，当前该build支持的主要feature等。
 
-这里需要用到另外一个插件，description setter plugin。安装该插件后，在【Post-build Actions】栏目中会多出description setter功能，可以实现构建完成后设置当次build的描述信息。这个描述信息不仅会显示在build页面中，同时也会显示在历史构建列表中。
+这样不论是开发还是测试，在拿build的时候都能一眼就看出该build对应的版本号以及主要的feature。
 
-有了这个前提，要将二维码图片展示在历史构建列表中貌似就可以实现了，能直观想到的方式就是采用HTML的img标签，将<img src='qr_code_url'>写入到build描述信息中。
+使用description setter plugin。安装该插件后，在【Post-build Actions】栏目中会多出description setter功能，可以实现构建完成后设置当次build的描述信息。这个描述信息不仅会显示在build页面中，同时也会显示在历史构建列表中。 该功能的强大之处在于，它可以在构建日志中通过正则表达式来匹配内容，并将匹配到的内容添加到BuildDescription中去。
 
-这个方法的思路是正确的，不过这么做以后并不会实现我们预期的效果。
-
-这是因为Jenkins出于安全的考虑，所有描述信息的Markup Formatter默认都是采用Plain text模式，在这种模式下是不会对build描述信息中的HTML编码进行解析的。
-
-要改变也很容易，Manage Jenkins -> Configure Global Security，将Markup Formatter的设置更改为Safe HTML即可。
-
-更改配置后，我们就可以在build描述信息中采用HTML的img标签插入图片了。
-
-另外还需要补充一个点。如果是使用蒲公英（pyger）平台，会发现每次上传安装包后返回的二维码图片是一个短链接，神奇的是这个短连接居然是固定的（对同一个账号而言）。这个短连接总是指向最近生成的二维码图片，但是对于二维码图片的唯一URL地址，平台并没有在响应中进行返回。在这种情况下，我们每次构建完成后保存二维码图片的URL链接就没有意义了。
-
-应对的做法是，每次上传完安装包后，通过返回的二维码图片短链接将二维码图片下载并保存到本地，然后在build描述信息中引用该图片的Jenkins地址即可。
-
-
-
-# FAQ
-
-## Jenkins 在Linux下出现权限等问题
-1. 进入/etc/default/目录 在jenkins文件中修改JENKINS_USER="root"
-2. 重启Jenkins服务
-
-
-## 编译出现 AAPT: \\?\C:\Windows\System32\config\systemprofile\***等错误
-![](https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png)
-
-原因：因为本地Jenkins Service 的账号使用了系统账户登录，
-解决方案：在Service 列表中找到Jenkins服务，在属性中选择登录选项卡，选用具体的桌面用户账号登录，再重启服务即可.
-
-
-|--参数名-|参数类型|	参数值列表|
-BUILD_TYPE	Choice	Release or Debug
-IS_JENKINS	Choice	true
-PRODUCT_FLAVORS	Choice	Xiaomi 、Wandoujia等
-BUILD_TIME	Dynamic Parameter	2016-12-21-11-11
-APP_VERSION	Choice	1.0.0、1.0.1等
-GIT_TAG	Git Parameter	tag1.0.0等
-
-
-#脚本
-
-## generate-key.sh
-
-```shell
-#!/bin/bash  
-
-# $1 PACKAGE_NAME
-echo -------- 开始Key文件生成，应用包名为 is $1
-
-key_path=/usr/share/jenkins/android-key/$1.jks
-key_s3_path=s3://justdownit/apps/gkt/android_jenkins/key/
-
-keytool -genkey -alias $1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore $key_path -storepass 123456 -dname "CN=fanle, OU=xx, O=xx, L=xx, ST=xx, C=xx"  
-
-echo 签名生成成功，本地存储路径为 $key_path
-
-sudo aws s3 cp $key_path $key_s3_path --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
-
-echo 签名成功上传S3, 路径为 $key_s3_path
-```
-
-## generate-qrcode.sh
-
-```shell
-#!/bin/bash
-
-#$1 二维码图片文件名 以APP_NAME+APP_VERSION命名
-#$2 PRODUCT_FLAVORS
-#$3 BUILD_TYPE
-#$4 VERSION
-qrcode_name=$1'_'$2'_'$3'_''v'$4'.png'
-
-qrcode_path=/usr/share/jenkins/android-qrcode/$qrcode_name
-
-qrcode_s3_path=s3://justdownit/apps/gkt/android_jenkins/qrcode/
-
-apk_s3_name=$1'_'$2'_'$3'_''v'$4'.apk'
-
-apk_s3_path=http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/$apk_s3_name                                                                 
-
-# 生成二维码文件
-qrencode -o $qrcode_path $apk_s3_path
-
-echo 二维码文件生成成功， 本地路径为 $qrcode_path , 图片定向链接为 $apk_s3_path
-
-# 上传二维码图片到S3
-
-sudo aws s3 cp $qrcode_path $qrcode_s3_path --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
-
-```
-
-## upload-s3.sh
-
-```shell
-#!/bin/bash
-# ApkName = APP_NAME '_'PRODUCT_FLAVORS + '_'+ BUILD_TYPES +'_'+'v'+APP_VERSION + '.apk''
-apk_name=$1'_'$2'_'$3'_''v'$4'.apk'
-apk_path=/usr/share/jenkins/android-apk/
-apk_s3_path=s3://justdownit/apps/gkt/android_jenkins/apk/
-sudo aws s3 cp $apk_path$apk_name $apk_s3_path --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
-
-```
-
-http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/Cleaner_gpPackage_release_v1.0.0.apk
-
-
-## Set build description
-
-```HTML
+```html
 <img src='http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/qrcode/${APP_NAME}_${PRODUCT_FLAVORS}_${BUILD_TYPES}_v${APP_VERSION}.png'></img>
 
 <a href='http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/${APP_NAME}_${PRODUCT_FLAVORS}_${BUILD_TYPES}_v${APP_VERSION}.apk'>点击从S3下载Apk</a>
@@ -402,42 +243,39 @@ FB GooglePlay Package Name：$APPLICATION_ID <br><br>
 ADJUST_TOKEN：$ADJUST_TOKEN <br><br>
 ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
 ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
-
-
 ```
 
-## icon-svn-down.sh
-```shell
- #!/bin/bash                                                                                                                                                                                              
-# $1 jenkins workspace路径                  
-# $2 icon svm路径    
+## 展示二维码图片
 
-svn_dir= $1/svnIconRes
-mkdir -p $svn_dir
-cd $svn_dir
-svn checkout $2
+有了这个前提，要将二维码图片展示在历史构建列表中貌似就可以实现了，能直观想到的方式就是采用HTML的img标签，将`<img src='qr_code_url'>`写入到build描述信息中。
 
-```
+这个方法的思路是正确的，不过这么做以后并不会实现我们预期的效果。
 
-## change-node-value
-- 第一种实现
-```shell
- #!/bin/bash  
-dos2unix AndroidManifest.xml    
-sed -i "s#android:icon=".*"#android:icon=\"$1\"#" AndroidManifest.xml
-echo "icon 路径替换为"
-cat AndroidManifest.xml |grep android:icon
-```
+这是因为Jenkins出于安全的考虑，所有描述信息的Markup Formatter默认都是采用Plain text模式，在这种模式下是不会对build描述信息中的HTML编码进行解析的。
 
-- 第二种实现
+要改变也很容易，Manage Jenkins -> Configure Global Security，将Markup Formatter的设置更改为Safe HTML即可。
 
-```shell
- #!/bin/bash  
-dos2unix AndroidManifest.xml
-sed  "s#android:icon=".*"#android:icon=\"$1\"#" AndroidManifest.xml > test2.txt
-cat test2.txt > AndroidManifest.xml
-rm -rf test2.txt
+更改配置后，我们就可以在build描述信息中采用HTML的img标签插入图片了。
 
-```
+另外还需要补充一个点。如果是使用蒲公英（pyger）平台，会发现每次上传安装包后返回的二维码图片是一个短链接，神奇的是这个短连接居然是固定的（对同一个账号而言）。这个短连接总是指向最近生成的二维码图片，但是对于二维码图片的唯一URL地址，平台并没有在响应中进行返回。在这种情况下，我们每次构建完成后保存二维码图片的URL链接就没有意义了。
 
-svn://svn.dy/advertiser_project_manage/advertiserPM/03-产品原型/0302-UI原型/app/cleaner自研/宣传/icon/test/icon
+应对的做法是，每次上传完安装包后，通过返回的二维码图片短链接将二维码图片下载并保存到本地，然后在build描述信息中引用该图片的Jenkins地址即可。
+
+# Jenkins 权限组分配
+
+# 脚本
+
+见git：<http://git.dy/gkt/testjenkins/tree/master>
+
+# FAQ
+
+## Jenkins 在Linux下出现权限等问题
+
+1. 进入/etc/default/目录 在jenkins文件中修改JENKINS_USER="root"
+2. 重启Jenkins服务
+
+## 编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile***等错误
+
+![](https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png)
+
+原因：因为本地Jenkins Service 的账号使用了系统账户登录， 解决方案：在Service 列表中找到Jenkins服务，在属性中选择登录选项卡，选用具体的桌面用户账号登录，再重启服务即可.
