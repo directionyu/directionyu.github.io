@@ -149,6 +149,25 @@ finally{
 
   总结：运行另一个adb进程会先结束已运行的进程，出现killing错误提示，一个adb进程依赖唯一的5037端口号，已运行的adb占用127.0.0.1:5037，提示套接字只允许使用一次错误。测试手机通过数据线连接当前电脑，一些第三方的手机软件自动运行，优先占用5037端口号，造成adb.exe无法正常使用。以往的做法，重新插拔数据线或者重启电脑恢复正常，读完TeachCourse的这篇文章，只需要几个指令即可正常启动adb进程。
 
+### Android Sudio出现 Error:No Service of type Factory available in ProjectScopeServices。
+
+  ![image](https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115225.png)
+
+  定位到
+
+  ![image](https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115253.png)
+
+  应该是Meaven插件的问题
+  
+  ![image](https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115328.png)
+
+  在[https://code.google.com/p/android/issues/detail?id=219692](https://code.google.com/p/android/issues/detail?id=219692) 已经有人提了issue
+
+  解决方法就是将
+
+  ' classpath com.github.dcendents:android-maven-gradle-plugin:1.3'
+  版本升级到1.4.1 再次编译Success。
+
 ## Gradle
 
 
