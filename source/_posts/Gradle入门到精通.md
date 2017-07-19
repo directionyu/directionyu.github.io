@@ -2,13 +2,14 @@
 title: Gradle入门到精通
 date: 2016-07-23 16:51:29   
 categories: Android   
-tag: Gradle 
+tag: Gradle
 toc: true  
 ---
 
 
 ## Gradle是什么
 Gradle与Ant和Maven一样都是依赖管理/自动化项目构建工具，但是与后者不同的是使用名为Groovy的语言而不是xml来编写，xml虽然通俗易懂，但是很难描述if/else的关系，而Groovy没有这种顾虑，gradle完全兼容Maven和ivy.
+Gradle 中，每一个待编译的工程都叫一个Project。每一个Project在构建的时候都包含 一系列的Task。比如一个 Android APK 的编译可能包含：Java 源码编译 Task、资源编译 Task、JNI 编译 Task、lint 检查 Task、打包生成 APK 的 Task、签名 Task等。 一个 Project 到底包含多少个 Task，其实是由编译脚本指定的插件决定。插件是什么呢？ 插件就是用来定义 Task，并具体执行这些 Task 的东西。 刚才说了，Gradle 是一个框架，作为框架，它负责定义流程和规则。而具体的编译工作 则是通过插件的方式来完成的。比如编译 Java 有 Java 插件，编译 Groovy 有 Groovy 插件， 编译 Android APP 有 Android APP 插件，编译 Android Library 有 Android Library 插件。
 
 ## Groovy是什么
 Groovy是一种动态语言，官方对其的定义是在Java平台上的、具有像Python、Ruby、Smalltalk语言特性的灵活性动态语言，Groovy保证了这些特性像Java语法一样使用，用大白话来说就是基于Java并扩展，使其编写起来像脚本一样，写完就跑，Groovy内部将其编译成字节码文件然后启动jvm来运行.
@@ -109,8 +110,8 @@ repositories{ mavenCentral() jcenter() mavenLocal() }
 ## Gradle Task
 - gradle中有1个核心概念叫任务，跟maven中的插件目标类似。
 - gradle的android插件提供了4个顶级任务
-- assemble 构建项目输出 
-- check 运行检测和测试任务 
+- assemble 构建项目输出
+- check 运行检测和测试任务
 - build 运行assemble
 - check clean 清算输出任务
 - 履行任务可以通过gradle/gradlew+任务名称的方式执，履行1个顶级任务会同时履行与其依赖的任务，比如你履行gradlew assemble,它通常会履行:gradlew assembleDebug gradlew assembleRelease,这时候会在你项目的build/outputs/apk或build/outputs/aar目录生成输出文件

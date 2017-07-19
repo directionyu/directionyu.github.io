@@ -8,6 +8,8 @@ toc: true
 
 # 什么是Gradle Task
 
+Gradle 是一个框架，它定义一套自己的游戏规则。我们要玩转 Gradle，必须要遵守它设 计的规则。下面我们来讲讲 Gradle 的基本组件：
+
 Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要干的工作。不同的插件 可以添加不同的 Task。每一个 Task 都需要和一个 Project 关联。 Task 的 API 文档位于<https://docs.gradle.org/current/dsl/org.gradle.api.Task.html>
 
 - 一个 Task 包含若干 Action。所以，Task 有 doFirst 和 doLast 两个函数，用于 添加需要最先执行的 Action 和需要和需要最后执行的 Action。Action 就是一个闭 包。
