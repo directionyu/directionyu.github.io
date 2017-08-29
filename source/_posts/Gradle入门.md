@@ -117,7 +117,7 @@ Groovy是一种动态语言，官方对其的定义是在Java平台上的、具�
 
 ## Gradle技巧
 
-1. 导入本地jar包 跟eclipse不太1样，android studio导入本地jar除将jar包放到模块的libs目录中之外，还得在该模块的build.gradle中进行配置，配置方式是在dependencies结点下进行以下声明：
+1. 导入本地jar包 跟eclipse不一样，android studio导入本地jar除将jar包放到模块的libs目录中之外，还得在该模块的build.gradle中进行配置，配置方式是在dependencies结点下进行以下声明：
 
   ```groovy
   compile files('libs/xxx.jar')
@@ -135,9 +135,9 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
   repositories{ maven{ url="http://mvnrepo.xxx.com" } }
   ```
 
-2. 导入某个project
+2. 加快Build速度，因为Gradle在构建生命周期中有三个阶段，每次执行任务时都需要经历着三个阶段。这虽然使得整个构建过程在每一个环节都可配置，但也导致了构建非常缓慢。
 
-3. 将库项目导出为aar 首先你的项目必须是1个库项目，build.gradle中进行配置： apply plugin : 'com.android.library' 然后你可以在命令行中进到项目目录，履行以下gradle任务： gradlew assembleRelease//确保该目录下有gradlew文件 生成的aar在/build/output/aar文件夹中
+1. 将库项目导出为aar 首先你的项目必须是1个库项目，build.gradle中进行配置： apply plugin : 'com.android.library' 然后你可以在命令行中进到项目目录，履行以下gradle任务： gradlew assembleRelease//确保该目录下有gradlew文件 生成的aar在/build/output/aar文件夹中
 
 # Gradle与Maven
 
@@ -229,4 +229,40 @@ dependencies {
 }
 ```
 
-## Gradle
+## Gradle相对于Maven的改进
+
+1. 配置语言 Maven使用的是xml语言，xml受限于语言本身，复杂的项目pom.xml会很繁杂，而Gradle基于Groovy定义的一中DSL语言，简洁并且表达能力强大。
+2. 扩展插件 Maven中任何扩展功能都需要使用插件来实现，但是Gradle使用的Groovy可以依赖任何java库，直接在build.gradle中自定义task，可以直接获取Project对象以及环境变量，通过自定义task对build过程进行更精细的逻辑控制。
+3. 任务依赖以及执行机制 Maven构建的生命周期每一步都是预先定义好的，插件任务只能在预留的生命周期中某个阶段切入，整个构建时只能严格的按照生命周期线性执行任务，而Gradle使用了Directed Acyclic Graph（有向非循环图）来检测任务的依赖关系，决定哪些任务可以并行执行，这样的方式更为灵活。
+4. 依赖管理 Maven对依赖管理比较严格，依赖必须是源码仓库的坐标，而Gradle比较灵活，支持多种集成三方库的方式，本地库，库工程，maven库全支持。同时针对Maven库的依赖能动态管理版本 拿gson库举例，如果依赖2.2.1这个版本，可以在build.gradle文件里这样写
+
+  ```groovy
+  dependencies {
+      compile 'com.google.code.gson:gson:2.2.1'
+  }
+  ```
+
+  如果不想依赖具体的库，想每次从maven repo中拉取最新的库，那么，可以写成这样：
+
+  ```groovy
+  dependencies {
+      compile 'com.google.code.gson:gson:2.2.＋'
+  }
+  ```
+
+  也可以写成这样
+
+  ```groovy
+  dependencies {
+      compile 'com.google.code.gson:gson:2.＋'
+  }
+  ```
+
+  甚至可以这样
+
+  ```groovy
+  dependencies {
+      compile 'com.google.code.gson:gson:＋'
+  }
+  ```
+  用”+”来通配一个版本族，这样有个好处是maven上有新库了，不用你操心升级，GRADLE编译的时候自动升级了，但是带来了两个坏处，一是，有可能新版库的接口改了，导致编译失败，这个时候需要修改代码做升级适配；更大的坏处是，每次GRADLE编译完整的项目，都会去maven上试图拉取最新的库，这样，拖慢了编译速度，尤其在网络非常差的时候，所以，为了构建速度，建议写死依赖库的版本号。
