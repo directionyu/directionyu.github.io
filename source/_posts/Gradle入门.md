@@ -137,7 +137,7 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
 
 2. 加快Build速度，因为Gradle在构建生命周期中有三个阶段，每次执行任务时都需要经历着三个阶段。这虽然使得整个构建过程在每一个环节都可配置，但也导致了构建非常缓慢。
 
-1. 将库项目导出为aar 首先你的项目必须是1个库项目，build.gradle中进行配置： apply plugin : 'com.android.library' 然后你可以在命令行中进到项目目录，履行以下gradle任务： gradlew assembleRelease//确保该目录下有gradlew文件 生成的aar在/build/output/aar文件夹中
+3. 将库项目导出为aar 首先你的项目必须是1个库项目，build.gradle中进行配置： apply plugin : 'com.android.library' 然后你可以在命令行中进到项目目录，履行以下gradle任务： gradlew assembleRelease//确保该目录下有gradlew文件 生成的aar在/build/output/aar文件夹中
 
 # Gradle与Maven
 
@@ -145,7 +145,9 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
 
 ## 为什么出现依赖管理工具
 
-码农的世界里，项目开发时间一再的被Boss和项目经理压榨，用别人造出来的轮子造福自己，这种生产方式已经深入日常生活，项目简单的时候我们可以直接将轮子的源码放入项目中，或者将轮子的二进制文件(如jar等)放置在lib里，而项目复杂的时候，动不动依赖十几个轮子，轮子又依赖别人轮子，怎么检测轮子升级，怎么判断lib目录下是否有库正在被依赖着，这时候项目管理工具的重要就体现出来了，假如我们自己需要设计一个项目依赖工具，怎么规划？
+码农的世界里，项目开发时间一再的被Boss和项目经理压榨，用别人造出来的轮子造福自己，这种生产方式已经深入日常生活，项目简单的时候我们可以直接将轮子的源码放入项目中，或者将轮子的二进制文件(如jar等)放置在lib里，而项目复杂的时候，动不动依赖十几个轮子，轮子又依赖别人轮子，怎么检测轮子升级，怎么判断lib目录下是否有库正在被依赖着，这时候项目管理工具的重要就体现出来了，
+
+## 假如我们自己需要设计一个项目依赖工具，怎么规划？
 
 1. 命名规则或者坐标（Coordinates），一个依赖库需要定义一套标识它自己唯一的坐标，让别人能够迅速找到。
 2. 存储空间，门牌号有了，接下来就需要一个具体房子装起来，这就是中心仓库的意义，同时提供使用者推拉的方式。
@@ -154,35 +156,23 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
 
 ## Maven与Gradle依赖对比
 
-> Maven的习惯是通过 groupID（一般是组织的域名倒写，遵循Java package的命名习惯）+ artifactId（库本身的名称） + version（版本）来定义坐标，通过xml来做配置文件，提供了中心仓库（repo.maven.org）以及本地工具（mvn）。
-
-依赖定义：
+- Maven最核心的改进就在于提出仓库这个概念。我可以把所有依赖的包，都放到仓库里去，在我的工程管理文件里，标明我需要什么什么包，什么什么版本。在构建的时候，maven就自动帮我把这些包打到我的包里来了。我们再也不用操心着自己去管理几十上百个jar文件了。
+- Maven提出，要给每个包都标上坐标，这样，便于在仓库里进行查找。所以，使用maven构建和发布的包都会按照这个约定定义自己的坐标，例如：
 
 ```xml
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
 <dependency>
-    <groupId>com.google.guava</groupId>
-    <artifactId>guava</artifactId>
-    <version>18.0</version>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.8.1</version>
 </dependency>
-
-中央仓库定义：
-
-<repository>
-    <id>repo.default</id>
-    <name>Internal Release Repository</name>
-    <url>http://repo.xxxxxx.com/nexus/content/repositories/releases</url>
-    <releases>
-    <enabled>true</enabled>
-    <updatePolicy>interval:60</updatePolicy>
-    <checksumPolicy>warn</checksumPolicy>
-    </releases>
-    <snapshots>
-    <enabled>false</enabled>
-    <updatePolicy>always</updatePolicy>
-    <checksumPolicy>warn</checksumPolicy>
-    </snapshots>
-</repository>
 ```
+
+  我的工程要依赖gson，我们知道Gson仓库坐标com.google.code.gson:gson:2.8.1。那么maven就会自动去帮我把junit打包进来。如果我本地没有gson，maven还会帮我去网上下载。下载的地方就是远程仓库，我们可以通过repository标签来指定远程仓库。
+
+> Maven的习惯是通过 groupID（一般是组织的域名倒写，遵循Java package的命名习惯）+ artifactId（库本身的名称） + version（版本）来定义坐标，通过xml来做配置文件，提供了中心仓库（repo.maven.org）以及本地工具（mvn）。
+
+
 
 看起来不是很复杂吧，这只是一个依赖的配置，当一个项目中有多个依赖时，如下
 
@@ -192,6 +182,11 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
 </properties>
 
 <dependencies>
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.8.1</version>
+    </dependency>
     <dependency>
         <groupId>com.google.code.kaptcha</groupId>
         <artifactId>kaptcha</artifactId>
@@ -215,12 +210,13 @@ compile fileTree(dir: 'libs', include: ['*.jar'])
         <artifactId>junit</artifactId>
     </dependency>
 </dependencies>
-```
+````
 
 而这些用Gradle来写
 
 ```groovy
 dependencies {
+    compile 'com.google.code.gson:gson:2.8.1'
     compile('org.springframework:spring-core:2.5.6')
     compile('org.springframework:spring-beans:2.5.6')
     compile('org.springframework:spring-context:2.5.6')
@@ -233,12 +229,12 @@ dependencies {
 
 1. 配置语言 Maven使用的是xml语言，xml受限于语言本身，复杂的项目pom.xml会很繁杂，而Gradle基于Groovy定义的一中DSL语言，简洁并且表达能力强大。
 2. 扩展插件 Maven中任何扩展功能都需要使用插件来实现，但是Gradle使用的Groovy可以依赖任何java库，直接在build.gradle中自定义task，可以直接获取Project对象以及环境变量，通过自定义task对build过程进行更精细的逻辑控制。
-3. 任务依赖以及执行机制 Maven构建的生命周期每一步都是预先定义好的，插件任务只能在预留的生命周期中某个阶段切入，整个构建时只能严格的按照生命周期线性执行任务，而Gradle使用了Directed Acyclic Graph（有向非循环图）来检测任务的依赖关系，决定哪些任务可以并行执行，这样的方式更为灵活。
+3. 任务依赖以及执行机制 Maven不鼓励你自定义任，Maven构建的生命周期每一步都是预先定义好的，插件任务只能在预留的生命周期中某个阶段切入，整个构建时只能严格的按照生命周期线性执行任务，而Gradle继承了maven中仓库，坐标，依赖这些核心概念，文件的布局也和maven相同。同时，它又继承了ant中target的概念创造出Task概念，使用了Directed Acyclic Graph（有向非循环图）来检测任务的依赖关系，决定哪些任务可以并行执行，这样的方式更为灵活。
 4. 依赖管理 Maven对依赖管理比较严格，依赖必须是源码仓库的坐标，而Gradle比较灵活，支持多种集成三方库的方式，本地库，库工程，maven库全支持。同时针对Maven库的依赖能动态管理版本 拿gson库举例，如果依赖2.2.1这个版本，可以在build.gradle文件里这样写
 
   ```groovy
   dependencies {
-      compile 'com.google.code.gson:gson:2.2.1'
+    compile 'com.google.code.gson:gson:2.2.1'
   }
   ```
 
@@ -246,7 +242,7 @@ dependencies {
 
   ```groovy
   dependencies {
-      compile 'com.google.code.gson:gson:2.2.＋'
+    compile 'com.google.code.gson:gson:2.2.＋'
   }
   ```
 
@@ -254,7 +250,7 @@ dependencies {
 
   ```groovy
   dependencies {
-      compile 'com.google.code.gson:gson:2.＋'
+    compile 'com.google.code.gson:gson:2.＋'
   }
   ```
 
@@ -262,7 +258,8 @@ dependencies {
 
   ```groovy
   dependencies {
-      compile 'com.google.code.gson:gson:＋'
+    compile 'com.google.code.gson:gson:＋'
   }
   ```
-  用”+”来通配一个版本族，这样有个好处是maven上有新库了，不用你操心升级，GRADLE编译的时候自动升级了，但是带来了两个坏处，一是，有可能新版库的接口改了，导致编译失败，这个时候需要修改代码做升级适配；更大的坏处是，每次GRADLE编译完整的项目，都会去maven上试图拉取最新的库，这样，拖慢了编译速度，尤其在网络非常差的时候，所以，为了构建速度，建议写死依赖库的版本号。
+
+  用"+"来通配一个版本族，这样有个好处是maven上有新库了，不用你操心升级，GRADLE编译的时候自动升级了，但是带来了两个坏处，一是，有可能新版库的接口改了，导致编译失败，这个时候需要修改代码做升级适配；更大的坏处是，每次GRADLE编译完整的项目，都会去maven上试图拉取最新的库，这样，拖慢了编译速度，尤其在网络非常差的时候，所以，为了构建速度，建议写死依赖库的版本号。
