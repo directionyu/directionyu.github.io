@@ -1,5 +1,5 @@
 ---
-title: Java基础知识查漏补缺
+title: Java基础知识
 date: 2015-09-29 00:00:42   
 categories: Basic knowledge   
 tag: Basic knowledge
