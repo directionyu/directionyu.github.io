@@ -2,7 +2,9 @@
 title: Android 位移动画-Translate
 date: 2017-07-24 10:56:42
 categories: Android
-tag: Android,View
+tags:
+  - Android
+  - View
 toc: true
 ---
 

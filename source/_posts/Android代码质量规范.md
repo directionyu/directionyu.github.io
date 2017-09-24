@@ -2,7 +2,9 @@
 title: Android 代码质量规范
 date: ‎2016‎-05‎-‎25 16:09:05  
 categories: Android   
-tag: Android,代码规范
+tags:
+  - Android
+  - 代码规范
 toc: true  
 ---
 

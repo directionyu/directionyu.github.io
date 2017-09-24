@@ -51,8 +51,9 @@ toc: true
 
 2. 自增自减运算符运算对象只能是变量，不能是常量表达式。
 
-<!--more-->
+3. 移位运算符的优先级低于算术运算符，高于关系运算符，他们结合的方向是自左向右。
 
+<!--more-->
 
 # 字符串
 
@@ -79,3 +80,14 @@ boolean hasMoreElements（）：返回是否还有分隔符。
 String nextToken（）：返回从当前位置到下一个分隔符的字符串。
 Object nextElement（）：返回从当前位置到下一个分隔符的字符串。
 String nextToken（String delim）：与4类似，以指定的分隔符返回结果。
+
+# 包
+
+## java.awt
+  java.awt是一个软件包，包含用于创建用户界面和绘制图形图像的所有分类。在AWT术语中，诸如按钮或滚动条之类的用户界面对象称为组件。Component类是所有 AWT 组件的根。
+## java.applet
+  Java Applet就是用Java语言编写的一些小应用程序，它们可以直接嵌入到网页中，并能够产生特殊的效果。包含Applet的网页被称为Java-Powered页，可以称其为Java支持的网页
+## java.io
+  Java的核心库java.io提供了全面的IO接口。包括：文件读写、标准设备输出等。Java中IO是以流为基础进行输入输出的，所有数据被串行化写入输出流，或者从输入流读入。
+## java.awt.event
+  提供用于处理AWT组件触发的不同类型事件的接口和类。

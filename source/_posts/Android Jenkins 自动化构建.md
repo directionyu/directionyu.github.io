@@ -2,7 +2,9 @@
 title: Android Jenkins自动化构建
 date: 2017-04-10T16:00:42.000Z
 categories: Jenkins
-tag: 'Jenkins,Android'
+tags:
+  - Jenkins
+  - Android
 toc: true
 ---
 
@@ -21,6 +23,7 @@ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1
 
 sudo apt-get update
 ```
+<!--more-->
 
 安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。
 

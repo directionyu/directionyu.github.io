@@ -20,6 +20,8 @@ Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要�
 
 - 当我们使用 task myTask << {xxx}的时候，我们创建了一个 Task 对象，同时把 closure 做为一个 action 加到这个 Task 的 action 队列中，并且告诉它"最后才执行 这个 closure"（注意，<<符号是 doLast 的代表）。
 
+<!--more-->
+
 # Task生命周期
 
 Gradle task在它的生命周期中有两个主要的阶段：『配置阶段』和『执行阶段』。
