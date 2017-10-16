@@ -2,7 +2,9 @@
 title: Android 设计模式--单例模式分析
 date: 2017-03-20 01:23:12   
 categories: Android   
-tag: Android,设计模式
+tags:
+  - Android
+  - 设计模式
 toc: true  
 ---
 
