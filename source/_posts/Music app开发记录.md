@@ -1,8 +1,8 @@
 ---
-title: 睡眠白噪音app开发记录
+title: Music app开发记录
 date: 2017-10-11T14:33:23.000Z
 categories: Android
-tag: Basic knowledge
+tag: Android
 toc: true
 ---
 
