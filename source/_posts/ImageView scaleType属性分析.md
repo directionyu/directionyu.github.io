@@ -1,5 +1,5 @@
 ---
-title: ImageView scaleType属性分析 
+title: ImageView scaleType属性分析
 date: 2016-10-8 16:11:29   
 categories: Android   
 tag: ImageView

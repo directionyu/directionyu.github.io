@@ -30,6 +30,8 @@ toc: true
 
   - MediaSessionCompat 媒体会话
 
+<!-- more -->
+
 # MediaSession 框架简介
 
 MediaSession 是 Android 5.0 推出的媒体播放框架，负责 UI 和后台播放之间的状态同步，支持了绝大部分音频播放的可能会遇到的操作，而且支持自定义操作。主要由 MediaSession (受控端) 和 MediaController (控制端) 构成：
