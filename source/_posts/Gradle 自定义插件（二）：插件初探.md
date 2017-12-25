@@ -6,6 +6,31 @@ tag: Gradle 插件
 toc: true
 ---
 
+# Application Plugin
+在Android工程中，app model下的build.gradle文件里包含android{}代码块，如下所示
+
+```groovy
+android {
+    compileSdkVersion 26
+    defaultConfig {
+      ......
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+```
+该代码块中包含了android工程构建所需要的全部配置，这些配置之所以能被使用，原因就在于在build.gradle头行引入了android 插件
+
+```groovy
+apply plugin: 'com.android.application'
+```
+
+
 # 举个栗子
 
 先用一个栗子来实现最简单的插件

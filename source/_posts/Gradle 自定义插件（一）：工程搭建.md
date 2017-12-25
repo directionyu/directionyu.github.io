@@ -112,7 +112,7 @@ AS不像IDEA那样并没有groovy工程模板，但是原理是一样的
   }
   ```
 
-  1. 在plugin.gradle中添加上传仓库的Task，例子如下
+6. 在plugin.gradle中添加上传仓库的Task，例子如下
 
     ```groovy
     uploadArchives {
