@@ -1,5 +1,5 @@
 ---
-title: Gradle 自定义插件（二）：与Android插件交互
+title: Gradle 自定义插件（三）：与Android插件交互
 date: 2017-12-23T10:54:29.000Z
 categories: Gradle
 tag: Gradle 插件

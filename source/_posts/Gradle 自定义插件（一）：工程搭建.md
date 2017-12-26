@@ -12,6 +12,8 @@ Gradle 在它的核心中提供了一些小但有用的功能，用于在真实�
 
 插件本身特性是幂等操作，可以被应用多次，多次执行后的影响与一次执行的的影响相同，不会影响系统状态，不用担心重复执行会对系统造成改变。
 
+[Gradle插件用户指南](http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/introduction/README.html)
+
 # 插件可以做什么
 
 1. 将Task（编译、测试等）加入到项目构建的生命周期去。

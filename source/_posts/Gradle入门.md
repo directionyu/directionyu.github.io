@@ -12,11 +12,32 @@ Gradle与Ant和Maven一样都是依赖管理/自动化项目构建工具，但�
 
 # Groovy是什么
 
-Groovy是一种动态语言，官方对其的定义是在Java平台上的、具有像Python、Ruby、Smalltalk语言特性的灵活性动态语言，Groovy保证了这些特性像Java语法一样使用，用大白话来说就是基于Java并扩展，使其编写起来像脚本一样，写完就跑，Groovy内部将其编译成字节码文件然后启动jvm来运行. Groovy还有一个特点就是它是一种DSL(Domain Specific Language)领域相关语言。
+Groovy是一种动态语言，官方对其的定义是在Java平台上的、具有像Python、Ruby、Smalltalk语言特性的灵活性动态语言，Groovy保证了这些特性像Java语法一样使用，用大白话来说就是基于Java并扩展，使其编写起来像脚本一样，写完就跑，Groovy内部将其编译成字节码文件然后启动jvm来运行. Groovy还有一个特点就是它是一种DSL(Domain Specific Language)领域相关语言。 <!-- more -->
 
-<!-- more -->
+# 怎样理解约定优于配置
 
- # AndroidStudio为什么采用Gradle架构
+java、xml、maven它们的设计理念都包含一个很简单但很深刻的道理，那就是"通用"，为什么通用？因为遵循约定。 通用又会带来另一个好处，那就是学习成本低，比较容易上手，只要了解约定，或者是规范就可以。如果没有约定，没有构建标准，n个项目可以能就要有n中项目目录结构，n种构建方式，配置就像一个沉重的包袱，极大了阻碍了前进的步伐。 约定优于配置核心概念就是用通过约定的代码结构或者命名规范来减少配置的复杂度，通过约定好的默认规范来提升开发效率。 Gradle采用约定优于配置原则，是希望在可能的情况下提供合理的默认值，减少构建配置的复杂度。
+
+比如从工程结构上来说，基本的项目开始于两个名为"source sets"的组件，即main source code和test code。它们分别位于：
+
+- src/main
+- src/androidTest
+
+里面每一个存在的文件夹对应相应的源组件。 对于Java plugin和Android plugin来说，它们的Java源代码和资源文件路径如下：
+
+- java
+- resources
+
+但对于Android plugin来说，它还拥有以下特有的文件和文件夹结构：
+
+- AndroidManifest.xml
+- res
+- assets
+- aidl
+- rs
+- jni
+
+# AndroidStudio为什么采用Gradle架构
 
 更容易重用资源和代码; 可以更容易创建不同的版本的程序，多个类型的apk包； 更容易配置，扩大; 更好的IDE集成;
 
