@@ -7,7 +7,9 @@ toc: true
 ---
 
 在Android的开发中，自定义的task往往都会跟Android插件（apply plugin: 'com.android.application'）关联使用
-使用Android Pugin中的构建流程需要合理使用build variants，
+使用Android Pugin中的构建流程需要合理使用build variants，直译为构建变体，一个build variant = build type（构建类型） +  product flavor（构建渠道），这几个能相互组合成不同的输出。
+
+product flvor接受域对象类型的productFlavor闭包作为参数
 
   ```groovy
   android.applicationVariants.all { variant ->
