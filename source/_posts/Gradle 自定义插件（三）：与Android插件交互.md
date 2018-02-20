@@ -16,6 +16,7 @@ product flvor接受域对象类型的productFlavor闭包作为参数
   // Do something
   }
   ```
+<!-- more -->
 
   applicationVriants是所有vriants的集合，通过迭代出每一个variant就可以获得对特定variant的应用，然后获得variant相应的属性，例如名称，描述等等；
   如果项目是一个Android Libraray那么applicationVariants应该改为librayVariants
