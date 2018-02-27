@@ -24,9 +24,10 @@ android {
     }
 }
 ```
+
 <!-- more -->
 
-该代码块中包含了android工程构建所需要的全部配置，这些配置之所以能被使用，原因就在于在build.gradle头行引入了android 插件
+ 该代码块中包含了android工程构建所需要的全部配置，这些配置之所以能被使用，原因就在于在build.gradle头行引入了android 插件
 
 ```groovy
 apply plugin: 'com.android.application'
@@ -43,10 +44,10 @@ apply plugin: 'com.android.application'
 
   @Override
   void apply(Project project) {
-   project.extensions.create('config', ApkDistributeExtension)
-   project.task('hello') << {
-       println "${project.config.keyone} from ${project.config.keytwo}"
-   }
+  project.extensions.create('config', ApkDistributeExtension)
+  project.task('hello') << {
+      println "${project.config.keyone} from ${project.config.keytwo}"
+  }
   }
   }
   ```
@@ -74,17 +75,17 @@ apply plugin: 'com.android.application'
   buildscript {
 
   repositories {
-    google()
-    jcenter()
-    maven {
-        url 'file://E:\\CodeRepository\\LocalMavenRepository' // 本地仓库地址
-    }
-    mavenCentral()
+   google()
+   jcenter()
+   maven {
+       url 'file://E:\\CodeRepository\\LocalMavenRepository' // 本地仓库地址
+   }
+   mavenCentral()
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.0.1'
-    classpath 'com.roy.plugin:androidbuildplugin:0.0.1' // 插件jar标识
+   classpath 'com.android.tools.build:gradle:3.0.1'
+   classpath 'com.roy.plugin:androidbuildplugin:0.0.1' // 插件jar标识
   }
   }
   ```
@@ -108,13 +109,14 @@ apply plugin: 'com.android.application'
 每个Project对应一个个具体的工程，构建的过程中需要执行若干Task，所以需要为 Project 加载所需要的插件，比如为Java工程加载Java插件，Android工程加载Android插件，一个Project包含多少Task往往是插件决定的。
 
 所以，在 Project中最重要的事情是
+
 - 加载插件
 - 不同插件有不同的行话，即不同的配置，要在 Project 中配置好，这样插件就知道从哪里读取源文件等
 - 设置属性。
 
 ## 插件加载
-Project的API位于 https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html。 加载插件是调用它的 apply函数.apply 其实是 Project 实现的 PluginAware 接口定义的
 
+Project的API位于 <https://docs.gradle.org/current/javadoc/org/gradle/api/Project.html。> 加载插件是调用它的 apply函数.apply 其实是 Project 实现的 PluginAware 接口定义的
 
 ## Log 系统
 

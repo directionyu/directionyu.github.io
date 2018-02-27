@@ -66,8 +66,6 @@ PackageManage.class 是对所有基于加载信息的数据结构的封装，包
     }
 ```
 
-
-
 # 应用安装与卸载广播
 
 - android系统中，安装和卸载都会发送出相应的广播，当应用安装完成后系统会发android.intent.action.PACKAGE_ADDED广播,卸载程序时系统发android.intent.action.PACKAGE_REMOVED广播。可以通过intent.getDataString()获得所安装的包名。

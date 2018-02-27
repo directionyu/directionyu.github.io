@@ -24,9 +24,10 @@ def static replaceDirFileText(String src, String dest, File dir){
     )
 }
 ```
+
 <!-- more -->
 
-## 遍历指定类型文件并查找与替换
+ ## 遍历指定类型文件并查找与替换
 
 ```groovy
 def static replaceDirFileText(String src, String dest, File dir){

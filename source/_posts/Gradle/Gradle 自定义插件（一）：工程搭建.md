@@ -23,7 +23,7 @@ Gradle 在它的核心中提供了一些小但有用的功能，用于在真实�
 
 <!-- more -->
 
-# 插件的类型
+ # 插件的类型
 
 ## 本地插件
 
@@ -106,28 +106,28 @@ AS不像IDEA那样并没有groovy工程模板，但是原理是一样的
   apply plugin: 'maven'
 
   dependencies {
-     //gradle sdk
-     compile gradleApi()
-     //groovy sdk
-     compile localGroovy()
-     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+    compile fileTree(dir: 'libs', include: ['*.jar'])
   }
   ```
 
 6. 在plugin.gradle中添加上传仓库的Task，例子如下
 
-    ```groovy
-    uploadArchives {
-      configuration = configurations.archives
-      repositories.mavenDeployer {
-          repository(url: LOCAL_REPO_URL) // 本地测试仓库
-    //            repository(url: REMOTE_REPO_URL) { // 远程仓库
-    //                authentication(userName: REMOTE_REPO_NAME, password: REMOTE_REPO_PASSWORD)
-    //            }
-          pom.groupId = PROJECT_GROUP_ID
-          pom.artifactId = PROJECTECT_ARTIFACTID
-          pom.version = PROJECT_VERSION
-          description PROJECT_DESCRIPTION
-      }
-    }
-    ```
+  ```groovy
+   uploadArchives {
+     configuration = configurations.archives
+     repositories.mavenDeployer {
+         repository(url: LOCAL_REPO_URL) // 本地测试仓库
+   //            repository(url: REMOTE_REPO_URL) { // 远程仓库
+   //                authentication(userName: REMOTE_REPO_NAME, password: REMOTE_REPO_PASSWORD)
+   //            }
+         pom.groupId = PROJECT_GROUP_ID
+         pom.artifactId = PROJECTECT_ARTIFACTID
+         pom.version = PROJECT_VERSION
+         description PROJECT_DESCRIPTION
+     }
+   }
+  ```

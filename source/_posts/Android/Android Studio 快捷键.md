@@ -1,6 +1,6 @@
 ---
 title: Android Studio 快捷键
-date: 2017-03-10 16:26:32
+date: 2017-03-10T16:26:32.000Z
 categories: Android
 tag: Android
 toc: true
@@ -16,11 +16,11 @@ Ctrl+Alt+O:优化导入的类和包
 
 Ctrl+/:注释代码 格式：//代码块
 
-Ctrl+Shift+/:注释多行代码 格式:/*代码块*/
+Ctrl+Shift+/:注释多行代码 格式:/_代码块_/
 
 Ctrl+Alt+Space(空格):自动补全代码
 
-<!--more-->
+<!-- more -->
 
 Ctrl+空格:代码感应提示
 
@@ -87,7 +87,6 @@ F2或Shift+F2:在高亮错误或警告快速定位
 Alt+Shift+K ：注释类说明<这里需自己设置：Settings–>点击Keymap–>在右边右上角搜索Other(fix doc comment)–>看到Fix doc comment 鼠标右键选择第一个，在输入框First Stroke输入ALT+SHIFT+K
 
 创建类注释模板:setting–>Editor–>File and Code Templates –>Includes–>File Header
-
 
 手动加入v7包:
 

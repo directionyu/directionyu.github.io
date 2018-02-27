@@ -1,8 +1,8 @@
 ---
 title: GitHub热门完整App
-date: 2017-06-29 14:31:23
+date: 2017-06-29T14:31:23.000Z
 categories: Github
-tag: 'Github'
+tag: Github
 toc: true
 ---
 
@@ -16,8 +16,7 @@ toc: true
 
 github <https://github.com/google/iosched>
 
-作者： Google
-<!--more-->
+作者： Google <!-- more -->
 
 # 阅读、新闻
 

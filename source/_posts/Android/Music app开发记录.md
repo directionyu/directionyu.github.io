@@ -32,7 +32,7 @@ toc: true
 
 <!-- more -->
 
-# MediaSession 框架简介
+ # MediaSession 框架简介
 
 MediaSession 是 Android 5.0 推出的媒体播放框架，负责 UI 和后台播放之间的状态同步，支持了绝大部分音频播放的可能会遇到的操作，而且支持自定义操作。主要由 MediaSession (受控端) 和 MediaController (控制端) 构成：
 
@@ -64,7 +64,7 @@ MediaController.TransportControls：用于向 MediaSession 发送各种播放指
   ```java
   @Override
   public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid,
-                Bundle rootHints) {
+               Bundle rootHints) {
   /**
   * 在返回数据之前，可以进行黑白名单控制，以控制不同客户端浏览不同的媒体资源
   * */
@@ -339,8 +339,7 @@ private void stopPlayback() {
 
 ### AudioAttributes
 
-> A class to encapsulate a collection of attributes describing information about an audio stream.
-封装了有关音频流属性集合的类
+> A class to encapsulate a collection of attributes describing information about an audio stream. 封装了有关音频流属性集合的类
 
 #### 能做什么
 
@@ -350,15 +349,17 @@ private void stopPlayback() {
 
 ### 常用方法
 
-
 ## WifiLocker
+
 [WifiLocker](https://developer.android.com/reference/android/net/wifi/WifiManager.WifiLock.html)
 
->Allows an application to keep the Wi-Fi radio awake. Normally the Wi-Fi radio may turn off when the user has not used the device in a while. Acquiring a WifiLock will keep the radio on until the lock is released. Multiple applications may hold WifiLocks, and the radio will only be allowed to turn off when no WifiLocks are held in any application.
-> 允许应用程序保持Wi-Fi唤醒状态。通常情况下， Wi-Fi网络可以关闭，当用户没有使用该设备在一段时间。获取WifiLock将保持网络，直到锁被释放。多个应用程序可持有WifiLocks ，而收音机将只能被允许关闭时，没有WifiLocks在任何应用程序举行。
+> Allows an application to keep the Wi-Fi radio awake. Normally the Wi-Fi radio may turn off when the user has not used the device in a while. Acquiring a WifiLock will keep the radio on until the lock is released. Multiple applications may hold WifiLocks, and the radio will only be allowed to turn off when no WifiLocks are held in any application. 允许应用程序保持Wi-Fi唤醒状态。通常情况下， Wi-Fi网络可以关闭，当用户没有使用该设备在一段时间。获取WifiLock将保持网络，直到锁被释放。多个应用程序可持有WifiLocks ，而收音机将只能被允许关闭时，没有WifiLocks在任何应用程序举行。
 
- - 需要添加权限 <uses-permission android:name="android.permission.WAKE_LOCK"/>
-## SoundPool
+- 需要添加权限
+
+  <uses-permission android:name="android.permission.WAKE_LOCK">
+    <h2 id="soundpool">SoundPool</h2>
+  </uses-permission>
 
 官方解释
 

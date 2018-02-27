@@ -1,19 +1,16 @@
 ---
 title: RxJava 常用的几种方法
-date: 2016-12-01 20:32:22   
-categories: Android   
+date: 2016-12-01T20:32:22.000Z
+categories: Android
 tag: RxJava
-toc: true  
+toc: true
 ---
-
-
 
 - Observable和Subscriber可以做任何事情 Observable可以是一个数据库查询，Subscriber用来显示查询结果；Observable可以是屏幕上的点击事件，Subscriber用来响应点击事件；Observable可以是一个网络请求，Subscriber用来显示请求结果。
 
-
 - Observable和Subscriber是独立于中间的变换过程的。 在Observable和Subscriber中间可以增减任何数量的map。整个系统是高度可组合的，操作数据是一个很简单的过程。 下面是自己收集和总结的Rx常用方法。提供参考。
 
-```Java
+```java
 需要引入的依赖包,这个依赖包依赖于RxJava和RxAndroid,会自动引入进来,也可以自己手动单独的引入。
 compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
 

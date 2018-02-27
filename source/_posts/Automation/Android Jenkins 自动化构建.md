@@ -5,6 +5,7 @@ categories: Jenkins
 tags:
   - Jenkins
   - Android
+  - 自动化
 toc: true
 ---
 
@@ -23,9 +24,10 @@ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1
 
 sudo apt-get update
 ```
-<!--more-->
 
-安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。
+<!-- more -->
+
+ 安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。
 
 ```
 wget http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
@@ -137,19 +139,42 @@ BUILD SUCCESSFUL
 
 # 签名详解
 
-## 生成*.keystore
+## 生成秘钥
 
 keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）和证书（certificates）存在一个keystore的文件中，或者是jks的文件
 
--genkey: 在用户目录中创建一个默认.keystore文件 -alias 产生别名,不区分大小写 -keystore 指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称 -keyalg 指定密钥的算法 (如 RSA DSA（如果不指定默认采用DSA）) -validity 指定创建的证书有效期多少天 -keysize 指定密钥长度 -storepass 指定密钥库的密码(获取keystore信息所需的密码) -keypass 指定别名条目的密码(私钥的密码) -dname 指定证书拥有者信息 例如： "CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名称,ST=州或省份名称,C=单位的两字母国家代码" -list 显示密钥库中的证书信息 keytool -list -v -keystore 指定keystore -storepass 密码 -v 显示密钥库中的证书详细信息 -export 将别名指定的证书导出到文件 keytool -export -alias 需要导出的别名 -keystore 指定keystore -file 指定导出的证书位置及证书名称 -storepass 密码 -file 参数指定导出到文件的文件名 -delete 删除密钥库中某条目 keytool -delete -alias 指定需删除的别 -keystore 指定keystore -storepass 密码 -printcert 查看导出的证书信息 keytool -printcert -file yushan.crt -keypasswd 修改密钥库中指定条目口令 keytool -keypasswd -alias 需修改的别名 -keypass 旧密码 -new 新密码 -storepass keystore密码 -keystore sage -storepasswd 修改keystore口令 keytool -storepasswd -keystore e:\yushan.keystore(需修改口令的keystore) -storepass 123456(原始密码) -new yushan(新密码) -import 将已签名数字证书导入密钥库 keytool -import -alias 指定导入条目的别名 -keystore 指定keystore -file 需导入的证书
+## 命令
 
-- 一次性生成Key
+```
+-genkey: 在用户目录中创建一个默认.keystore文件
+-alias 产生别名,不区分大小写
+-keystore 指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称
+-keyalg 指定密钥的算法 (如 RSA DSA（如果不指定默认采用DSA）)
+-validity 指定创建的证书有效期多少天 -keysize 指定密钥长度
+-storepass 指定密钥库的密码(获取keystore信息所需的密码)
+-keypass 指定别名条目的密码(私钥的密码) -dname 指定证书拥有者信息 例如： "CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名称,ST=州或省份名称,C=单位的两字母国家代码" -list 显示密钥库中的证书信息 keytool -list -v -keystore 指定keystore -storepass 密码 -v 显示密钥库中的证书详细信息
+-export 将别名指定的证书导出到文件 keytool -export -alias 需要导出的别名
+-keystore 指定keystore -file 指定导出的证书位置及证书名称
+-storepass 密码
+-file 参数指定导出到文件的文件名
+-delete 删除密钥库中某条目 keytool -delete -alias 指定需删除的别名
+-keystore 指定keystore -storepass 密码
+-printcert 查看导出的证书信息 keytool -printcert -file yushan.crt -keypasswd 修改密钥库中指定条目口令keytool -keypasswd -alias 需修改的别名
+-keypass 旧密码
+-new 新密码
+-storepass keystore密码 -keystore sage -storepasswd 修改keystore口令 keytool -storepasswd -keystore xxx.keystore(需修改口令的keystore)
+-storepass 123456(原始密码)
+-new yuanyu(新密码)
+-import 将已签名数字证书导入密钥库 keytool -import -alias 指定导入条目的别名 -keystore 指定keystore -file 需导入的证书
+```
+
+## 一次性生成Key
 
 `keytool -genkey -alias $ALIAS -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore $PATH -storepass 123456 -dname "CN=fanle, OU=xx, O=xx, L=xx, ST=xx, C=xx"`
 
-## 签名 APK
-
 <!-- more -->
+
+## 签名 APK
 
 ```
 # 输入完整信息签名一个应用，注意填写[]中对应的内容
@@ -277,7 +302,7 @@ ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
 1. 进入/etc/default/目录 在jenkins文件中修改JENKINS_USER="root"
 2. 重启Jenkins服务
 
-## 编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile***等错误
+## 编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile_*_等错误
 
 ![](https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png)
 

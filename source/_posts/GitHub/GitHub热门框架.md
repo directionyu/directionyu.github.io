@@ -1,8 +1,8 @@
 ---
 title: GitHub常用框架记录
-date: 2017-06-29 11:43:42
+date: 2017-06-29T11:43:42.000Z
 categories: Github
-tag: 'Github'
+tag: Github
 toc: true
 ---
 
@@ -18,8 +18,7 @@ toc: true
 
 github <https://github.com/square/retrofit>
 
-作者：square团队
-<!--more-->
+作者：square团队 <!-- more -->
 
 ## okhttp
 

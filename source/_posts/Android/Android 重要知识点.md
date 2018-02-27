@@ -1,11 +1,10 @@
 ---
 title: Android 知识体系梳理
-date: 2016-12-16 11:49:42   
-categories: Android   
+date: 2016-12-16T11:49:42.000Z
+categories: Android
 tag: Android
-toc: true  
+toc: true
 ---
-
 
 1. 如何理解Android操作系统
 2. 是否熟悉framework层，如果熟悉，那就对framework做个简介。
