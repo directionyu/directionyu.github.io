@@ -7,7 +7,7 @@ toc: true
 ---
 
 Android工程打包有很多种方式：使用Eclispe或者AndroidStudio直接导出包，另一种是使用Ant工具在命令行方式下打包生成APK，无论采用哪种方式，过程的实质是一样的，Google官方提供了Apk文件构建流程图，文档传送门
-
+<https://developer.android.com/images/tools/studio/build-process_2x.png?hl=zh-cn>
 从打包流程图可以看出，整个Apk打包过程分为7个步骤：
 
 1. 打包资源文件，生成R.java文件，打包资源工具aapt位于android-Sdk\platform-tools目录下，该工具的源码在Android系统源码的framework\base\tools\aapt目录下，生成的过程主要是调用了aapt源码目录下Resource.cpp文件中的buildResource()函数，（未完待续）
