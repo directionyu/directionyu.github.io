@@ -15,7 +15,7 @@ toc: true
 
 android sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下：
 
-```java
+```linux
 # aapt
 sudo dpkg --add-architecture i386
 
@@ -29,7 +29,7 @@ sudo apt-get update
 
  安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。
 
-```
+```linux
 wget http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
 tar xvzf android-sdk_r24.4.1-linux.tgz
 ```
@@ -38,19 +38,19 @@ tar xvzf android-sdk_r24.4.1-linux.tgz
 
 使环境变量生效
 
-```
+```linux
 source ~/.profile
 ```
 
 环境变量生效后，你可以使用android命令 列出sdk相关的列表，以便我们选择和自己项目匹配的SDK版本。(刚才只是安装了最基础的SDK，要完全满足你的开发环境需要还得从下面的列表中选择你需要的SDK和工具更新下载)
 
-  ```
-  android list sdk --all
-  ```
+```linux
+android list sdk --all
+```
 
 输出如下所示：
 
-```
+```linux
 Packages available for installation or update: 176
    1- Android SDK Tools, revision 25.2.5
    2- Android SDK Platform-tools, revision 25.0.4
@@ -110,14 +110,14 @@ wget <https://services.gradle.org/distributions/gradle-3.3-bin.zip>
 
 释放到本地Home目录,创建名字为"gradle"的符号链接，符号连接的好处是方便版本更新，有了新的版本直接修改符号链接即可。
 
-```
+```linux
 unzip gradle-2.12-bin.zip
 ln -s gradle-2.12 gradle
 ```
 
 配置gradle环境变量并使其生效,编辑 ~/.profje 文件增加下面内容
 
-```
+```linux
 GRADLE_HOME=$HOME/gradle
 export PATH=$PATH:$GRADLE_HOME/bin
 ```
@@ -128,7 +128,7 @@ export PATH=$PATH:$GRADLE_HOME/bin
 
 如果安装配置的没有问题将会提示类似下面的信息
 
-```
+```linux
 :help
 Welcome to Gradle 2.12
 To run a build, run gradle <task> ...
@@ -145,7 +145,7 @@ keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）�
 
 ## 命令
 
-```
+```linux
 -genkey: 在用户目录中创建一个默认.keystore文件
 -alias 产生别名,不区分大小写
 -keystore 指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称
@@ -176,7 +176,7 @@ keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）�
 
 ## 签名 APK
 
-```
+```linux
 # 输入完整信息签名一个应用，注意填写[]中对应的内容
 
 # [yourStorepass] 签名文件密码 [aliasesPass] 别名密码 [forSignAPKPath] 要签名的apk路径  [aliases] 别名
@@ -229,7 +229,6 @@ Build periodically和Poll SCM都支持日程表的设置，这个与Spring框架
 ## 环境搭建
 
 ```shell
-
 # 安装pip
 apt-get install python-pip
 
@@ -299,10 +298,10 @@ ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <br><br>
 
 ## Jenkins 在Linux下出现权限等问题
 
-1. 进入/etc/default/目录 在jenkins文件中修改JENKINS_USER="root"
-2. 重启Jenkins服务
+1.  进入/etc/default/目录 在jenkins文件中修改JENKINS_USER="root"
+2.  重启Jenkins服务
 
-## 编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile_*_等错误
+## 编译出现 AAPT: \\?\\C:\\Windows\\System32\\config\\systemprofile_\*_等错误
 
 ![](https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png)
 
