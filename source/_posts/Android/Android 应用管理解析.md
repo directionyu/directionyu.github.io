@@ -10,13 +10,13 @@ toc: true
 
 PackageManage.class 是对所有基于加载信息的数据结构的封装，包括以下功能：
 
-- 安装
-- 卸载应用
-- 查询permission相关信息
-- 查询Application相关信息(application，activity，receiver，service，provider及相应属性等）
-- 查询已安装应用 增加
-- 删除permission
-- 清除用户数据缓存
+-   安装
+-   卸载应用
+-   查询permission相关信息
+-   查询Application相关信息(application，activity，receiver，service，provider及相应属性等）
+-   查询已安装应用 增加
+-   删除permission
+-   清除用户数据缓存
 
 非查询相关的API需要特定的权限，具体的API请参考SDK文档。
 
@@ -68,7 +68,7 @@ PackageManage.class 是对所有基于加载信息的数据结构的封装，包
 
 # 应用安装与卸载广播
 
-- android系统中，安装和卸载都会发送出相应的广播，当应用安装完成后系统会发android.intent.action.PACKAGE_ADDED广播,卸载程序时系统发android.intent.action.PACKAGE_REMOVED广播。可以通过intent.getDataString()获得所安装的包名。
+-   android系统中，安装和卸载都会发送出相应的广播，当应用安装完成后系统会发android.intent.action.PACKAGE_ADDED广播,卸载程序时系统发android.intent.action.PACKAGE_REMOVED广播。可以通过intent.getDataString()获得所安装的包名。
 
 示例
 

@@ -12,10 +12,10 @@ toc: true
 
 ## attribute
 
-1. 环形宽度 ringWidthScale
-2. 环形扫描角度 ringSweepAngle
-3. 环形背景 ringBg
-4. 环形阴影背景 ringShadowBg
-5. 是否显示环形 isShowRingBg
-6. 是否显示阴影背景 isShowShadowBg
-7. 环形旋转度数 rotate
+1.  环形宽度 ringWidthScale
+2.  环形扫描角度 ringSweepAngle
+3.  环形背景 ringBg
+4.  环形阴影背景 ringShadowBg
+5.  是否显示环形 isShowRingBg
+6.  是否显示阴影背景 isShowShadowBg
+7.  环形旋转度数 rotate

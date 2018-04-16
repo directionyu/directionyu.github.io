@@ -10,14 +10,14 @@ toc: true
 
 ## Unable to add window -- token android.os.BinderProxy@164db98f is not valid；is your activity running?
 
-- 原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。
-- 分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的Context来创建dialog或者Toast，当然并不是所有静态context都是可以用来创建dialog的，例如getApplication().getApplicationContext()这个context就不行，因为它并不代表哪一个Activity或者View。。这样就无法add这个dialog。此view用于绑定显示数据，在其构造方法中初始化一个静态变量mContextNew为此view的mContext。这样就可以通过一个静态类来弹出对话框了，只需传入这个静态的context（mContextNew）就可以了。。但是这个静态的context如果只在构造方法中初始化的话是会存在问题的，因为如果另起了一个界面其绑定数据的view也是用的这个view那么这个静态context就会被重新修改。。因此当这个新的界面finish后返回到上次的界面，这个静态的context是刚才已经finish的view的context。因此如果仍然传入这个静态变量通过一个静态类来弹出对话框就会出现上述找不到window的错误了。
-- 解决方案：
+-   原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。
+-   分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的Context来创建dialog或者Toast，当然并不是所有静态context都是可以用来创建dialog的，例如getApplication().getApplicationContext()这个context就不行，因为它并不代表哪一个Activity或者View。。这样就无法add这个dialog。此view用于绑定显示数据，在其构造方法中初始化一个静态变量mContextNew为此view的mContext。这样就可以通过一个静态类来弹出对话框了，只需传入这个静态的context（mContextNew）就可以了。。但是这个静态的context如果只在构造方法中初始化的话是会存在问题的，因为如果另起了一个界面其绑定数据的view也是用的这个view那么这个静态context就会被重新修改。。因此当这个新的界面finish后返回到上次的界面，这个静态的context是刚才已经finish的view的context。因此如果仍然传入这个静态变量通过一个静态类来弹出对话框就会出现上述找不到window的错误了。
+-   解决方案：
 
-  - 对于tab页出现的错误可以用其父类的context来弹出dialog；
-  - 对于界面已经销毁引起的错误就只能判断界面是否存在然后再弹出了；
-  - 对于利用静态context来弹出的dialog可以通过规避的方式来解决，比如避免出现静态context被修改。但是这样就可能限制了我们程序的功能。因此我们可以通过在bind数据时时时更新这个静态context就可以解决此问题了，这样就可以保证这个静态的context在任何view中都是当前的界面的view的context。就不会出现找不到其父类window了。
-  - 对于依附Activity上的Fragment，用显示之前调用activity的isFinishing方法判断一下，如果是false再显示。
+    -   对于tab页出现的错误可以用其父类的context来弹出dialog；
+    -   对于界面已经销毁引起的错误就只能判断界面是否存在然后再弹出了；
+    -   对于利用静态context来弹出的dialog可以通过规避的方式来解决，比如避免出现静态context被修改。但是这样就可能限制了我们程序的功能。因此我们可以通过在bind数据时时时更新这个静态context就可以解决此问题了，这样就可以保证这个静态的context在任何view中都是当前的界面的view的context。就不会出现找不到其父类window了。
+    -   对于依附Activity上的Fragment，用显示之前调用activity的isFinishing方法判断一下，如果是false再显示。
 
 <!-- more -->
 
@@ -25,21 +25,21 @@ toc: true
 
 ## try catch finally，try里有return，finally还执行么？
 
-- Condition 1： 如果try中没有异常且try中有return （执行顺序）
+-   Condition 1： 如果try中没有异常且try中有return （执行顺序）
 
 try --- finally -- return
 
-- Condition 2： 如果try中有异常并且try中有return
+-   Condition 2： 如果try中有异常并且try中有return
 
 try---catch--finally-- return 总之 finally 永远执行！
 
-- Condition 3： try中有异常，try-catch-finally里都没有return ，finally 之后有个return
+-   Condition 3： try中有异常，try-catch-finally里都没有return ，finally 之后有个return
 
 try---catch--finally try中有异常以后，根据java的异常机制先执行catch后执行finally，此时错误异常已经抛出，程序因异常而终止，所以你的return是不会执行的
 
-- Condition 4： 当 try和finally中都有return时，finally中的return会覆盖掉其它位置的return（多个return会报unreachable code，编译不会通过）。
+-   Condition 4： 当 try和finally中都有return时，finally中的return会覆盖掉其它位置的return（多个return会报unreachable code，编译不会通过）。
 
-- Condition 5： 当finally中不存在return，而catch中存在return，但finally中要修改catch中return 的变量值时
+-   Condition 5： 当finally中不存在return，而catch中存在return，但finally中要修改catch中return 的变量值时
 
 ```java
 int ret = 0;
@@ -82,24 +82,24 @@ EditText默认的hint文字大小为12sp，当有文字填写时，文字大小�
 
 ## 内存泄漏
 
-1. 查询数据库没有关闭Cursor。
-2. 使用BaseAdapter作为适配器时没有复用convertView。
-3. bitmap没有回收。
-4. 注册对象后没有反注册，比如Broadcast Receiver等。
-5. handler问题，如果handler是非静态的，会导致Activity或者Service不被回收，所以应当注册为静态内部类，同时在onDestroy时停止线程:mThread.getLooper().quit()。
-6. Activity被静态引用，特别是缓存bitmap时，解决方法可以考虑使用Application的context代替Activity的context。
-7. View在callback中被引用,可能回调还没有结束,但是view处于引用状态,无法回收。
-8. WebView的泄露问题:在魅族上面发现webView打开再关闭就会内存泄露。目前使用的解决方法是在webview外面嵌套一层layout作为Container.在Activity的onDestroy中调用container.removeAllViews()方法。
-9. Dialog导致Window泄露,如果需要在dialog依附的Activity销毁前没有调用dialog.dismiss()会导致Activity泄露
+1.  查询数据库没有关闭Cursor。
+2.  使用BaseAdapter作为适配器时没有复用convertView。
+3.  bitmap没有回收。
+4.  注册对象后没有反注册，比如Broadcast Receiver等。
+5.  handler问题，如果handler是非静态的，会导致Activity或者Service不被回收，所以应当注册为静态内部类，同时在onDestroy时停止线程:mThread.getLooper().quit()。
+6.  Activity被静态引用，特别是缓存bitmap时，解决方法可以考虑使用Application的context代替Activity的context。
+7.  View在callback中被引用,可能回调还没有结束,但是view处于引用状态,无法回收。
+8.  WebView的泄露问题:在魅族上面发现webView打开再关闭就会内存泄露。目前使用的解决方法是在webview外面嵌套一层layout作为Container.在Activity的onDestroy中调用container.removeAllViews()方法。
+9.  Dialog导致Window泄露,如果需要在dialog依附的Activity销毁前没有调用dialog.dismiss()会导致Activity泄露
 
 ## 多进程
 
 使用多进程可能会造成以下问题：
 
-1. 静态成员和单例模式完全失效；
-2. 线程同步完全失效;
-3. SharedPreferences可靠性下降；
-4. Application会多次创建；
+1.  静态成员和单例模式完全失效；
+2.  线程同步完全失效;
+3.  SharedPreferences可靠性下降；
+4.  Application会多次创建；
 
 ## Android library中的资源ID在R.java中不是final类型
 
@@ -171,4 +171,4 @@ EditText默认的hint文字大小为12sp，当有文字填写时，文字大小�
 
 # Gradle
 
-# #
+#

@@ -12,27 +12,27 @@ toc: true
 
 # 音乐
 
-1. 从服务器获取音乐数据
-2. 播放音乐时播放器的各种播放状态以及不同状态下的UI展示
-3. 播放过程中通过UI界面控制播放器的各种状态
-4. UI控制如何与播放服务进行关联并进行状态同步
-5. 如何保证后台播放过程中播放服务不被杀死
+1.  从服务器获取音乐数据
+2.  播放音乐时播放器的各种播放状态以及不同状态下的UI展示
+3.  播放过程中通过UI界面控制播放器的各种状态
+4.  UI控制如何与播放服务进行关联并进行状态同步
+5.  如何保证后台播放过程中播放服务不被杀死
 
-  对于上面的这几点，其实Android已经为我们提供了一套完整的解决方案，它已经很好的将这些操作进行了封装，我们只需要关注数据的获取和歌曲的播放即可。
+    对于上面的这几点，其实Android已经为我们提供了一套完整的解决方案，它已经很好的将这些操作进行了封装，我们只需要关注数据的获取和歌曲的播放即可。
 
-  关键类主要有如下几个：
+    关键类主要有如下几个：
 
-  - MediaBrowserServiceCompat 媒体浏览器服务
+-   MediaBrowserServiceCompat 媒体浏览器服务
 
-  - MediaBrowserCompat 媒体浏览器
+-   MediaBrowserCompat 媒体浏览器
 
-  - MediaControllerCompat 媒体控制器
+-   MediaControllerCompat 媒体控制器
 
-  - MediaSessionCompat 媒体会话
+-   MediaSessionCompat 媒体会话
 
 <!-- more -->
 
- # MediaSession 框架简介
+# MediaSession 框架简介
 
 MediaSession 是 Android 5.0 推出的媒体播放框架，负责 UI 和后台播放之间的状态同步，支持了绝大部分音频播放的可能会遇到的操作，而且支持自定义操作。主要由 MediaSession (受控端) 和 MediaController (控制端) 构成：
 
@@ -56,49 +56,55 @@ MediaController.TransportControls：用于向 MediaSession 发送各种播放指
 
 ### 作用
 
-1. 音乐播放后台服务
-2. 客户端中获取音乐数据的服务，所有的音乐数据都通过该服务与服务端进行交互获取(或者直接获取手机中的本地音乐数据)
+1.  音乐播放后台服务
+2.  客户端中获取音乐数据的服务，所有的音乐数据都通过该服务与服务端进行交互获取(或者直接获取手机中的本地音乐数据)
 
-  该类是Service的子类实现，所以说它是音乐播放的后台服务也好理解，但是该类作为一个后台播放服务却不是通过其自身直接实现的，而是通过MediaSessionCompat媒体会话这个类来实现的。在使用过程中媒体会话会与该服务关联起来，所有的播放操作都交由MediaSessionCompat实现。 而对于获取数据，则是通过MediaBrowserServiceCompat的如下两个方法来进行控制：
+    该类是Service的子类实现，所以说它是音乐播放的后台服务也好理解，但是该类作为一个后台播放服务却不是通过其自身直接实现的，而是通过MediaSessionCompat媒体会话这个类来实现的。在使用过程中媒体会话会与该服务关联起来，所有的播放操作都交由MediaSessionCompat实现。 而对于获取数据，则是通过MediaBrowserServiceCompat的如下两个方法来进行控制：
 
-  ```java
-  @Override
-  public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid,
-               Bundle rootHints) {
-  /**
-  * 在返回数据之前，可以进行黑白名单控制，以控制不同客户端浏览不同的媒体资源
-  * */
-  if(!PackageUtil.isCallerAllowed(this, clientPackageName, clientUid)) {
-  return new BrowserRoot(null, null);
-  }
-  //此方法只在服务连接的时候调用
-  //返回一个rootId不为空的BrowserRoot则表示客户端可以连接服务，也可以浏览其媒体资源
-  //如果返回null则表示客户端不能流量媒体资源
-  return new BrowserRoot(BrowserRootId.MEDIA_ID_ROOT, null);
-  }
+    ```java
+    @Override
+    public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid,
+                 Bundle rootHints) {
+    /**
+    ```
 
-  @Override
-  public void onLoadChildren(@NonNull String parentId, @NonNull Result<List<MediaItem>> result) {
+-   在返回数据之前，可以进行黑白名单控制，以控制不同客户端浏览不同的媒体资源
+-   \*/
+    if(!PackageUtil.isCallerAllowed(this, clientPackageName, clientUid)) {
+    return new BrowserRoot(null, null);
+    }
+    //此方法只在服务连接的时候调用
+    //返回一个rootId不为空的BrowserRoot则表示客户端可以连接服务，也可以浏览其媒体资源
+    //如果返回null则表示客户端不能流量媒体资源
+    return new BrowserRoot(BrowserRootId.MEDIA_ID_ROOT, null);
+    }
 
-  /***
-  * 此方法中的parentId与上面的方法onGetRoot中返回的RootId没有关系
-  * 客户端连接后，它可以通过重复调用MediaBrowserCompat.subscribe() 方法来发起数据获取请求。
-  * 而每次调用subscribe() 方法都会发送一个onLoadChildren（）回调到该service中，然后返回一个MediaBrowser.MediaItem(音乐数据) 对象列表
-  *
-  * 每个MediaItem 都有唯一的ID字符串，它其实是一个隐式的token。
-  * 当客户想打开子菜单或播放一个item时，它就将ID传入。
-  */
-  if(BrowserRootId.MEDIA_ID_MUSIC_LIST_REFRESH.equals(parentId)) {
-  //在当前方法执行结束返回之前必须要调用result.detach(),否则无法发起请求
-  result.detach();
-  MusicProvider.getInstance().requestMusic(result);
-  //如果想要通过http请求来获取数据，则必须按照上面说的必须要先调用result.detach();方法，否则会出现异常。http请求结束之后则通过调用result.sendResult(mMetadataCompatList);将数据返回,返回的数据在注册的接口MediaBrowserCompat.SubscriptionCallback中通过回调拿到在界面上进行展示
-  //而且此处返回的数据类型必须是MediaBrowser.MediaItem
-  } else {
-  result.detach();
-  }
-  }
-  ```
+    @Override
+    public void onLoadChildren(@NonNull String parentId, @NonNull Result&lt;List<MediaItem>> result) {
+
+    /\*\*\*
+
+-   此方法中的parentId与上面的方法onGetRoot中返回的RootId没有关系
+-   客户端连接后，它可以通过重复调用MediaBrowserCompat.subscribe() 方法来发起数据获取请求。
+-   而每次调用subscribe() 方法都会发送一个onLoadChildren（）回调到该service中，然后返回一个MediaBrowser.MediaItem(音乐数据) 对象列表
+-   
+-   每个MediaItem 都有唯一的ID字符串，它其实是一个隐式的token。
+-   当客户想打开子菜单或播放一个item时，它就将ID传入。
+    \*/
+    if(BrowserRootId.MEDIA_ID_MUSIC_LIST_REFRESH.equals(parentId)) {
+    //在当前方法执行结束返回之前必须要调用result.detach(),否则无法发起请求
+    result.detach();
+    MusicProvider.getInstance().requestMusic(result);
+    //如果想要通过http请求来获取数据，则必须按照上面说的必须要先调用result.detach();方法，否则会出现异常。http请求结束之后则通过调用result.sendResult(mMetadataCompatList);将数据返回,返回的数据在注册的接口MediaBrowserCompat.SubscriptionCallback中通过回调拿到在界面上进行展示
+    //而且此处返回的数据类型必须是MediaBrowser.MediaItem
+    } else {
+    result.detach();
+    }
+    }
+
+    ```
+
+    ```
 
 ## MediaBrowserCompat
 
@@ -196,8 +202,8 @@ MediaPlayer一般播放较大的音频文件，解码速度较慢，并且需要
 
 我们必须指定正在使用哪个音频流，而且需要确定请求的是短暂的还是永久的audio focus。
 
-- 短暂的焦点锁定：当期待播放一个短暂的音频的时候（比如播放导航指示）
-- 永久的焦点锁定：当计划播放可预期到的较长的音频的时候（比如播放音乐）
+-   短暂的焦点锁定：当期待播放一个短暂的音频的时候（比如播放导航指示）
+-   永久的焦点锁定：当计划播放可预期到的较长的音频的时候（比如播放音乐）
 
 下面是一个在播放音乐的时候请求永久的音频焦点的例子，我们必须在开始播放之前立即请求音频焦点，比如在用户点击播放或者游戏程序中下一关开始的片头音乐。
 
@@ -331,9 +337,9 @@ private void stopPlayback() {
 }
 ```
 
-## #
+##
 
-## #
+##
 
 ## 常用类
 
@@ -343,9 +349,9 @@ private void stopPlayback() {
 
 #### 能做什么
 
-1. #### 怎么用
+1.  #### 怎么用
 
-  ### AudioFocusRequest
+    ### AudioFocusRequest
 
 ### 常用方法
 
@@ -355,16 +361,16 @@ private void stopPlayback() {
 
 > Allows an application to keep the Wi-Fi radio awake. Normally the Wi-Fi radio may turn off when the user has not used the device in a while. Acquiring a WifiLock will keep the radio on until the lock is released. Multiple applications may hold WifiLocks, and the radio will only be allowed to turn off when no WifiLocks are held in any application. 允许应用程序保持Wi-Fi唤醒状态。通常情况下， Wi-Fi网络可以关闭，当用户没有使用该设备在一段时间。获取WifiLock将保持网络，直到锁被释放。多个应用程序可持有WifiLocks ，而收音机将只能被允许关闭时，没有WifiLocks在任何应用程序举行。
 
-- 需要添加权限
+-   需要添加权限
 
-  <uses-permission android:name="android.permission.WAKE_LOCK">
-    <h2 id="soundpool">SoundPool</h2>
-  </uses-permission>
+    <uses-permission android:name="android.permission.WAKE_LOCK">
+      <h2 id="soundpool">SoundPool</h2>
+    </uses-permission>
 
 官方解释
 
 > The SoundPool class manages and plays audio resources for applications.
-
+>
 > A SoundPool is a collection of samples that can be loaded into memory from a resource inside the APK or from a file in the file system. The SoundPool library uses the MediaPlayer service to decode the audio into a raw 16-bit PCM mono or stereo stream. This allows applications to ship with compressed streams without having to suffer the CPU load and latency of decompressing during playback.
 
 也就是说SoundPool能将文件系统或者Apk内的资源加载到内存中，使用了MediaPlayer服务将音频解码成16-bit PCM单声道或者立体声流，这样使用压缩流传输不担心CPU负载和解压缩时引起延迟。

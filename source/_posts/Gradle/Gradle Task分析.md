@@ -57,6 +57,9 @@ Gradle task在它的生命周期中有两个主要的阶段：『配置阶段』
 
 作为动态语言，Groovy世界中的所有事物都是对象。所以，int，boolean 这些 Java 中 的基本数据类型，在 Groovy 代码中其实对应的是它们的包装数据类型。比如 int 对应为 Integer，boolean 对应为 Boolean。
 
+
+## 创建TASK
+  Gradle的Project从本质上说只是含有多个Task的容器，一个Task与Ant的Target相似，表示一个逻辑上的执行单元。我们可以通过很多种方式定义Task，所有的Task都存放在Project的TaskContainer中。
 ## 容器类
 
 Groovy中的容器类很简单，就三种：

@@ -15,7 +15,7 @@ toc: true
 
 android sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下：
 
-```
+```java
 # aapt
 sudo dpkg --add-architecture i386
 
@@ -44,9 +44,9 @@ source ~/.profile
 
 环境变量生效后，你可以使用android命令 列出sdk相关的列表，以便我们选择和自己项目匹配的SDK版本。(刚才只是安装了最基础的SDK，要完全满足你的开发环境需要还得从下面的列表中选择你需要的SDK和工具更新下载)
 
-```
-android list sdk --all
-```
+  ```
+  android list sdk --all
+  ```
 
 输出如下所示：
 

@@ -8,65 +8,65 @@ toc: true
 
 # 基础
 
-1. 对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。
+1.  对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。
 
-2. 消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。
+2.  消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。
 
-3. 类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的实例，在创建一个类的实例（对象）之前必须定义这个类。
+3.  类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的实例，在创建一个类的实例（对象）之前必须定义这个类。
 
-4. 继承
+4.  继承
 
-  - 属于一个子类（派生类）的对象从父类（基类）中继承了全部属性和行为。所有可以发送给父类对象的消息也可以发送给子类对象。
-  - 子类自然地继承其父类中非private的成员变量以及成员方法作为自己的成员变量和成员方法。
+-   属于一个子类（派生类）的对象从父类（基类）中继承了全部属性和行为。所有可以发送给父类对象的消息也可以发送给子类对象。
+-   子类自然地继承其父类中非private的成员变量以及成员方法作为自己的成员变量和成员方法。
 
-5. 多态 对象的多态性是指在超类中定义的属性或者行为被子类继承后，可以具有不同的数据类型或者表现不同的行为，这使得同一个属性或者行为在一般类及其各子类中具有不同语义。
+5.  多态 对象的多态性是指在超类中定义的属性或者行为被子类继承后，可以具有不同的数据类型或者表现不同的行为，这使得同一个属性或者行为在一般类及其各子类中具有不同语义。
 
-6. 联编 是指将发送给对象的消息与包含执行该消息方法的对象连接起来。 静态联编：在编译和连接阶段实现的联编。 动态联编：在运行阶段实现的联编，是实现适应性多态的基础。
+6.  联编 是指将发送给对象的消息与包含执行该消息方法的对象连接起来。 静态联编：在编译和连接阶段实现的联编。 动态联编：在运行阶段实现的联编，是实现适应性多态的基础。
 
-7. 类变量 用static关键字修饰的就是类变量，类变量是常驻于内存的，是所有类的实例变量，可以不通过类名来访问，
+7.  类变量 用static关键字修饰的就是类变量，类变量是常驻于内存的，是所有类的实例变量，可以不通过类名来访问，
 
-8. 实例变量 没有用static修饰的就是实例变量，类变量只能通过类来访问。
+8.  实例变量 没有用static修饰的就是实例变量，类变量只能通过类来访问。
 
-  # 关键字
+    # 关键字
 
 ## final
 
-1. final类，final类是不能再被继承的类，没有子类。
-2. final方法，不能够被重写的方法。
-3. final变量，不能被更改初始化的值。
+1.  final类，final类是不能再被继承的类，没有子类。
+2.  final方法，不能够被重写的方法。
+3.  final变量，不能被更改初始化的值。
 
 ## abstract
 
-1. 一个类不能同时声明final与abstract，abstract类是抽象类，抽象类只声明一种模板，是没有具体实现代码的类，所有抽象类必须被继承，必须有子类，然后在子类中实现超类的抽象方法，否则不可能有实例。
+1.  一个类不能同时声明final与abstract，abstract类是抽象类，抽象类只声明一种模板，是没有具体实现代码的类，所有抽象类必须被继承，必须有子类，然后在子类中实现超类的抽象方法，否则不可能有实例。
 
 # 类作用
 
-1. DriverManager：处理驱动程序加载和建立新数据连接。
-2. Statment：用于在制定的连接中处理SQL语句。
-3. Connection: 用于处理特定数据库的连接。
-4. ResultSet：用于处理SQL语句执行后的查询结果。
+1.  DriverManager：处理驱动程序加载和建立新数据连接。
+2.  Statment：用于在制定的连接中处理SQL语句。
+3.  Connection: 用于处理特定数据库的连接。
+4.  ResultSet：用于处理SQL语句执行后的查询结果。
 
 # 标识符
 
-1. 标识符第一位不能是数字
+1.  标识符第一位不能是数字
 
 # 浮点型常量
 
-1. 表示浮点型常量有两种方法:
-2. 直接写一个实数，或者在实数后面加字幕D，或者d，例如123.54、123.54d;
-3. 科学技术发，用10的方幂表示，用字符e或者E表示幂底10，例如123.54e0、123.54e1，不能在e或者E的两边没有数字，
+1.  表示浮点型常量有两种方法:
+2.  直接写一个实数，或者在实数后面加字幕D，或者d，例如123.54、123.54d;
+3.  科学技术发，用10的方幂表示，用字符e或者E表示幂底10，例如123.54e0、123.54e1，不能在e或者E的两边没有数字，
 
 # 运算符
 
-1. "%"为求余运算符，求余数运算所得结果的符号与被除数符号相同。
+1.  "%"为求余运算符，求余数运算所得结果的符号与被除数符号相同。
 
-2. 自增自减运算符运算对象只能是变量，不能是常量表达式。
+2.  自增自减运算符运算对象只能是变量，不能是常量表达式。
 
-3. 移位运算符的优先级低于算术运算符，高于关系运算符，他们结合的方向是自左向右。
+3.  移位运算符的优先级低于算术运算符，高于关系运算符，他们结合的方向是自左向右。
 
 <!-- more -->
 
- # 字符串
+# 字符串
 
 ## public void concat()
 
@@ -88,9 +88,9 @@ toc: true
 
 StringTokenizer是字符串分隔解析类型，属于Java.util包。
 
-1. StringTokenizer的构造函数 StringTokenizer（String str）：构造一个用来解析str的StringTokenizer对象。java默认的分隔符是"空格"、"制表符（'\t'）"、"换行符('\n'）"、"回车符（'\r'）"。 StringTokenizer（String str，String delim）指定delim为分割符。 StringTokenizer（String str，String delim，boolean returnDelims）：构造一个用来解析str的StringTokenizer对象，并提供一个指定的分隔符，同时，指定是否返回分隔符。
+1.  StringTokenizer的构造函数 StringTokenizer（String str）：构造一个用来解析str的StringTokenizer对象。java默认的分隔符是"空格"、"制表符（'\\t'）"、"换行符('\\n'）"、"回车符（'\\r'）"。 StringTokenizer（String str，String delim）指定delim为分割符。 StringTokenizer（String str，String delim，boolean returnDelims）：构造一个用来解析str的StringTokenizer对象，并提供一个指定的分隔符，同时，指定是否返回分隔符。
 
-2. StringTokenizer的一些常用方法 int countTokens（）：返回nextToken方法被调用的次数。 boolean hasMoreTokens（）：返回是否还有分隔符。 boolean hasMoreElements（）：返回是否还有分隔符。 String nextToken（）：返回从当前位置到下一个分隔符的字符串。 Object nextElement（）：返回从当前位置到下一个分隔符的字符串。 String nextToken（String delim）：与4类似，以指定的分隔符返回结果。
+2.  StringTokenizer的一些常用方法 int countTokens（）：返回nextToken方法被调用的次数。 boolean hasMoreTokens（）：返回是否还有分隔符。 boolean hasMoreElements（）：返回是否还有分隔符。 String nextToken（）：返回从当前位置到下一个分隔符的字符串。 Object nextElement（）：返回从当前位置到下一个分隔符的字符串。 String nextToken（String delim）：与4类似，以指定的分隔符返回结果。
 
 ## compareTo(String str)
 
@@ -156,10 +156,10 @@ FileInputStream类和FileOutputStream类实现字节的读写操作。 FileReade
 
 Connection类是java.sql包中用于处理与特定数据库连接的类。 Statement creatStatement()方法 用于创建Statement对象。 Statement类是java.sql包中用于在指定的连接中处理SQL语句的类。数据库编程的要点是在程序中嵌入SQL命令。 ResultSet类的实例是用来存储查询结果集的。 数据库编程连接的步骤：
 
-1. 声明和创建连接数据库的Connection对象，并让该对象连接数据库。 Connection con;
-2. 调用类DriverManager的静态方法getConnection()获得Connection对象 Connection con = DriverManager.getConnection(url，username，password);
-3. 用Statement类声明SQL语句对象,并调用Connection对象的creatStatement()方法创建SQL语句对象。 Statement sqlstr = con.createStatement();
-4. 利用SQL语句对象调用executeQuery()执行SQL语句查询，并将查询结果存在一个ResultSet类的实例里。 ResultSet rs = sqlstr.executeQuery(SQL语句);
+1.  声明和创建连接数据库的Connection对象，并让该对象连接数据库。 Connection con;
+2.  调用类DriverManager的静态方法getConnection()获得Connection对象 Connection con = DriverManager.getConnection(url，username，password);
+3.  用Statement类声明SQL语句对象,并调用Connection对象的creatStatement()方法创建SQL语句对象。 Statement sqlstr = con.createStatement();
+4.  利用SQL语句对象调用executeQuery()执行SQL语句查询，并将查询结果存在一个ResultSet类的实例里。 ResultSet rs = sqlstr.executeQuery(SQL语句);
 
 # 网络
 
@@ -183,8 +183,8 @@ String getHostName()//用于获取InetAddress类对象的域名。 String getHos
 
 ### 功能
 
-- 建立字体、设定显示颜色、显示图像的文本、绘制和填充各种几何图形
-- Graphics类的drawline(int x1,int y1,int x2,int y2)方法可以画一条线段
+-   建立字体、设定显示颜色、显示图像的文本、绘制和填充各种几何图形
+-   Graphics类的drawline(int x1,int y1,int x2,int y2)方法可以画一条线段
 
 ## Font
 
@@ -192,8 +192,8 @@ Font(String fontName，int style,int size),设置字体、风格、字号
 
 ### 属性
 
-1. stroke 该属性控制线条的宽度、笔形样式、线段连接方式或者短划线图案。
-2. paint 该属性控制填充效果
+1.  stroke 该属性控制线条的宽度、笔形样式、线段连接方式或者短划线图案。
+2.  paint 该属性控制填充效果
 
 # C/S模式
 
@@ -201,6 +201,6 @@ IP地址和端口号的组合成为网络套接字(Socket)。 端口号0~1023供
 
 # 未归类
 
-1. 在Swing中，与JComponent类有直接父子关系的是JLabel。
-2. 得到菜单项名称的方法是getLabel()。
-3. 在访问数据库的程序中，建立statement对象后，利用该对象进行数据库更新，实现SQL数据库更新的方法是executeUpdate(). 4.
+1.  在Swing中，与JComponent类有直接父子关系的是JLabel。
+2.  得到菜单项名称的方法是getLabel()。
+3.  在访问数据库的程序中，建立statement对象后，利用该对象进行数据库更新，实现SQL数据库更新的方法是executeUpdate(). 4.

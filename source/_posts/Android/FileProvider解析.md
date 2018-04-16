@@ -29,20 +29,20 @@ FATAL EXCEPTION: main
 
 # FileProvider 的使用流程
 
-1. 定义一个 FileProvider
-2. 指定有效的文件
-3. 为文件生成有效的 Content URI
-4. 申请临时的读写权限
-5. 发送 Content URI 至其他的 App
+1.  定义一个 FileProvider
+2.  指定有效的文件
+3.  为文件生成有效的 Content URI
+4.  申请临时的读写权限
+5.  发送 Content URI 至其他的 App
 
-## 1\. 定义 FileProvider
+## 1. 定义 FileProvider
 
 FileProvider 已经把文件生成 Content URI 的工作帮我们做掉了，因此我们只需要在 AndroidManifest.xml 文件中配置
 
 <provider> 元素并提供相应的属性。
 重要的属性包括以下四个：</provider>
 
-- 设置 android:name 为android.support.v4.content.FileProvider，这是固定的，不需要手动更改；
-- 设置 android:authorities 为 application id + .provider ；
-- 设置 android:exported 为 false ，表示 FileProvider 不是公开的；
-- 设置 android:grantUriPermissions 为 true 表示允许临时读写文件。
+-   设置 android:name 为android.support.v4.content.FileProvider，这是固定的，不需要手动更改；
+-   设置 android:authorities 为 application id + .provider ；
+-   设置 android:exported 为 false ，表示 FileProvider 不是公开的；
+-   设置 android:grantUriPermissions 为 true 表示允许临时读写文件。

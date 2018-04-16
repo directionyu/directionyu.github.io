@@ -28,11 +28,11 @@ Google是这样解释的[传送门](http://developer.android.com/intl/zh-cn/trai
 
 系统权限分为两类： 1.normal
 
-- Normal类的权限不会直接涉及到用户隐私风险。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。
+-   Normal类的权限不会直接涉及到用户隐私风险。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。
 
 2.dangerous
 
-- Dangerous类的权限可能会让APP涉及到用户机密的数据。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。如果在Manifest文件中添加了Dangerous类的权限，用户必须明确的授予对应的权限后APP才具有这些权限。
+-   Dangerous类的权限可能会让APP涉及到用户机密的数据。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。如果在Manifest文件中添加了Dangerous类的权限，用户必须明确的授予对应的权限后APP才具有这些权限。
 
 关于哪些权限属于Normal类，哪些属于Dangerous类，如下图：
 
@@ -42,18 +42,14 @@ Google是这样解释的[传送门](http://developer.android.com/intl/zh-cn/trai
 
 2.检查权限
 
-```
-// Assume thisActivity is the current activity
-int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,Manifest.permission.WRITE_CALENDAR);
-```
+    // Assume thisActivity is the current activity
+    int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,Manifest.permission.WRITE_CALENDAR);
 
 ContextCompat.checkSelfPermission，主要用于检测某个权限是否已经被授予，方法返回值为 PackageManager.PERMISSION_DENIED或者PackageManager.PERMISSION_GRANTED。当返回DENIED就需要进行申请授权了。
 
 3.申请授权
 
-```
- ActivityCompat.requestPermissions(thisActivity,new String[]{Manifest.permission.READ_CONTACTS},MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-```
+     ActivityCompat.requestPermissions(thisActivity,new String[]{Manifest.permission.READ_CONTACTS},MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
 该方法是异步的，第一个参数是Context；第二个参数是需要申请的权限的字符串数组；第三个参数为requestCode，主要用于回调的时候检测。可以从方法名requestPermissions以及第二个参数看出，是支持一次性申请多个权限的，系统会通过对话框逐一询问用户是否授权。
 
