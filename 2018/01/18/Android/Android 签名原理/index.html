@@ -1,0 +1,757 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="数据摘要数据摘要算法是一种能产生特定输出格式的算法，其原理是根据一定的运算规则对原始数据进行某种形式的信息提取，被提取出的信息就是原始数据的消息摘要，也称为数据指纹。 一般情况下，数据摘要算法具有以下特点：  无论输入数据有多大（长），计算出来的数据摘要的长度总是固定的。例如：MD5算法计算出的数据摘要有128Bit。 一般情况下（不考虑碰撞的情况下），只要原始数据不同，那么其对应的数据摘要就不会">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 签名原理">
+<meta property="og:url" content="http://directionyu.cn/2018/01/18/Android/Android 签名原理/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="数据摘要数据摘要算法是一种能产生特定输出格式的算法，其原理是根据一定的运算规则对原始数据进行某种形式的信息提取，被提取出的信息就是原始数据的消息摘要，也称为数据指纹。 一般情况下，数据摘要算法具有以下特点：  无论输入数据有多大（长），计算出来的数据摘要的长度总是固定的。例如：MD5算法计算出的数据摘要有128Bit。 一般情况下（不考虑碰撞的情况下），只要原始数据不同，那么其对应的数据摘要就不会">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 签名原理">
+<meta name="twitter:description" content="数据摘要数据摘要算法是一种能产生特定输出格式的算法，其原理是根据一定的运算规则对原始数据进行某种形式的信息提取，被提取出的信息就是原始数据的消息摘要，也称为数据指纹。 一般情况下，数据摘要算法具有以下特点：  无论输入数据有多大（长），计算出来的数据摘要的长度总是固定的。例如：MD5算法计算出的数据摘要有128Bit。 一般情况下（不考虑碰撞的情况下），只要原始数据不同，那么其对应的数据摘要就不会">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2018/01/18/Android/Android 签名原理/"/>
+
+
+
+
+
+  <title> Android 签名原理 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2018/01/18/Android/Android 签名原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 签名原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T21:34:29+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据摘要"><a href="#数据摘要" class="headerlink" title="数据摘要"></a>数据摘要</h1><p>数据摘要算法是一种能产生特定输出格式的算法，其原理是根据一定的运算规则对原始数据进行某种形式的信息提取，被提取出的信息就是原始数据的消息摘要，也称为数据指纹。</p>
+<p>一般情况下，数据摘要算法具有以下特点：</p>
+<ul>
+<li>无论输入数据有多大（长），计算出来的数据摘要的长度总是固定的。例如：MD5算法计算出的数据摘要有128Bit。</li>
+<li>一般情况下（不考虑碰撞的情况下），只要原始数据不同，那么其对应的数据摘要就不会相同。同时，只要原始数据有任何改动，那么其数据摘要也会完全不同。即：相同的原始数据必有相同的数据摘要，不同的原始数据，其数据摘要也必然不同。</li>
+<li><p>不可逆性，即只能正向提取原始数据的数据摘要，而无法从数据摘要中恢复出原始数据。</p>
+<p>著名的摘要算法有RSA公司的MD5算法和SHA系列算法。</p>
+<a id="more"></a>
+</li>
+</ul>
+<h1 id="数字签名与数字证书"><a href="#数字签名与数字证书" class="headerlink" title="数字签名与数字证书"></a>数字签名与数字证书</h1><p>数字签名和数字证书是成对出现的，两者不可分离（数字签名主要用来校验数据的完整性，数字证书主要用来确保公钥的安全发放）。</p>
+<p>要明白数字签名的概念，必须要了解数据的加密、传输和校验流程。一般情况下，要实现数据的可靠通信，需要解决以下两个问题：</p>
+<p>1.确定数据的来源是其真正的发送者。 2.确保数据在传输过程中，没有被篡改，或者若被篡改了，可以及时发现。</p>
+<p>而数字签名，就是为了解决这两个问题而诞生的。 首先，数据的发送者需要先申请一对公私钥对，并将公钥交给数据接收者。 然后，若数据发送者需要发送数据给接收者，则首先要根据原始数据，生成一份数字签名，然后把原始数据和数字签名一起发送给接收者。 数字签名由以下两步计算得来：</p>
+<p>1.计算发送数据的数据摘要 2.用私钥对提取的数据摘要进行加密</p>
+<p>这样，数据接收者拿到的消息就包含了两块内容：</p>
+<p>1.原始数据内容 2.附加的数字签名</p>
+<p>接下来，接收者就会通过以下几步，校验数据的真实性：</p>
+<p>用相同的摘要算法计算出原始数据的数据摘要。 用预先得到的公钥解密数字签名。 对比签名得到的数据是否一致，如果一致，则说明数据没有被篡改，否则数据就是脏数据了。 因为私钥只有发送者才有，所以其他人无法伪造数字签名。这样通过数字签名就确保了数据的可靠传输。 综上所述，数字签名就是只有发送者才能产生的别人无法伪造的一段数字串，这段数字串同时也是对发送者发送数据真实性的一个有效证明。</p>
+<p>想法虽好，但是上面的整个流程，有一个前提，就是数据接收者能够正确拿到发送者的公钥。如果接收者拿到的公钥被篡改了，那么坏人就会被当成好人，而真正的数据发送者发送的数据则会被视作脏数据。那怎么才能保证公钥的安全性那？这就要靠数字证书来解决了。</p>
+<p>数字证书是由有公信力的证书中心（CA）颁发给申请者的证书，主要包含了：证书的发布机构、证书的有效期、申请者的公钥、申请者信息、数字签名使用的算法，以及证书内容的数字签名。</p>
+<p>可见，数字证书也用到了数字签名技术。只不过签名的内容是数据发送方的公钥，以及一些其它证书信息。 这样数据发送者发送的消息就包含了三部分内容：</p>
+<p>原始数据内容 附加的数字签名 申请的数字证书。 接收者拿到数据后，首先会根据CA的公钥，解码出发送者的公钥。然后就与上面的校验流程完全相同了。</p>
+<p>所以，数字证书主要解决了公钥的安全发放问题。 因此，包含数字证书的整个签名和校验流程如下图所示：</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/16/Gradle/Groovy-文件处理/" rel="next" title="Groovy-文件处理">
+                <i class="fa fa-chevron-left"></i> Groovy-文件处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/16/Android/Android 混淆技术/" rel="prev" title="Android 混淆技术">
+                Android 混淆技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据摘要"><span class="nav-number">1.</span> <span class="nav-text">数据摘要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数字签名与数字证书"><span class="nav-number">2.</span> <span class="nav-text">数字签名与数字证书</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

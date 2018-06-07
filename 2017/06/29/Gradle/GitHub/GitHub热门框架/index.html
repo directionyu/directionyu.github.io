@@ -1,0 +1,937 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Github," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="网络Retrofit一句话介绍：Retrofit是一款类型安全的网络框架，基于HTTP协议，服务于Android和java语言 上榜理由：Retrofit以21.8k的stars量雄踞github中android子标题榜首，第一当之无愧。 官网地址 http://square.github.io/retrofit/ github https://github.com/square/retrofit">
+<meta name="keywords" content="Github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub常用框架记录">
+<meta property="og:url" content="http://directionyu.cn/2017/06/29/Gradle/GitHub/GitHub热门框架/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="网络Retrofit一句话介绍：Retrofit是一款类型安全的网络框架，基于HTTP协议，服务于Android和java语言 上榜理由：Retrofit以21.8k的stars量雄踞github中android子标题榜首，第一当之无愧。 官网地址 http://square.github.io/retrofit/ github https://github.com/square/retrofit">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GitHub常用框架记录">
+<meta name="twitter:description" content="网络Retrofit一句话介绍：Retrofit是一款类型安全的网络框架，基于HTTP协议，服务于Android和java语言 上榜理由：Retrofit以21.8k的stars量雄踞github中android子标题榜首，第一当之无愧。 官网地址 http://square.github.io/retrofit/ github https://github.com/square/retrofit">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2017/06/29/Gradle/GitHub/GitHub热门框架/"/>
+
+
+
+
+
+  <title> GitHub常用框架记录 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2017/06/29/Gradle/GitHub/GitHub热门框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                GitHub常用框架记录
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T11:43:42+08:00">
+                2017-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Github/" itemprop="url" rel="index">
+                    <span itemprop="name">Github</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="Retrofit"><a href="#Retrofit" class="headerlink" title="Retrofit"></a>Retrofit</h2><p>一句话介绍：Retrofit是一款类型安全的网络框架，基于HTTP协议，服务于Android和java语言</p>
+<p>上榜理由：Retrofit以21.8k的stars量雄踞github中android子标题榜首，第一当之无愧。</p>
+<p>官网地址 <a href="http://square.github.io/retrofit/" target="_blank" rel="noopener">http://square.github.io/retrofit/</a></p>
+<p>github <a href="https://github.com/square/retrofit" target="_blank" rel="noopener">https://github.com/square/retrofit</a></p>
+<p>作者：square团队 <a id="more"></a></p>
+<h2 id="okhttp"><a href="#okhttp" class="headerlink" title="okhttp"></a>okhttp</h2><p>一句话介绍：okhttp是一款基于HTTP和HTTP2.0协议的网络框架，服务于java和android客户端</p>
+<p>上榜理由，okhttp以20.4k的stars量雄踞github中android子标题第二名。大型公司比如淘宝也封装的是okhttp。Retrofit2.0开始内置okhttp框架，Retrofit专注封装接口完成业务需求，okhttp专注网络请求的安全高效，笔者将两者区分开，是想让后来学习者知道，这是两套框架，学习框架原理时可以分开学习，以免理解混乱。</p>
+<p>官网地址 <a href="http://square.github.io/okhttp/" target="_blank" rel="noopener">http://square.github.io/okhttp/</a></p>
+<p>github <a href="https://github.com/square/okhttp" target="_blank" rel="noopener">https://github.com/square/okhttp</a></p>
+<p>作者：square团队</p>
+<h2 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h2><p>一句话介绍:一款基于json解析、生成的框架</p>
+<p>上榜理由：从它的名字不难看出，快速是它最大的特性，阿里巴巴的出身保证了代码的质量和优越，9.4k的star数量，也是榜单里第一个出现的中国开源框架，涉及网络的app都会用到json，fastjson值得作为你的首选！</p>
+<p>github <a href="https://github.com/alibaba/fastjson" target="_blank" rel="noopener">https://github.com/alibaba/fastjson</a></p>
+<p>作者：alibaba</p>
+<h1 id="通信"><a href="#通信" class="headerlink" title="通信"></a>通信</h1><h2 id="RxAndroid"><a href="#RxAndroid" class="headerlink" title="RxAndroid"></a>RxAndroid</h2><p>一句话介绍：一款Android客户端组件间异步通信的框架</p>
+<p>上榜理由：github上12.7k个star，位居组件通信框架的第二名，仅在EventBus之后，如果要问两者的区别，Eventbus是用来取代组件间繁琐的interface，RxAndroid是用来取代AnsyTask的，并不冲突；当然RxAndroid的优点并不仅限于此，更多优雅的实现，可以去官网查阅！</p>
+<p>github <a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="noopener">https://github.com/ReactiveX/RxAndroid</a></p>
+<p>作者 JakeWharton</p>
+<h2 id="RxJava-Android-Samples"><a href="#RxJava-Android-Samples" class="headerlink" title="RxJava-Android-Samples"></a>RxJava-Android-Samples</h2><p>一句话介绍：一款介绍RxJava使用场景的app</p>
+<p>上榜理由：榜单出现的第一个”仅仅为告诉你如何使用另一个项目”的开源项目，它可以说是RxJava的用例，你想得到的想不到的RxJava用法这里都有，这就是为什么它以5.2k个star矗立在这份榜单里的原因。遗憾自己没有创作这么一个受人追捧的demo？赶快动手写个其他的”XX项目用例吧”</p>
+<p>github <a href="https://github.com/kaushikgopal/RxJava-Android-Samples" target="_blank" rel="noopener">https://github.com/kaushikgopal/RxJava-Android-Samples</a></p>
+<p>作者：kaushikgopal</p>
+<h2 id="RxLifecycle"><a href="#RxLifecycle" class="headerlink" title="RxLifecycle"></a>RxLifecycle</h2><p>一句话介绍：一款提供在使用RxJava过程中管理Activity和Fragment生命周期能力的框架</p>
+<p>上榜理由：在榜单靠前的部分，你已经了解RxJava和RxAndroid的强大之处，但部分粗心的开发者因为没有及时取消订阅而产生严重的内存泄漏，不要担心，RxLifecycle可以为你解决难题，在gtihub上拥有3.7K个star，国内知名软件—-知乎和淘宝也都在使用它</p>
+<p>github <a href="https://github.com/trello/RxLifecycle" target="_blank" rel="noopener">https://github.com/trello/RxLifecycle</a></p>
+<p>作者：trello团队</p>
+<h2 id="JsBridge"><a href="#JsBridge" class="headerlink" title="JsBridge"></a>JsBridge</h2><p>一句话介绍：一款提供WebView和Javascript通信能力的框架</p>
+<p>上榜理由：该框架提供给了允许H5页面调用通过JS调用App方法的能力；3.1K个star，简洁的通讯方式，值得每一个Web\Hybrid App开发者尝试</p>
+<p>gtihub <a href="https://github.com/lzyzsd/JsBridge" target="_blank" rel="noopener">https://github.com/lzyzsd/JsBridge</a></p>
+<p>作者：hi大头鬼hi</p>
+<h1 id="图片处理"><a href="#图片处理" class="headerlink" title="图片处理"></a>图片处理</h1><h2 id="glide"><a href="#glide" class="headerlink" title="glide"></a>glide</h2><p>一句话介绍：glide是一款专注于提供流畅划动能力的”图片加载和缓存框架”</p>
+<p>上榜理由：15.9k个star，图片加载类框架排名第一的框架，google 在2014开发者大会上演示的camera app就是基于gilde框架开发的</p>
+<p>github <a href="https://github.com/bumptech/glide" target="_blank" rel="noopener">https://github.com/bumptech/glide</a></p>
+<p>作者 Bump Technologies团队</p>
+<h2 id="fresco"><a href="#fresco" class="headerlink" title="fresco"></a>fresco</h2><p>一句话介绍：一款可以管理图片内存的框架</p>
+<p>上榜理由:github上12.8k个star，图片类排行榜第四名，facebook的出身证明了它并非是重复造的轮子，在管理图片内存领域上有着它的一片天地，渐进式加载、加载gif都是它与前三位相比独有的特性</p>
+<p>官网地址： <a href="https://www.fresco-cn.org/" target="_blank" rel="noopener">https://www.fresco-cn.org/</a></p>
+<p>github <a href="https://github.com/facebook/fresco" target="_blank" rel="noopener">https://github.com/facebook/fresco</a></p>
+<p>作者 facebook</p>
+<h2 id="PhotoView"><a href="#PhotoView" class="headerlink" title="PhotoView"></a>PhotoView</h2><p>一句话介绍：一款ImageView展示框架，支持缩放，响应手势</p>
+<p>上榜理由：10.3k的star数量，位于图片类框架排行榜第五位，PhotoView与前四位不同的是这次带来的是图片的展示能力，你一定好奇微信的头像点击放大是如何实现的，很多App的图片显示响应手势按压是如何实现的，了解PhotoView，你一定会开心的！（笔者也不会告诉你ImageView的点击放大效果在Android的sample也有）</p>
+<p>github <a href="https://github.com/chrisbanes/PhotoView" target="_blank" rel="noopener">https://github.com/chrisbanes/PhotoView</a></p>
+<p>作者：chrisbanes</p>
+<h2 id="uCrop"><a href="#uCrop" class="headerlink" title="uCrop"></a>uCrop</h2><p>一句话介绍：一款优雅的图片裁剪框架</p>
+<p>上榜理由：5.3K个star，图片编辑模块单独拎出来也是一款优雅的App。</p>
+<p>github <a href="https://github.com/Yalantis/uCrop" target="_blank" rel="noopener">https://github.com/Yalantis/uCrop</a></p>
+<p>作者：Yalantis</p>
+<h2 id="Luban"><a href="#Luban" class="headerlink" title="Luban"></a>Luban</h2><p>一句话介绍：最接近微信的图片压缩框架</p>
+<p>上榜理由：好的思路总是可以让你大放异彩，Luban仅以图片压缩单一功能，俘获了4.8K个star，证明了它在图片压缩上的造诣，它可能不是最优秀的，但它是让你我最接近伟大的项目</p>
+<p>github <a href="https://github.com/Curzibn/Luban" target="_blank" rel="noopener">https://github.com/Curzibn/Luban</a></p>
+<p>作者：Curzibn</p>
+<h1 id="自定义View"><a href="#自定义View" class="headerlink" title="自定义View"></a>自定义View</h1><h2 id="AndroidAutoLayout"><a href="#AndroidAutoLayout" class="headerlink" title="AndroidAutoLayout"></a>AndroidAutoLayout</h2><p>一句话介绍：一个提供适配能力的框架</p>
+<p>上榜理由：5.2K个star，鸿洋老弟的作品，适合小项目的开发团队，拿到设计MM的px像素设计稿是不是很头疼捏？这个框架一键式搞定你的问题，它有很多的不足，但在追求完美适配的路上，你值得探索和了解它！笔者并不推荐把它应用到已经成熟运行的项目中，毕竟市面上已经有太多的适配解决方案了，适配问题就像是个大杂烩，想炒一盘好菜，就得备好各种佐料（适配小方案），当你把各种小佐料用的炉火纯青的时候，你离美食大厨就不远了。</p>
+<p>github <a href="https://github.com/hongyangAndroid/AndroidAutoLayout" target="_blank" rel="noopener">https://github.com/hongyangAndroid/AndroidAutoLayout</a></p>
+<p>作者：张鸿洋</p>
+<h2 id="material-dialogs"><a href="#material-dialogs" class="headerlink" title="material-dialogs"></a>material-dialogs</h2><p>一句话介绍：一款自定义dialog框架</p>
+<p>上榜理由：9.9k个star，也是继PhotoView，SlidingMenu之后第三款自定义View框架，也许你还是自定义View的新人，对Dialog使用的还有点生疏，你可以通过它提升你的Dilaog使用能力</p>
+<p>github <a href="https://github.com/afollestad/material-dialogs" target="_blank" rel="noopener">https://github.com/afollestad/material-dialogs</a></p>
+<p>作者：Aidan Follestad</p>
+<h2 id="BaseRecyclerViewAdapterHelper"><a href="#BaseRecyclerViewAdapterHelper" class="headerlink" title="BaseRecyclerViewAdapterHelper"></a>BaseRecyclerViewAdapterHelper</h2><p>一句话介绍：强大、流畅的Recyvlerview通用适配器</p>
+<p>上榜理由：如果你是RecyclerView的拥簇者，你一定要体验这款专门服务该view的适配器，7.7K个star，让这个家伙位于github上Android 适配器排行榜第一，还有很多惊喜等你去探寻！</p>
+<p>官网地址：<a href="http://www.recyclerview.org/" target="_blank" rel="noopener">http://www.recyclerview.org/</a></p>
+<p>作者：陈宇明以及他的小伙伴</p>
+<h2 id="AndroidSwipeLayout"><a href="#AndroidSwipeLayout" class="headerlink" title="AndroidSwipeLayout"></a>AndroidSwipeLayout</h2><p>一句话介绍：非常强大滑动式布局</p>
+<p>上榜理由:滑动删除是国产app常见需求，商品详情的上下滑动需求作为开发者的我们也经常遇到，AndroidSwipeLayout在github上拥有8K个star，证明它经受住了检验，各位值得一试</p>
+<p>github <a href="https://github.com/daimajia/AndroidSwipeLayout" target="_blank" rel="noopener">https://github.com/daimajia/AndroidSwipeLayout</a></p>
+<p>作者：daimajia</p>
+<h2 id="CircleImageView"><a href="#CircleImageView" class="headerlink" title="CircleImageView"></a>CircleImageView</h2><p>一句话介绍：圆角ImageView</p>
+<p>上榜理由：也许你已经听说过无数种展示圆角图片的方法，但如果你不尝试尝试CircleImageView，那么你的知识库会因为少了它黯然失色，有的时候完成需求是开发者优先考虑的，不同实现方法牵扯到的性能差异更值得让人深思，如果你有心在图片性能上有所涉猎，那么CircleImageView绝对不会让你败兴而归。最后别忘了记得去看Romain Guy的建议哟。</p>
+<p>github <a href="https://github.com/hdodenhof/CircleImageView" target="_blank" rel="noopener">https://github.com/hdodenhof/CircleImageView</a></p>
+<p>作者：Henning Dodenhof</p>
+<h2 id="BottmBar"><a href="#BottmBar" class="headerlink" title="BottmBar"></a>BottmBar</h2><p>一句话介绍：一款底部导航栏视图框架</p>
+<p>上榜理由：底部栏里的王者框架，6.3K的star数量，证明了它的优秀，完全遵循材料设计规范，上手非常方便。如果说缺点，无法设置icon与titile的间距，无法自定义视图的大小等，但这些都可以通过修改源代码解决，笔者献丑也修改了一套符合国内开发者的底部导航框架，即将开源。</p>
+<p>github <a href="https://github.com/roughike/BottomBar" target="_blank" rel="noopener">https://github.com/roughike/BottomBar</a></p>
+<h2 id="Calligraphy"><a href="#Calligraphy" class="headerlink" title="Calligraphy"></a>Calligraphy</h2><p>一句话介绍：一款自定义字体框架</p>
+<p>上榜理由：如果你还在为一键修改App内所有字体样式而烦恼，6.3K个star的Calligraphy就值得你拥有，它可以同时修改整个整个项目的Textview字体，也可以单独 设置某个Textview的字体，还在等什么，快来试试吧！</p>
+<p>github <a href="https://github.com/chrisjenx/Calligraphy" target="_blank" rel="noopener">https://github.com/chrisjenx/Calligraphy</a></p>
+<p>作者：Christopher Jenkins</p>
+<h2 id="AndroidSlidingUpPanel"><a href="#AndroidSlidingUpPanel" class="headerlink" title="AndroidSlidingUpPanel"></a>AndroidSlidingUpPanel</h2><p>一句话介绍：可拖动的滑动面板视图框架</p>
+<p>上榜理由：如果你的项目需要一个可拖拽的滑动式面板（展示某些详情信息，播放音乐，地图信息等），那么推荐你使用它，6.3k个star，来自创业公司umano的作品，证明它是用心推出的杰作</p>
+<p>github <a href="https://github.com/umano/AndroidSlidingUpPanel" target="_blank" rel="noopener">https://github.com/umano/AndroidSlidingUpPanel</a></p>
+<p>作者：umano</p>
+<h2 id="AppIntro"><a href="#AppIntro" class="headerlink" title="AppIntro"></a>AppIntro</h2><p>一句话介绍：一款提供快速制作欢迎页的框架</p>
+<p>上榜理由：笔者从未把打算把欢迎页框架纳入排行榜当中，作为国内开发者，ViewPager开发App的欢迎页已经是手到擒来的需求，为何一个开源的欢迎页框架会在github上拥有6.3k个star？也许你会不屑一顾，是的，往往就在不屑一顾的瞬间，机遇就悄悄溜走了。</p>
+<p>github <a href="https://github.com/apl-devs/AppIntro" target="_blank" rel="noopener">https://github.com/apl-devs/AppIntro</a></p>
+<h2 id="FlycoTabLayout"><a href="#FlycoTabLayout" class="headerlink" title="FlycoTabLayout"></a>FlycoTabLayout</h2><p>一句话介绍：一款可以让作出多种多样指示器效果的框架</p>
+<p>上榜理由：尽管我们没有理由为了给app加入页面指示器功能就集成2.5M的依赖库，但是作为了解viewpager或swip views的指示器设计原理的优秀框架，你值得打开它试试，笔者建议单独拆分所需源码，加入到自己的项目中去。4.1K个star，二次开发的作品，仍然推荐！</p>
+<p>github <a href="https://github.com/H07000223/FlycoTabLayout" target="_blank" rel="noopener">https://github.com/H07000223/FlycoTabLayout</a></p>
+<p>作者：Flyco</p>
+<h1 id="注解绑定"><a href="#注解绑定" class="headerlink" title="注解绑定"></a>注解绑定</h1><h2 id="Butter-Knife"><a href="#Butter-Knife" class="headerlink" title="Butter Knife"></a>Butter Knife</h2><p>一句话介绍：Butter Knife所提供了一种能力—-使用注解生成模板代码，将view与方法和参数绑定。</p>
+<p>上榜理由：github上16.5K个star，配合Androidstudio提供的Butter Knife插件，帮助开发者省却了频繁findviewbyid的烦恼，最新的Butter Knife还提供了onclick绑定以及字符串的初始化，初学者可以查阅Butter Knife以及Butter Knife插件进一步学习！</p>
+<p>官网地址：<a href="http://jakewharton.github.io/butterknife/" target="_blank" rel="noopener">http://jakewharton.github.io/butterknife/</a></p>
+<p>github：<a href="https://github.com/JakeWharton/butterknife" target="_blank" rel="noopener">https://github.com/JakeWharton/butterknife</a></p>
+<p>作者：JakeWharton ，也是square团队成员之一</p>
+<h2 id="dagger"><a href="#dagger" class="headerlink" title="dagger"></a>dagger</h2><p>一句话介绍：一款通过依赖注入降低程序间耦合的开发框架</p>
+<p>上榜理由：github 上dagger1版本 有6.2k个star ， dagger2版本有7.3k个；由square完成的dagger1版本，到如今google团队接手的dagger2版本，强力开发团队保证了代码在设计上的优越性；如果你想探究Android 领域的设计模式，这也是不错的选择。</p>
+<p>官网地址：<a href="https://google.github.io/dagger/" target="_blank" rel="noopener">https://google.github.io/dagger/</a></p>
+<p>github ：<a href="https://github.com/google/dagger" target="_blank" rel="noopener">https://github.com/google/dagger</a></p>
+<p>作者：google</p>
+<h2 id="RxBinding"><a href="#RxBinding" class="headerlink" title="RxBinding"></a>RxBinding</h2><p>一句话介绍：一款提供UI组件事件响应能力的框架</p>
+<p>上榜理由：如果你还未开始RxAndroid 之旅，RxBinding可以作为你的第一站，通过RXBinding，你将理解响应式编程的快乐，让项目里的事件流程更清晰。5.6K个star，RxAndroid作者亲自操刀，快来试用吧！</p>
+<p>github <a href="https://github.com/JakeWharton/RxBinding" target="_blank" rel="noopener">https://github.com/JakeWharton/RxBinding</a></p>
+<p>作者：JakeWharton</p>
+<h1 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h1><h2 id="lottie-android"><a href="#lottie-android" class="headerlink" title="lottie-android"></a>lottie-android</h2><p>一句话介绍：一款可以在Android端快速展示Adobe Afeter Effect（AE）工具所作动画的框架</p>
+<p>上榜理由：动画类框架第一名，github上13.3k个star证明了他的优越性，利用json文件快速实现动画效果是它最大的便利，而这个json文件也是由Adobe提供的After Effects（AE）工具制作的，在AE中装一个Bodymovin的插件，使用这个插件最终将动画效果生成json文件，这个json文件即可由LottieAnimationView解析并生成绚丽的动画效果。而且它还支持跨平台哟。</p>
+<p>github <a href="https://github.com/airbnb/lottie-android" target="_blank" rel="noopener">https://github.com/airbnb/lottie-android</a></p>
+<p>作者：Airbnb 团队</p>
+<h2 id="Material-Animations"><a href="#Material-Animations" class="headerlink" title="Material-Animations"></a>Material-Animations</h2><p>一句话介绍：一款提供场景转换过渡能力的动画框架</p>
+<p>上榜理由：Android动画框架排行榜第二名，9.3k个star数量，与动画框架榜单第一名lottie-android不同的是，Material-Animations提供的是场景切换的动画效果。Android 官网sample中已经提供了部分Transition （转场动画）的展示，作为初学者很难快速拓展到自己项目中，Material-Animations的示例出现为开发者省去了此类麻烦，直接照搬应用到自己的App中吧。</p>
+<p>github <a href="https://github.com/lgvalle/Material-Animations" target="_blank" rel="noopener">https://github.com/lgvalle/Material-Animations</a></p>
+<p>作者：Luis G. Valle</p>
+<h2 id="AndroidViewAnimations"><a href="#AndroidViewAnimations" class="headerlink" title="AndroidViewAnimations"></a>AndroidViewAnimations</h2><p>一句话介绍：一款提供可爱动画集合的框架</p>
+<p>上榜理由：正如作者所说，它囊括了开发需求过程中所有的动画效果，集成进了这个简洁可爱的动画框架。7.6K的star数，证明了它在动画框架领域的战斗力，让它仅仅位列lottie-android和Material-Animations两个动画框架霸主之后，屈居第三名</p>
+<p>github <a href="https://github.com/daimajia/AndroidViewAnimations" target="_blank" rel="noopener">https://github.com/daimajia/AndroidViewAnimations</a></p>
+<p>作者：daimajia</p>
+<h2 id="XhsEmoticonsKeyboard"><a href="#XhsEmoticonsKeyboard" class="headerlink" title="XhsEmoticonsKeyboard"></a>XhsEmoticonsKeyboard</h2><p>一句话介绍：最开心的开源表情解决方案</p>
+<p>上榜理由：如果你还在发愁如何为你的APP自制键盘，那么此框架非常适合你，而且还提供表情包展示能力，1.7个star证明了它的独特。此外作者还附赠了高仿微信键盘，QQ键盘的demo，分享给诸位</p>
+<p>github <a href="https://github.com/w446108264/XhsEmoticonsKeyboard" target="_blank" rel="noopener">https://github.com/w446108264/XhsEmoticonsKeyboard</a></p>
+<p>作者：zhongdaxia</p>
+<h1 id="图表"><a href="#图表" class="headerlink" title="图表"></a>图表</h1><h2 id="MPAndroidChart"><a href="#MPAndroidChart" class="headerlink" title="MPAndroidChart"></a>MPAndroidChart</h2><p>一句话介绍：MPAndroidChart是一款图表框架</p>
+<p>上榜理由：github上16.1K个star，以快速、简洁。强大著称的图表框架</p>
+<p>官网地址 <a href="https://github.com/PhilJay/MPAndroidChart" target="_blank" rel="noopener">https://github.com/PhilJay/MPAndroidChart</a></p>
+<p>github <a href="https://github.com/PhilJay/MPAndroidChart" target="_blank" rel="noopener">https://github.com/PhilJay/MPAndroidChart</a></p>
+<p>作者：PhilJay</p>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="realm-java"><a href="#realm-java" class="headerlink" title="realm-java"></a>realm-java</h2><p>一句话介绍：Realm是一款移动端数据库框架</p>
+<p>上榜理由：核心数据引擎C++打造，比普通的Sqlite型数据库快的多。笔者猜测正是如此，realm以7892个star数让它位于大名鼎鼎的数据库框架GreenDao（7877）之前</p>
+<p>官网地址：<a href="https://realm.io/cn/" target="_blank" rel="noopener">https://realm.io/cn/</a></p>
+<p>github <a href="https://github.com/realm/realm-java" target="_blank" rel="noopener">https://github.com/realm/realm-java</a></p>
+<p>作者：Realm团队</p>
+<p>使用：<a href="https://realm.io/docs/java/latest/" target="_blank" rel="noopener">https://realm.io/docs/java/latest/</a></p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><h2 id="leakcanary"><a href="#leakcanary" class="headerlink" title="leakcanary"></a>leakcanary</h2><p>一句话介绍：一款内存检测框架，服务于java和android客户端</p>
+<p>上榜理由：方便，简洁是leakcanary最大的特点，只需在应用的apllication中集成，就可以直接使用它；15.5k个star说明了它有多么受欢迎</p>
+<p>github <a href="https://github.com/square/leakcanary" target="_blank" rel="noopener">https://github.com/square/leakcanary</a></p>
+<p>作者 square团队</p>
+<h2 id="stetho"><a href="#stetho" class="headerlink" title="stetho"></a>stetho</h2><p>一句话介绍：一款提供在Chrome开发者工具上调试Android app能力的开源框架</p>
+<p>上榜理由：上古时期Android程序员要调试本地数据库，需要进入Android Device Monitor找到/data/data/com.xxx.xxx/databases里面的db文件，导出到PC端，用PC的数据工具查看，现在使用stetho省却了如此的麻烦；如今的Android程序员如果想调试网络请求响应过程中的报文段，需要在请求中加入Log语句，一个信息一个信息打印出来，相当繁琐，现在请使用stetho，省却诸如此类的麻烦把！7.8K个star数，广大Android开发者调试的福音，你值得拥有！</p>
+<p>作者：FaceBook</p>
+<p>官网地址： <a href="http://facebook.github.io/stetho/" target="_blank" rel="noopener">http://facebook.github.io/stetho/</a></p>
+<p>github <a href="https://github.com/facebook/stetho" target="_blank" rel="noopener">https://github.com/facebook/stetho</a></p>
+<h2 id="logger"><a href="#logger" class="headerlink" title="logger"></a>logger</h2><p>一句话介绍：一款让log日志优雅显示的框架</p>
+<p>上榜理由：logger作为调试框架，并未给出很强大的能力，它最大的亮点是优雅的输出log信息，并且支持多种格式：线程、Json、Xml、List、Map等，如果你整日沉迷于汪洋大海般的log信息不能自拔，logger就是你的指路明灯！6.6k个star让他位列调试框架第二名，屈居facebook的stetho之后</p>
+<p>github <a href="https://github.com/orhanobut/logger" target="_blank" rel="noopener">https://github.com/orhanobut/logger</a></p>
+<p>作者：Orhan Obut</p>
+<h1 id="热修复"><a href="#热修复" class="headerlink" title="热修复"></a>热修复</h1><h2 id="tinker"><a href="#tinker" class="headerlink" title="tinker"></a>tinker</h2><p>一句话介绍：它是微信官网的Android热补丁解决方案</p>
+<p>上榜理由：9.1k个star，微信在用的热补丁方案，心动不如行动</p>
+<p>官网地址 <a href="http://www.tinkerpatch.com/Docs/intro" target="_blank" rel="noopener">http://www.tinkerpatch.com/Docs/intro</a></p>
+<p>github <a href="https://github.com/Tencent/tinker" target="_blank" rel="noopener">https://github.com/Tencent/tinker</a></p>
+<p>作者：Tencent</p>
+<h2 id="DroidPlugin"><a href="#DroidPlugin" class="headerlink" title="DroidPlugin"></a>DroidPlugin</h2><p>一句话介绍：一款热门的插件化开发框架 上榜理由：4.8K个star，插件化框架榜单第一名，，360团队出品，框架质量有保证，有成功案例—-360手机助手，并且持续维护着 github <a href="https://github.com/DroidPluginTeam/DroidPlugin/blob/master/readme_cn.md" target="_blank" rel="noopener">https://github.com/DroidPluginTeam/DroidPlugin/blob/master/readme_cn.md</a> 作者：Andy Zhang</p>
+<h1 id="框架-amp-架构"><a href="#框架-amp-架构" class="headerlink" title="框架&amp;架构"></a>框架&amp;架构</h1><h2 id="mosby"><a href="#mosby" class="headerlink" title="mosby"></a>mosby</h2><p>一句话介绍：一款提供构建MVP项目能力的框架</p>
+<p>上榜理由：榜单靠前的部分已经介绍了MVC,MVVM,MVP的框架项目，想必此时你在构建企业项目架构上，选择或者开发一款合适的MVP框架迫在眉睫，mosby可以作为你的第一步参考，你可以封装它，也可以照抄它，无论如何，3.4K个star，证明了它在框架设计上有多受开发者的喜爱</p>
+<p>github <a href="https://github.com/sockeqwe/mosby" target="_blank" rel="noopener">https://github.com/sockeqwe/mosby</a></p>
+<p>作者：Hannes Dorfmann</p>
+<h2 id="Small"><a href="#Small" class="headerlink" title="Small"></a>Small</h2><p>一句话介绍：轻巧的插件化框架</p>
+<p>上榜理由：作为插件框架榜单的新成员，Small的优点是轻巧，适合作为小团队的插件开发方案，3.1K个star，让它获得了酷狗音乐等著名开发团队的青睐，如果你们的团队想逐步实施插件化开发，Small是个不错的选择！</p>
+<p>官网地址：<a href="http://code.wequick.net/Small/cn/cases" target="_blank" rel="noopener">http://code.wequick.net/Small/cn/cases</a></p>
+<p>github <a href="https://github.com/wequick/Small" target="_blank" rel="noopener">https://github.com/wequick/Small</a></p>
+<p>作者：wequick 团队</p>
+<h2 id="dynamic-load-apk"><a href="#dynamic-load-apk" class="headerlink" title="dynamic-load-apk"></a>dynamic-load-apk</h2><p>一句话介绍：插件化开发框架</p>
+<p>上榜理由：4.5k个star，位于插件化开发框架第二名（第一名来自360团队），全面的文档介绍让你很快就能上手插件化开发，如果你喜欢大段文字讲解，那么这个项目一定适合你</p>
+<p>github：<a href="https://github.com/singwhatiwanna/dynamic-load-apk" target="_blank" rel="noopener">https://github.com/singwhatiwanna/dynamic-load-apk</a></p>
+<p>作者：singwhatiwanna</p>
+<h2 id="Android-CleanArchitecture"><a href="#Android-CleanArchitecture" class="headerlink" title="Android-CleanArchitecture"></a>Android-CleanArchitecture</h2><p>一句话介绍：一个讲解设计框架的demo</p>
+<p>上榜理由：它不是框架，你可以把它当作一本书，它将教会你如何设计简洁的架构，工程里有一个sample app，配合图文讲解，你将对Android客户端的架构有更深一层的认识。8.8k的star数量，证明了它是一本”好书”哟。</p>
+<p>github <a href="https://github.com/android10/Android-CleanArchitecture" target="_blank" rel="noopener">https://github.com/android10/Android-CleanArchitecture</a></p>
+<p>作者：Fernando Cejas</p>
+<h2 id="atlas"><a href="#atlas" class="headerlink" title="atlas"></a>atlas</h2><p>一句话介绍：淘宝推出的组件化开发框架</p>
+<p>上榜理由：淘宝团队所出的精品，atlas框架提供了解耦、组件、动态的开发能力，4.5k个star让他位列组件化开发框架第一名</p>
+<p>github <a href="https://github.com/alibaba/atlas" target="_blank" rel="noopener">https://github.com/alibaba/atlas</a></p>
+<p>作者：alibaba</p>
+<h1 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h1><h2 id="PermissionsDispatcher"><a href="#PermissionsDispatcher" class="headerlink" title="PermissionsDispatcher"></a>PermissionsDispatcher</h2><p>一句话介绍：一款基于注解的提供解决运行时危险权限方案的框架 上榜理由：自Android6.0 Google提出危险权限一词起，用户安全性被提到一定的高度，一些运行时对用户较为危险的权限将不再自动被开发者获取，需要经过用户批准，开发者才可以继续使用该权限，如果你曾经被权限问题搞的抓耳挠腮，建议你试试这个框架，它足够解决你的问题 官网地址：<a href="https://hotchemi.github.io/PermissionsDispatcher/" target="_blank" rel="noopener">https://hotchemi.github.io/PermissionsDispatcher/</a> github <a href="https://github.com/hotchemi/PermissionsDispatcher" target="_blank" rel="noopener">https://github.com/hotchemi/PermissionsDispatcher</a> 作者：Shintaro Katafuchi</p>
+<h2 id="RxPermissions"><a href="#RxPermissions" class="headerlink" title="RxPermissions"></a>RxPermissions</h2><p>一句话介绍：一款基于RxJava完成权限申请的框架 上榜理由：榜单里第二款提供权服务的框架，基于RxJava的设计，让你可以专心写业务，3.7K个star已经证明了它的实用价值 github <a href="https://github.com/tbruyelle/RxPermissions" target="_blank" rel="noopener">https://github.com/tbruyelle/RxPermissions</a> 作者：Thomas Bruyelle</p>
+<h1 id="自动化测试"><a href="#自动化测试" class="headerlink" title="自动化测试"></a>自动化测试</h1><h2 id="android-testing"><a href="#android-testing" class="headerlink" title="android-testing"></a>android-testing</h2><p>一句话介绍：一款展示四大自动化测试框架用例的demo（Espresso，UiAutomator，AndroidJunitRunner，JUnit4）</p>
+<p>上榜理由：学习者经常会陷入似懂非懂的境地，如果你有幸学习过Android Testing Support Library site的课程，那么你一定对android的四大测试框架迫不及待，这款demo非常适合你，快来学习这个4.1k个star的明星项目吧</p>
+<p>github <a href="https://github.com/googlesamples/android-testing" target="_blank" rel="noopener">https://github.com/googlesamples/android-testing</a></p>
+<p>作者：googlesampes团队</p>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><h2 id="FileDownloader"><a href="#FileDownloader" class="headerlink" title="FileDownloader"></a>FileDownloader</h2><p>一句话介绍：一款高效、稳定、灵活、易用的文件下载引擎</p>
+<p>上榜理由：4.1k证明了它有多受人喜爱，文件下载看似简单的背后暗藏了多少的坑坑点点，我知道你有能力自己实现文件下载功能，但优秀的框架可以提升你的设计编码能力，这款框架可以提升你的实力！</p>
+<p>github <a href="https://github.com/lingochamp/FileDownloader" target="_blank" rel="noopener">https://github.com/lingochamp/FileDownloader</a></p>
+<p>作者:LingoChamp团队</p>
+<h1 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h1><h1 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h1><h2 id="DiskLruCache"><a href="#DiskLruCache" class="headerlink" title="DiskLruCache"></a>DiskLruCache</h2><p>一句话介绍：一款提供磁盘文件缓存管理能力的框架</p>
+<p>上榜理由：3.7k个star并不足以说明DiskLruCache的优秀，仅仅以管理磁盘文件能力单独拎出来成为一个框架，作者需要很大的勇气，很幸运，作者做到了，并且也成为Google官网提倡的缓存 ；如还记得上次做”一键清除缓存”、”查看缓存文件大小”功能是什么时候吗？DiskLruCache一句话就可以搞定！</p>
+<p>github <a href="https://github.com/JakeWharton/DiskLruCache" target="_blank" rel="noopener">https://github.com/JakeWharton/DiskLruCache</a></p>
+<p>作者：JakeWharton</p>
+<h1 id="教学"><a href="#教学" class="headerlink" title="教学"></a>教学</h1><h2 id="u2020"><a href="#u2020" class="headerlink" title="u2020"></a>u2020</h2><p>一句话介绍：一款提供Dagger的高级教学示例的app（额，名字是有点绕） 上榜理由：4.7K个star，JakeWharton牵头开发的教学类app，教你使用Dagger在其他高级框架的用法，它展示了Dagger与ButterKnife、Retrofit、Moshi、Picasso、Okhttp、RxJava、Timber、Madge、LeakCanar等众多优秀框架结合起来的高级用法，你也可以借鉴到自己的项目当中</p>
+<p>github <a href="https://github.com/JakeWharton/u2020" target="_blank" rel="noopener">https://github.com/JakeWharton/u2020</a></p>
+<p>作者：JakeWharton</p>
+<h2 id="Transitions-Everywhere"><a href="#Transitions-Everywhere" class="headerlink" title="Transitions-Everywhere"></a>Transitions-Everywhere</h2><p>一句话介绍：一款教你正确使用Transitions API（Android 转场动画API）的教学型项目</p>
+<p>上榜理由：你可能还未尝试过Android API的Transitions 框架，可能听过，但却无法做出优雅奇妙的动效—-别担心，Transitions-Everywhere正如它的名字一样，它将带你全面体验Transitions 的强大之处</p>
+<p>github <a href="https://github.com/andkulikov/Transitions-Everywhere" target="_blank" rel="noopener">https://github.com/andkulikov/Transitions-Everywhere</a></p>
+<p>作者：Andrey Kulikov</p>
+<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><h2 id="conceal"><a href="#conceal" class="headerlink" title="conceal"></a>conceal</h2><p>一句话介绍：一款facebook提供的加密本地大文件的框架</p>
+<p>上榜理由：如果还在担心App内的图片的隐私问题，这款facebook提供的文件加密框架足以解决你的问题，facebook客户端的图片和数据都是使用conceal加密的</p>
+<p>官网地址：<a href="http://facebook.github.io/conceal/" target="_blank" rel="noopener">http://facebook.github.io/conceal/</a></p>
+<p>github <a href="https://github.com/facebook/conceal" target="_blank" rel="noopener">https://github.com/facebook/conceal</a></p>
+<p>作者：facebook</p>
+<h1 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h1><h2 id="CustomActivityOnCrash"><a href="#CustomActivityOnCrash" class="headerlink" title="CustomActivityOnCrash"></a>CustomActivityOnCrash</h2><p>一句话介绍：一款当APP crash的时候自动载入某个Activity的框架（而不是显示Unfortunately, X has stopped）</p>
+<p>上榜理由：新奇的创意是榜单所需要的，所以它赢得了1.8K个star；作为开发者应该拥有考虑到各种潜伏的bug的能力，但我们不能总是面面俱到，其他系统端的同事也可能造成程序的意外crash，因此，如何让程序优雅的crash-&gt;重启值得我们思考，这款框架就提供了这种能力</p>
+<p>github <a href="https://github.com/Ereza/CustomActivityOnCrash" target="_blank" rel="noopener">https://github.com/Ereza/CustomActivityOnCrash</a></p>
+<p>作者：Eduard Ereza Martínez</p>
+<h1 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h1><h2 id="MagicaSakura"><a href="#MagicaSakura" class="headerlink" title="MagicaSakura"></a>MagicaSakura</h2><p>一句话介绍：一款提供多主题切换能力的框架</p>
+<p>上榜理由：框架所提供的能力，一直是本榜单所看重的，这款由bilibili提供的多主题框架，作为榜单所涉及范围能补充，1.9个star，感谢bilibili团队所作出的贡献！</p>
+<p>github <a href="https://github.com/Bilibili/MagicaSakura" target="_blank" rel="noopener">https://github.com/Bilibili/MagicaSakura</a></p>
+<p>作者:Bilibili</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Github/" rel="tag"># Github</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/14/Gradle/Gradle Task分析/" rel="next" title="Gradle Task分析">
+                <i class="fa fa-chevron-left"></i> Gradle Task分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/29/Gradle/GitHub/Github热门完整App/" rel="prev" title="GitHub热门完整App">
+                GitHub热门完整App <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">1.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Retrofit"><span class="nav-number">1.1.</span> <span class="nav-text">Retrofit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#okhttp"><span class="nav-number">1.2.</span> <span class="nav-text">okhttp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fastjson"><span class="nav-number">1.3.</span> <span class="nav-text">fastjson</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通信"><span class="nav-number">2.</span> <span class="nav-text">通信</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RxAndroid"><span class="nav-number">2.1.</span> <span class="nav-text">RxAndroid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxJava-Android-Samples"><span class="nav-number">2.2.</span> <span class="nav-text">RxJava-Android-Samples</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxLifecycle"><span class="nav-number">2.3.</span> <span class="nav-text">RxLifecycle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JsBridge"><span class="nav-number">2.4.</span> <span class="nav-text">JsBridge</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图片处理"><span class="nav-number">3.</span> <span class="nav-text">图片处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#glide"><span class="nav-number">3.1.</span> <span class="nav-text">glide</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fresco"><span class="nav-number">3.2.</span> <span class="nav-text">fresco</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PhotoView"><span class="nav-number">3.3.</span> <span class="nav-text">PhotoView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uCrop"><span class="nav-number">3.4.</span> <span class="nav-text">uCrop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Luban"><span class="nav-number">3.5.</span> <span class="nav-text">Luban</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自定义View"><span class="nav-number">4.</span> <span class="nav-text">自定义View</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidAutoLayout"><span class="nav-number">4.1.</span> <span class="nav-text">AndroidAutoLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#material-dialogs"><span class="nav-number">4.2.</span> <span class="nav-text">material-dialogs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BaseRecyclerViewAdapterHelper"><span class="nav-number">4.3.</span> <span class="nav-text">BaseRecyclerViewAdapterHelper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidSwipeLayout"><span class="nav-number">4.4.</span> <span class="nav-text">AndroidSwipeLayout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CircleImageView"><span class="nav-number">4.5.</span> <span class="nav-text">CircleImageView</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BottmBar"><span class="nav-number">4.6.</span> <span class="nav-text">BottmBar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Calligraphy"><span class="nav-number">4.7.</span> <span class="nav-text">Calligraphy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidSlidingUpPanel"><span class="nav-number">4.8.</span> <span class="nav-text">AndroidSlidingUpPanel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AppIntro"><span class="nav-number">4.9.</span> <span class="nav-text">AppIntro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FlycoTabLayout"><span class="nav-number">4.10.</span> <span class="nav-text">FlycoTabLayout</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注解绑定"><span class="nav-number">5.</span> <span class="nav-text">注解绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Butter-Knife"><span class="nav-number">5.1.</span> <span class="nav-text">Butter Knife</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dagger"><span class="nav-number">5.2.</span> <span class="nav-text">dagger</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxBinding"><span class="nav-number">5.3.</span> <span class="nav-text">RxBinding</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动画"><span class="nav-number">6.</span> <span class="nav-text">动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lottie-android"><span class="nav-number">6.1.</span> <span class="nav-text">lottie-android</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Material-Animations"><span class="nav-number">6.2.</span> <span class="nav-text">Material-Animations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AndroidViewAnimations"><span class="nav-number">6.3.</span> <span class="nav-text">AndroidViewAnimations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XhsEmoticonsKeyboard"><span class="nav-number">6.4.</span> <span class="nav-text">XhsEmoticonsKeyboard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图表"><span class="nav-number">7.</span> <span class="nav-text">图表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MPAndroidChart"><span class="nav-number">7.1.</span> <span class="nav-text">MPAndroidChart</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库"><span class="nav-number">8.</span> <span class="nav-text">数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#realm-java"><span class="nav-number">8.1.</span> <span class="nav-text">realm-java</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调试"><span class="nav-number">9.</span> <span class="nav-text">调试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#leakcanary"><span class="nav-number">9.1.</span> <span class="nav-text">leakcanary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#stetho"><span class="nav-number">9.2.</span> <span class="nav-text">stetho</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#logger"><span class="nav-number">9.3.</span> <span class="nav-text">logger</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#热修复"><span class="nav-number">10.</span> <span class="nav-text">热修复</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tinker"><span class="nav-number">10.1.</span> <span class="nav-text">tinker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DroidPlugin"><span class="nav-number">10.2.</span> <span class="nav-text">DroidPlugin</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#框架-amp-架构"><span class="nav-number">11.</span> <span class="nav-text">框架&amp;架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#mosby"><span class="nav-number">11.1.</span> <span class="nav-text">mosby</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Small"><span class="nav-number">11.2.</span> <span class="nav-text">Small</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dynamic-load-apk"><span class="nav-number">11.3.</span> <span class="nav-text">dynamic-load-apk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-CleanArchitecture"><span class="nav-number">11.4.</span> <span class="nav-text">Android-CleanArchitecture</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#atlas"><span class="nav-number">11.5.</span> <span class="nav-text">atlas</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限"><span class="nav-number">12.</span> <span class="nav-text">权限</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PermissionsDispatcher"><span class="nav-number">12.1.</span> <span class="nav-text">PermissionsDispatcher</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RxPermissions"><span class="nav-number">12.2.</span> <span class="nav-text">RxPermissions</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动化测试"><span class="nav-number">13.</span> <span class="nav-text">自动化测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#android-testing"><span class="nav-number">13.1.</span> <span class="nav-text">android-testing</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载"><span class="nav-number">14.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FileDownloader"><span class="nav-number">14.1.</span> <span class="nav-text">FileDownloader</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#视频"><span class="nav-number">15.</span> <span class="nav-text">视频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#缓存"><span class="nav-number">16.</span> <span class="nav-text">缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DiskLruCache"><span class="nav-number">16.1.</span> <span class="nav-text">DiskLruCache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#教学"><span class="nav-number">17.</span> <span class="nav-text">教学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#u2020"><span class="nav-number">17.1.</span> <span class="nav-text">u2020</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transitions-Everywhere"><span class="nav-number">17.2.</span> <span class="nav-text">Transitions-Everywhere</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#加密"><span class="nav-number">18.</span> <span class="nav-text">加密</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#conceal"><span class="nav-number">18.1.</span> <span class="nav-text">conceal</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常处理"><span class="nav-number">19.</span> <span class="nav-text">异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CustomActivityOnCrash"><span class="nav-number">19.1.</span> <span class="nav-text">CustomActivityOnCrash</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主题"><span class="nav-number">20.</span> <span class="nav-text">主题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MagicaSakura"><span class="nav-number">20.1.</span> <span class="nav-text">MagicaSakura</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

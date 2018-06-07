@@ -1,0 +1,985 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="打包," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Gradle打包优势因为部门业务的性质，APP产品需要对应多个渠道，多个国家输出不同需求，甚至不同支付逻辑的Apk版本，以前部门为了应对需求，采用的策略是一个APP产品对应渠道，国家开多套源码的分支，每一次打包需求过来，不同分支的APP首先便是要升级SDK，然后可能会将一些在别的分支上已经实现的逻辑拷贝到这个分支上，目前部门的APP产品信息记录在禅道文档已经更新到了65个，而部门平均每个APP存在">
+<meta name="keywords" content="打包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AndroidStudio Gradle 自动化打包">
+<meta property="og:url" content="http://directionyu.cn/2016/10/06/Automation/AndroidGradle自动化打包/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="Gradle打包优势因为部门业务的性质，APP产品需要对应多个渠道，多个国家输出不同需求，甚至不同支付逻辑的Apk版本，以前部门为了应对需求，采用的策略是一个APP产品对应渠道，国家开多套源码的分支，每一次打包需求过来，不同分支的APP首先便是要升级SDK，然后可能会将一些在别的分支上已经实现的逻辑拷贝到这个分支上，目前部门的APP产品信息记录在禅道文档已经更新到了65个，而部门平均每个APP存在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.719Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AndroidStudio Gradle 自动化打包">
+<meta name="twitter:description" content="Gradle打包优势因为部门业务的性质，APP产品需要对应多个渠道，多个国家输出不同需求，甚至不同支付逻辑的Apk版本，以前部门为了应对需求，采用的策略是一个APP产品对应渠道，国家开多套源码的分支，每一次打包需求过来，不同分支的APP首先便是要升级SDK，然后可能会将一些在别的分支上已经实现的逻辑拷贝到这个分支上，目前部门的APP产品信息记录在禅道文档已经更新到了65个，而部门平均每个APP存在">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2016/10/06/Automation/AndroidGradle自动化打包/"/>
+
+
+
+
+
+  <title> AndroidStudio Gradle 自动化打包 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2016/10/06/Automation/AndroidGradle自动化打包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AndroidStudio Gradle 自动化打包
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-06T08:55:29+08:00">
+                2016-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Gradle打包优势"><a href="#Gradle打包优势" class="headerlink" title="Gradle打包优势"></a>Gradle打包优势</h1><p>因为部门业务的性质，APP产品需要对应多个渠道，多个国家输出不同需求，甚至不同支付逻辑的Apk版本，以前部门为了应对需求，采用的策略是一个APP产品对应渠道，国家开多套源码的分支，每一次打包需求过来，不同分支的APP首先便是要升级SDK，然后可能会将一些在别的分支上已经实现的逻辑拷贝到这个分支上，目前部门的APP产品信息记录在禅道文档已经更新到了65个，而部门平均每个APP存在6个版本的源码，除去破解产品本身特殊没办法统一源码，正式自研产品的版本也相当之多，现在每次打包拉源代码分支、替换包名、更换各项ID、升级SDK、测试等流程走一遍平均需要4小时左右，效率比较低下，也比较容易疏忽出错。而AndroidStudio Gradle打包方式能够实现一个自研App产品维护一套源码，输出多个渠道、用途的Apk包，能极大提升开发打包的效率、减少出错的可能性。</p>
+<a id="more"></a>
+<h1 id="Gradle打包能够实现什么"><a href="#Gradle打包能够实现什么" class="headerlink" title="Gradle打包能够实现什么"></a>Gradle打包能够实现什么</h1><ol>
+<li>能够输出多渠道、多国家版本。</li>
+<li>针对性的输出Debug、dev版本、收费免费版本，输出的包名不一致能够同时安装到手机上测试。</li>
+<li>请求Api与Sandbox不同的服务器接口，例如Wallpaper和WallpaperCutey请求不同的图片资源接口。</li>
+<li>不同apk需要应用名不同，图标不同，某些常量不同。</li>
+</ol>
+<h1 id="Gradle基本概念"><a href="#Gradle基本概念" class="headerlink" title="Gradle基本概念"></a>Gradle基本概念</h1><ul>
+<li>Gradle是一种依赖管理工具，基于Groovy语言，面向Java应用为主，它抛弃了基于XML的各种繁琐配置，取而代之的是一种基于Groovy的内部领域特定（DSL）语言。</li>
+<li>在build.gradle(modul)文件的android节点下defaultConfig属性下定义默认项目配置</li>
+<li>gradle使用applicationId属性来配置manifest中的packageName属性，目的是为了消除在App包名与java包名相似引起的混乱。</li>
+<li>gradle构建是动态的，可以从自定义的逻辑代码中读取App版本信息</li>
+</ul>
+<h1 id="通过Gradle导入第三方依赖项目优势"><a href="#通过Gradle导入第三方依赖项目优势" class="headerlink" title="通过Gradle导入第三方依赖项目优势"></a>通过Gradle导入第三方依赖项目优势</h1><ul>
+<li>gradle导入jar包更方便，一行代码即可搞定。不像后者那样还要自己去官方下载。</li>
+<li>如果官方将jar包更新了，我们只需要在build.gradle中改一下版本号就行了，不用重新去官网下载。</li>
+<li>jcenter可以理解成是一个新的中央远程仓库，兼容maven中心仓库，而且性能更优，所有通过gradle导入的jar包都是从<a href="http://bintray.com/bintray/jcenter" target="_blank" rel="noopener">http://bintray.com/bintray/jcenter</a> 这个中央仓库上扒下来的。如果你需要的jar包在这个网站上没有，那就无法通过gradle的方式来导入，还需以前一样自行加入到项目中并依赖。</li>
+</ul>
+<h1 id="签名打包的两种方式"><a href="#签名打包的两种方式" class="headerlink" title="签名打包的两种方式"></a>签名打包的两种方式</h1><ol>
+<li>通过Android Studio进行签名</li>
+<li>通过命令行的方式进行签名</li>
+</ol>
+<h1 id="BuildType（构建类型）"><a href="#BuildType（构建类型）" class="headerlink" title="BuildType（构建类型）"></a>BuildType（构建类型）</h1><p>AndroidStudio创建新工程时默认会给工程自动构建工程的debug和release版本，Android plugin允许像创建其他构建类型一样定制debug和release实例，这需要在buildTypes的DSL容器中配置：</p>
+<pre><code>android {
+    buildTypes {
+        debug {
+            applicationIdSuffix &quot;.debug&quot;
+        }
+        jnidebug.initWith(buildTypes.debug)
+        jnidebug {
+            packageNameSuffix &quot;.jnidebug&quot;
+            jnidebugBuild true
+        }
+    }
+}
+</code></pre><p>以上代码片段实现了以下功能：</p>
+<ul>
+<li><p>配置默认的debug构建类型：将debug版本的包名设置为</p>
+<app package="">.debug以便能够同时在一台设备上安装debug和release版本的apk。</app>
+</li>
+<li><p>创建了一个名为”jnidebug”的新构建类型，并且这个构建类型是debug构建类型的一个副本。</p>
+</li>
+<li>继续配置jnidebug构建类型，允许使用JNI组件，并且也添加了不一样的包名后缀。</li>
+</ul>
+<p>创建一个新的构建类型就是简单的在buildType标签下添加一个新的元素，并且可以使用initWith()或者直接使用闭包来配置它。</p>
+<p>以下是一些可能使用到的属性和默认值：</p>
+<table>
+<thead>
+<tr>
+<th>Property name</th>
+<th>Default values for debug</th>
+<th>Default values for release/other</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>debuggable</td>
+<td>debuggable</td>
+<td>false</td>
+</tr>
+<tr>
+<td>jniDebugBuild</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>renderscriptDebugBuild</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>renderscriptOptimLevel</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>packageNameSuffix</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>versionNameSuffix</td>
+<td>null</td>
+<td>null</td>
+</tr>
+<tr>
+<td>signingConfig</td>
+<td>android.signingConfigs.debug</td>
+<td>null</td>
+</tr>
+<tr>
+<td>zipAlign</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr>
+<td>runProguard</td>
+<td>false</td>
+<td>false</td>
+</tr>
+<tr>
+<td>proguardFile</td>
+<td>N/A (set only)</td>
+<td>N/A (set only)</td>
+</tr>
+<tr>
+<td>proguardFiles</td>
+<td>N/A (set only)</td>
+<td>N/A (set only)</td>
+</tr>
+</tbody>
+</table>
+<p>除了以上属性之外，Build Type还会受项目源码和资源影响： 对于每一个Build Type都会自动创建一个匹配的sourceSet。默认的路径为：<code>src/&lt;buildtypename&gt;/</code> 这意味着BuildType名称不能是main或者androidTest（因为这两个是由plugin强制实现的），并且他们互相之间都必须是唯一的</p>
+<h1 id="ProductFlavors（不同定制的产品）"><a href="#ProductFlavors（不同定制的产品）" class="headerlink" title="ProductFlavors（不同定制的产品）"></a>ProductFlavors（不同定制的产品）</h1><p>一个product flavor定义了从项目中构建了一个应用的自定义版本。一个单一的项目可以同时定义多个不同的flavor来改变应用的输出。</p>
+<p><em>注意：flavor的命名不能与已存在的Build Type或者androidTest这个sourceSet有冲突。</em></p>
+<p>Product flavor需要在productFlavors这个DSL容器中声明：</p>
+<pre><code>productFlavors {
+       gpInter {
+       }
+
+       ngpPackage {
+       }
+</code></pre><h1 id="配置不同包名-amp-amp-控制不同渠道变量"><a href="#配置不同包名-amp-amp-控制不同渠道变量" class="headerlink" title="配置不同包名&amp;&amp;控制不同渠道变量"></a>配置不同包名&amp;&amp;控制不同渠道变量</h1><pre><code>productFlavors {
+
+       gpInter {
+           applicationId &quot;com.gkt.wowgames&quot;
+           manifestPlaceholders = [PUSH_APP_ID: &quot;app_gkt_gamebar_all_7328&quot;, PUSH_APP_SECRET: &quot;a8204a34bd0b&quot;, ANALYTICS_ID: &quot;UA-74197659-4&quot;, FB_ID: &quot;1057899667608168&quot;]
+           buildConfigField(&quot;boolean&quot;, &quot;use_facebook&quot;, &quot;true&quot;)
+           buildConfigField(&quot;boolean&quot;, &quot;use_adjust&quot;, &quot;false&quot;)
+       }
+
+       ngpPackage {
+
+           applicationId &quot;com.gkt.wowgames.ngp&quot;
+           versionCode 1
+           versionName &quot;1.0.0&quot;
+           manifestPlaceholders = [PUSH_APP_ID: &quot;app_gkt_gamebar_all_sg_1007&quot;, PUSH_APP_SECRET: &quot;9ee9422f9e03&quot;, ANALYTICS_ID: &quot;UA-74197659-10&quot;,FB_ID: &quot;1057899667608168&quot;]
+           buildConfigField(&quot;boolean&quot;, &quot;use_facebook&quot;, &quot;false&quot;)
+           buildConfigField(&quot;boolean&quot;, &quot;use_adjust&quot;, &quot;true&quot;)
+       }
+</code></pre><h1 id="使用不同应用名"><a href="#使用不同应用名" class="headerlink" title="使用不同应用名"></a>使用不同应用名</h1><h1 id="使用不同的Manifest"><a href="#使用不同的Manifest" class="headerlink" title="使用不同的Manifest"></a>使用不同的Manifest</h1><p>Manifest可以通过Merge的方式合并多个Manifest源。通常来说，有三种类型manifest文件需要被merge到最终的结果apk，下面是按照优先权排序：</p>
+<ol>
+<li><p>productFlavors和buildTypes中指定的manifest.xml</p>
+</li>
+<li><p>应用主manifest.xml</p>
+</li>
+<li><p>库manifest</p>
+</li>
+</ol>
+<p>Merge的方式是指将manifest中每个元素和子元素的节点属性进行合并，Gradle提供manifestPlaceholders属性，可以在AndroidManifest中定义一个变量，在build.gradle中动态的替换掉</p>
+<p>example：</p>
+<pre><code>manifestPlaceholders = [PUSH_APP_ID: &quot;app_gkt_gamebar_all_7328&quot;, PUSH_APP_SECRET: &quot;a8204a34bd0b&quot;, ANALYTICS_ID: &quot;UA-74197659-4&quot;, FB_ID: &quot;1057899667608168&quot;]
+
+      &lt;meta-data
+          android:name=&quot;Push_AppId&quot;
+          android:value=&quot;${push_app_id}&quot; /&gt;
+      &lt;meta-data
+          android:name=&quot;Push_AppSecret&quot;
+          android:value=&quot;${push_app_secret}&quot; /&gt;
+      &lt;meta-data
+          android:name=&quot;com.facebook.sdk.ApplicationId&quot;
+          android:value=&quot;${FB_ID}&quot; /&gt;
+      &lt;meta-data
+          android:name=&quot;AnalyticsTrackId&quot;
+          android:value=&quot;${ANALYTICS_ID}&quot; /&gt;
+</code></pre><h1 id="配置不同Icon"><a href="#配置不同Icon" class="headerlink" title="配置不同Icon"></a>配置不同Icon</h1><h1 id="配置不同信鸽ID"><a href="#配置不同信鸽ID" class="headerlink" title="配置不同信鸽ID"></a>配置不同信鸽ID</h1><pre><code>&lt;action android:name=&quot;${applicationId}.PUSH_ACTION&quot; /&gt;
+</code></pre><h1 id="Sourcesets-and-Dependencies（源组件和依赖关系）"><a href="#Sourcesets-and-Dependencies（源组件和依赖关系）" class="headerlink" title="Sourcesets and Dependencies（源组件和依赖关系）"></a>Sourcesets and Dependencies（源组件和依赖关系）</h1><p>与Build Type类似，Product Flavor也会通过它们自己的sourceSet提供代码和资源。</p>
+<p>上面的例子将会创建4个sourceSet</p>
+<ul>
+<li>android.sourceSets.flavor1：位于src/flavor1/</li>
+<li>android.sourceSets.flavor2：位于src/flavor2/</li>
+<li>android.sourceSets.androidTestFlavor1：位于src/androidTestFlavor1/</li>
+<li>android.sourceSets.androidTestFlavor2：位于src/androidTestFlavor2/</li>
+</ul>
+<p>这些sourceSet用于与android.sourceSets.main和Build Type的sourceSet来构建APK。</p>
+<p>下面的规则用于处理所有使用的sourceSet来构建一个APK：</p>
+<ul>
+<li>多个文件夹中的所有的源代码（src/../java）都会合并起来生成一个输出。</li>
+<li>所有的Manifest文件都会合并成一个Manifest文件。类似于Build Type，允许Product Flavor可以拥有不同的的组件和权限声明。</li>
+<li>所有使用的资源（Android res和assets）遵循的优先级为Build Type会覆盖Product Flavor，最终覆盖main sourceSet的资源。</li>
+<li>每一个Build Variant都会根据资源生成自己的R类（或者其它一些源代码）。Variant互相之间没有什么是共享的。</li>
+</ul>
+<p>最终，类似Build Type，Product Flavor也可以有它们自己的依赖关系。例如，如果使用flavor来生成一个基于广告的应用版本和一个付费的应用版本，其中广告版本可能需要依赖于一个广告SDK，但是另一个不需要。</p>
+<h1 id="Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）"><a href="#Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）" class="headerlink" title="Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）"></a>Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）</h1><ul>
+<li>每一个Build Type都会生成一个新的APK.</li>
+<li>Product Flavor同样也会做这些事情：项目的输出将会拼接所有可能的Build Type和Product Flavor（如果有Flavor定义存在的话）的组合。</li>
+<li>每一种组合（包含Build Type和Product Flavor）就是一个Build Variant（构建变种版本）。</li>
+</ul>
+<h1 id="Gradle-SDL-属性分析"><a href="#Gradle-SDL-属性分析" class="headerlink" title="Gradle SDL 属性分析"></a>Gradle SDL 属性分析</h1><p>Android plugin提供了大量DSL属性用于直接从构建系统定制大部分操作。</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>defaultConfig{}</td>
+<td>默认配置，是ProductFlavor类型。它共享给其他ProductFlavor使用</td>
+</tr>
+<tr>
+<td>sourceSets{}</td>
+<td>源文件目录设置，是AndroidSourceSet类型。</td>
+</tr>
+<tr>
+<td>buildTypes{ }</td>
+<td>BuildType类型</td>
+</tr>
+<tr>
+<td>signingConfigs{ }</td>
+<td>签名配置，SigningConfig类型</td>
+</tr>
+<tr>
+<td>productFlavors{ }</td>
+<td>产品风格配置，ProductFlavor类型</td>
+</tr>
+<tr>
+<td>testOptions{ }</td>
+<td>测试配置，TestOptions类型</td>
+</tr>
+<tr>
+<td>aaptOptions{ }</td>
+<td>aapt配置，AaptOptions类型</td>
+</tr>
+<tr>
+<td>lintOptions{ }</td>
+<td>lint配置，LintOptions类型</td>
+</tr>
+<tr>
+<td>dexOptions{ }</td>
+<td>dex配置，DexOptions类型</td>
+</tr>
+<tr>
+<td>compileOptions{ }</td>
+<td>编译配置，CompileOptions类型</td>
+</tr>
+<tr>
+<td>packagingOptions{ }</td>
+<td>PackagingOptions类型</td>
+</tr>
+<tr>
+<td>jacoco{ }</td>
+<td>JacocoExtension类型。 用于设定 jacoco版本</td>
+</tr>
+<tr>
+<td>splits{ }</td>
+<td>Splits类型</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/打包/" rel="tag"># 打包</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/06/Android/Android6.0运行时权限分析/" rel="next" title="Android6.0运行时权限分析">
+                <i class="fa fa-chevron-left"></i> Android6.0运行时权限分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/07/GitBlog/GitPage系列-Hexo使用方法/" rel="prev" title="GitPage系列-使用方法">
+                GitPage系列-使用方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle打包优势"><span class="nav-number">1.</span> <span class="nav-text">Gradle打包优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle打包能够实现什么"><span class="nav-number">2.</span> <span class="nav-text">Gradle打包能够实现什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle基本概念"><span class="nav-number">3.</span> <span class="nav-text">Gradle基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过Gradle导入第三方依赖项目优势"><span class="nav-number">4.</span> <span class="nav-text">通过Gradle导入第三方依赖项目优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#签名打包的两种方式"><span class="nav-number">5.</span> <span class="nav-text">签名打包的两种方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BuildType（构建类型）"><span class="nav-number">6.</span> <span class="nav-text">BuildType（构建类型）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ProductFlavors（不同定制的产品）"><span class="nav-number">7.</span> <span class="nav-text">ProductFlavors（不同定制的产品）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置不同包名-amp-amp-控制不同渠道变量"><span class="nav-number">8.</span> <span class="nav-text">配置不同包名&amp;&amp;控制不同渠道变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用不同应用名"><span class="nav-number">9.</span> <span class="nav-text">使用不同应用名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用不同的Manifest"><span class="nav-number">10.</span> <span class="nav-text">使用不同的Manifest</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置不同Icon"><span class="nav-number">11.</span> <span class="nav-text">配置不同Icon</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置不同信鸽ID"><span class="nav-number">12.</span> <span class="nav-text">配置不同信鸽ID</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sourcesets-and-Dependencies（源组件和依赖关系）"><span class="nav-number">13.</span> <span class="nav-text">Sourcesets and Dependencies（源组件和依赖关系）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Build-Type-Product-Flavor-Build-Variant（构建类型-定制产品-构建变种版本）"><span class="nav-number">14.</span> <span class="nav-text">Build Type + Product Flavor = Build Variant（构建类型+定制产品=构建变种版本）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle-SDL-属性分析"><span class="nav-number">15.</span> <span class="nav-text">Gradle SDL 属性分析</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

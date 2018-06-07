@@ -1,0 +1,786 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,代码规范," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Google Java编程风格指南传送门 包名命名和分类项目结构目录： com.xxx.&amp;lt;项目名&amp;gt;.db 数据库相关 com.xxx.&amp;lt;项目名&amp;gt;.service 服务 com.xxx.&amp;lt;项目名&amp;gt;.reciver 广播接收者 com.xxx.&amp;lt;项目名&amp;gt;.constants 常量 com.xxx.&amp;lt;项目名&amp;gt;.utils 工具类 com.xxx">
+<meta name="keywords" content="Android,代码规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 代码质量规范">
+<meta property="og:url" content="http://directionyu.cn/2016/05/25/Android/Android代码质量规范/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="Google Java编程风格指南传送门 包名命名和分类项目结构目录： com.xxx.&amp;lt;项目名&amp;gt;.db 数据库相关 com.xxx.&amp;lt;项目名&amp;gt;.service 服务 com.xxx.&amp;lt;项目名&amp;gt;.reciver 广播接收者 com.xxx.&amp;lt;项目名&amp;gt;.constants 常量 com.xxx.&amp;lt;项目名&amp;gt;.utils 工具类 com.xxx">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 代码质量规范">
+<meta name="twitter:description" content="Google Java编程风格指南传送门 包名命名和分类项目结构目录： com.xxx.&amp;lt;项目名&amp;gt;.db 数据库相关 com.xxx.&amp;lt;项目名&amp;gt;.service 服务 com.xxx.&amp;lt;项目名&amp;gt;.reciver 广播接收者 com.xxx.&amp;lt;项目名&amp;gt;.constants 常量 com.xxx.&amp;lt;项目名&amp;gt;.utils 工具类 com.xxx">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2016/05/25/Android/Android代码质量规范/"/>
+
+
+
+
+
+  <title> Android 代码质量规范 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2016/05/25/Android/Android代码质量规范/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 代码质量规范
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-25T16:09:23+08:00">
+                2016-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://www.hawstein.com/posts/google-java-style.html" target="_blank" rel="noopener">Google Java编程风格指南传送门</a></p>
+<h1 id="包名命名和分类"><a href="#包名命名和分类" class="headerlink" title="包名命名和分类"></a>包名命名和分类</h1><p>项目结构目录： com.xxx.&lt;项目名&gt;.db 数据库相关</p>
+<p>com.xxx.&lt;项目名&gt;.service 服务</p>
+<p>com.xxx.&lt;项目名&gt;.reciver 广播接收者</p>
+<p>com.xxx.&lt;项目名&gt;.constants 常量</p>
+<p>com.xxx.&lt;项目名&gt;.utils 工具类</p>
+<p>com.xxx.&lt;项目名&gt;.db 数据库操作</p>
+<p>com.xxx.&lt;项目名&gt;.net 网络操作</p>
+<p>com.xxx.&lt;项目名&gt;.view（或者.ui） 自定义的View类等</p>
+<p>com.xxx.&lt;项目名&gt;.view 自定义组件</p>
+<p>com.xxx.&lt;项目名&gt;.ui 界面</p>
+<p>com.xxx.&lt;项目名&gt;.base 各种父类</p>
+<a id="more"></a>
+<h1 id="类命名规范"><a href="#类命名规范" class="headerlink" title="类命名规范"></a>类命名规范</h1><p>类（classes）：名词，采用大驼峰命名法，尽量避免缩写，除非该缩写是众所周知的，比如HTML，URL,如果类名称包含单词缩写，则单词缩写的每个字母均应大写。</p>
+<h1 id="变量命名规范"><a href="#变量命名规范" class="headerlink" title="变量命名规范"></a>变量命名规范</h1><p>变量（variables）采用小驼峰命名法，类中控件名称必须与xml布局id保持一致。</p>
+<p>公开的常量：定义为静态final，名称全部大写。 eg: public staticfinal String ACTION_MAIN=”android.intent.action.MAIN”;</p>
+<p>静态变量：名称以s开头 eg：private static long sInstanceCount = 0;</p>
+<p>非静态的私有变量protected的变量：以m开头，eg：private Intent mItent;</p>
+<h1 id="方法命名规范"><a href="#方法命名规范" class="headerlink" title="方法命名规范"></a>方法命名规范</h1><p>方法（methods）：动词或动名词，采用小驼峰命名法，eg：onCreate(),run();</p>
+<h1 id="资源id命名规范"><a href="#资源id命名规范" class="headerlink" title="资源id命名规范"></a>资源id命名规范</h1><p>命名模式为：view缩写_模块名称_view的逻辑名称 view的缩写详情如下：</p>
+<h1 id="动画文件命名"><a href="#动画文件命名" class="headerlink" title="动画文件命名"></a>动画文件命名</h1><p>动画文件（anim文件夹下）：全部小写，采用下划线命名法，加前缀区分。 //前面为动画的类型，后面为方向</p>
+<h1 id="布局文件名"><a href="#布局文件名" class="headerlink" title="布局文件名"></a>布局文件名</h1><p>activity_xxx.xml</p>
+<p>fragment_xxx.xml</p>
+<p>include_xxx.xml (被其他地方引用的布局)</p>
+<p>item_xxx.xml (ListView 的 item 布局)</p>
+<p>layout_xxx.xml (区块布局)</p>
+<p>dialog_xxx.xml</p>
+<p>ppw_xxx.xml(popwindow)</p>
+<h1 id="使用Javadoc标准注释"><a href="#使用Javadoc标准注释" class="headerlink" title="使用Javadoc标准注释"></a>使用Javadoc标准注释</h1><ul>
+<li>每个类以及重要的公共方法必须包含一个Javadoc注释，至少有一个句子描述这个类或方法是做什么的。这句话应该以第三人称描述。</li>
+<li>不需要写Javadoc里不是很重要的get和set方法，比如你的Javadoc说”sets Foo”那就写setFoo()。如果该方法做更复杂的事情（如强制约束，或有重要的副作用），则必须将其记录下来。如果”Foo”的意思不是很明显，你应该将其记录下来。 你写的每一个方法都会受益于Javadoc。公共方法是一个API的一部分，因此需要Javadoc。</li>
+</ul>
+<h1 id="注释的规范书写"><a href="#注释的规范书写" class="headerlink" title="注释的规范书写"></a>注释的规范书写</h1><p>带参数描述的文档注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 设置姓名</span><br><span class="line">* @param name 姓名</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>不带参数的文档注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/** 我是注释 */</span><br></pre></td></tr></table></figure>
+<p>普通块注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/* 我是注释 */</span><br></pre></td></tr></table></figure>
+<p>普通的单行注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// 我是注释</span><br></pre></td></tr></table></figure>
+<h1 id="写较短的方法"><a href="#写较短的方法" class="headerlink" title="写较短的方法"></a>写较短的方法</h1><p>如果可能，使方法小而集中。我们认识到，较小的方法有时是合适的，所以没有硬性标准来限制方法的长度。如果一个方法超过40行左右，考虑是否可以重写，使之变短，并不损害程序的结构。</p>
+<h1 id="在规定的地方定义字段"><a href="#在规定的地方定义字段" class="headerlink" title="在规定的地方定义字段"></a>在规定的地方定义字段</h1><p>在方法使用字段之前，应在文件的顶端或中间来定义它们。</p>
+<h1 id="限制变量的作用域"><a href="#限制变量的作用域" class="headerlink" title="限制变量的作用域"></a>限制变量的作用域</h1><p>保持局部变量的使用范围最小。这样做可以增加代码的可读性和可维护性，降低出错的可能性。每个变量应该在使用其变量的最小代码块里定义。 局部变量应该在第一次使用它的时候声明。几乎所有的局部变量在声明时应包含一个初始化。如果你还没有足够的信息来合理地初始化变量，直到信息足够再来初始化。 try-catch语句是一个异常。如果一个变量由抛出checked异常方法的返回值进行初始化，它必须在try块内进行初始化。如果该值必须在try块的外部使用，那么它必须在try块前面定义</p>
+<h1 id="字段命名的约定"><a href="#字段命名的约定" class="headerlink" title="字段命名的约定"></a>字段命名的约定</h1><ul>
+<li>非public和static的字段用m开头.</li>
+<li>Static 的字段用s开头.</li>
+<li>其他的字段用小写字母开头.</li>
+<li>Public static final 字段用ALLCAPSWITH_UNDERSCORES.</li>
+</ul>
+<p>exp：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class MyClass &#123;</span><br><span class="line">     public static final int SOME_CONSTANT = 42;</span><br><span class="line">     public int publicField;</span><br><span class="line">     private static MyClass sSingleton;</span><br><span class="line">     int mPackagePrivate;</span><br><span class="line">     private int mPrivate;</span><br><span class="line">     protected int mProtected;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/代码规范/" rel="tag"># 代码规范</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/18/Android/Android 热补丁修复方案/" rel="next" title="Android 热补丁修复方案">
+                <i class="fa fa-chevron-left"></i> Android 热补丁修复方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/29/Base/Java/Java中hashCode、equals方法理解/" rel="prev" title="Java中hashCode、equals方法理解">
+                Java中hashCode、equals方法理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#包名命名和分类"><span class="nav-number">1.</span> <span class="nav-text">包名命名和分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类命名规范"><span class="nav-number">2.</span> <span class="nav-text">类命名规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#变量命名规范"><span class="nav-number">3.</span> <span class="nav-text">变量命名规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法命名规范"><span class="nav-number">4.</span> <span class="nav-text">方法命名规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#资源id命名规范"><span class="nav-number">5.</span> <span class="nav-text">资源id命名规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动画文件命名"><span class="nav-number">6.</span> <span class="nav-text">动画文件命名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#布局文件名"><span class="nav-number">7.</span> <span class="nav-text">布局文件名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用Javadoc标准注释"><span class="nav-number">8.</span> <span class="nav-text">使用Javadoc标准注释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释的规范书写"><span class="nav-number">9.</span> <span class="nav-text">注释的规范书写</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#写较短的方法"><span class="nav-number">10.</span> <span class="nav-text">写较短的方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在规定的地方定义字段"><span class="nav-number">11.</span> <span class="nav-text">在规定的地方定义字段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#限制变量的作用域"><span class="nav-number">12.</span> <span class="nav-text">限制变量的作用域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字段命名的约定"><span class="nav-number">13.</span> <span class="nav-text">字段命名的约定</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

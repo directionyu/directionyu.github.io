@@ -1,0 +1,766 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Gradle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是Gradle TaskGradle 是一个框架，它定义一套自己的游戏规则。我们要玩转 Gradle，必须要遵守它设 计的规则。下面我们来讲讲 Gradle 的基本组件： Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要干的工作。不同的插件 可以添加不同的 Task。每一个 Task 都需要和一个 Project 关联。 Task 的 API 文档位于https://do">
+<meta name="keywords" content="Gradle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle Task分析">
+<meta property="og:url" content="http://directionyu.cn/2017/06/14/Gradle/Gradle Task分析/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="什么是Gradle TaskGradle 是一个框架，它定义一套自己的游戏规则。我们要玩转 Gradle，必须要遵守它设 计的规则。下面我们来讲讲 Gradle 的基本组件： Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要干的工作。不同的插件 可以添加不同的 Task。每一个 Task 都需要和一个 Project 关联。 Task 的 API 文档位于https://do">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.724Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle Task分析">
+<meta name="twitter:description" content="什么是Gradle TaskGradle 是一个框架，它定义一套自己的游戏规则。我们要玩转 Gradle，必须要遵守它设 计的规则。下面我们来讲讲 Gradle 的基本组件： Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要干的工作。不同的插件 可以添加不同的 Task。每一个 Task 都需要和一个 Project 关联。 Task 的 API 文档位于https://do">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2017/06/14/Gradle/Gradle Task分析/"/>
+
+
+
+
+
+  <title> Gradle Task分析 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2017/06/14/Gradle/Gradle Task分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gradle Task分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T15:11:22+08:00">
+                2017-06-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">Gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是Gradle-Task"><a href="#什么是Gradle-Task" class="headerlink" title="什么是Gradle Task"></a>什么是Gradle Task</h1><p>Gradle 是一个框架，它定义一套自己的游戏规则。我们要玩转 Gradle，必须要遵守它设 计的规则。下面我们来讲讲 Gradle 的基本组件：</p>
+<p>Task 是 Gradle 中的一种数据类型，它代表了一些要执行或者要干的工作。不同的插件 可以添加不同的 Task。每一个 Task 都需要和一个 Project 关联。 Task 的 API 文档位于<a href="https://docs.gradle.org/current/dsl/org.gradle.api.Task.html" target="_blank" rel="noopener">https://docs.gradle.org/current/dsl/org.gradle.api.Task.html</a></p>
+<ul>
+<li><p>一个 Task 包含若干 Action。所以，Task 有 doFirst 和 doLast 两个函数，用于 添加需要最先执行的 Action 和需要和需要最后执行的 Action。Action 就是一个闭 包。</p>
+</li>
+<li><p>Task 创建的时候可以指定 Type，通过 type:名字表达。这是什么意思呢？其实 就是告诉 Gradle，这个新建的 Task 对象会从哪个基类 Task 派生。比如，Gradle 本 身提供了一些通用的 Task，最常见的有 Copy 任务。Copy 是 Gradle 中的一个类。 当我们：task myTask(type:Copy)的时候，创建的 Task 就是一个 Copy Task。</p>
+</li>
+<li><p>当我们使用 task myTask{xxx}的时候。花括号是一个 closure。这会导致 gradle 在创建这个 Task 之后，返回给用户之前，会先执行 closure 的内容。</p>
+</li>
+<li><p>当我们使用 task myTask &lt;&lt; {xxx}的时候，我们创建了一个 Task 对象，同时把 closure 做为一个 action 加到这个 Task 的 action 队列中，并且告诉它”最后才执行 这个 closure”（注意，&lt;&lt;符号是 doLast 的代表）。</p>
+</li>
+</ul>
+<a id="more"></a>
+<h1 id="Task生命周期"><a href="#Task生命周期" class="headerlink" title="Task生命周期"></a>Task生命周期</h1><p>Gradle task在它的生命周期中有两个主要的阶段：『配置阶段』和『执行阶段』。</p>
+<h2 id="『配置阶段』"><a href="#『配置阶段』" class="headerlink" title="『配置阶段』"></a>『配置阶段』</h2><p>一个Task的最顶层的代码就是配置代码。</p>
+<h2 id="『执行阶段』"><a href="#『执行阶段』" class="headerlink" title="『执行阶段』"></a>『执行阶段』</h2><p>最简单的方法是使用doLast语句</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">task sampleTask &#123;</span><br><span class="line">     <span class="keyword">def</span> text = <span class="string">'Hello, World!'</span> <span class="comment">// 配置阶段</span></span><br><span class="line">     doLast &#123;</span><br><span class="line">         println text <span class="comment">// 执行阶段</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Task执行顺序"><a href="#Task执行顺序" class="headerlink" title="Task执行顺序"></a>Task执行顺序</h3><ol>
+<li>不加doLast和doFirst的最先执行</li>
+<li>依赖task优先级高于自己的doFirst和doLast</li>
+<li>同一个task中的doLast按从上向下顺序执行</li>
+<li>同一个task中的doFirst按从下到上倒序执行</li>
+<li>同一个task的doFirst优先级高于doLast</li>
+</ol>
+<h1 id="Task语法"><a href="#Task语法" class="headerlink" title="Task语法"></a>Task语法</h1><h2 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h2><p>作为动态语言，Groovy世界中的所有事物都是对象。所以，int，boolean 这些 Java 中 的基本数据类型，在 Groovy 代码中其实对应的是它们的包装数据类型。比如 int 对应为 Integer，boolean 对应为 Boolean。</p>
+<h2 id="创建TASK"><a href="#创建TASK" class="headerlink" title="创建TASK"></a>创建TASK</h2><p>  Gradle的Project从本质上说只是含有多个Task的容器，一个Task与Ant的Target相似，表示一个逻辑上的执行单元。我们可以通过很多种方式定义Task，所有的Task都存放在Project的TaskContainer中。</p>
+<h2 id="容器类"><a href="#容器类" class="headerlink" title="容器类"></a>容器类</h2><p>Groovy中的容器类很简单，就三种：</p>
+<ul>
+<li>List：链表，其底层对应 Java 中的 List 接口，一般用 ArrayList 作为真正的实现类。</li>
+<li>Map：键-值表，其底层对应 Java 中的 LinkedHashMap。</li>
+<li>Range：范围，它其实是 List 的一种拓展。</li>
+</ul>
+<h1 id="Task用法"><a href="#Task用法" class="headerlink" title="Task用法"></a>Task用法</h1><h2 id="Task添加描述"><a href="#Task添加描述" class="headerlink" title="Task添加描述"></a>Task添加描述</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">task copy(<span class="string">type:</span> Copy) &#123;</span><br><span class="line">   description <span class="string">'Copies the resource directory to the target directory.'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Gradle/" rel="tag"># Gradle</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/08/Android/AndroidManifest中BackupManager属性详解/" rel="next" title="AndroidManifest中BackupManager属性详解">
+                <i class="fa fa-chevron-left"></i> AndroidManifest中BackupManager属性详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/29/Gradle/GitHub/GitHub热门框架/" rel="prev" title="GitHub常用框架记录">
+                GitHub常用框架记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Gradle-Task"><span class="nav-number">1.</span> <span class="nav-text">什么是Gradle Task</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task生命周期"><span class="nav-number">2.</span> <span class="nav-text">Task生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#『配置阶段』"><span class="nav-number">2.1.</span> <span class="nav-text">『配置阶段』</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#『执行阶段』"><span class="nav-number">2.2.</span> <span class="nav-text">『执行阶段』</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Task执行顺序"><span class="nav-number">2.2.1.</span> <span class="nav-text">Task执行顺序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task语法"><span class="nav-number">3.</span> <span class="nav-text">Task语法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本数据类型"><span class="nav-number">3.1.</span> <span class="nav-text">基本数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建TASK"><span class="nav-number">3.2.</span> <span class="nav-text">创建TASK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器类"><span class="nav-number">3.3.</span> <span class="nav-text">容器类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Task用法"><span class="nav-number">4.</span> <span class="nav-text">Task用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Task添加描述"><span class="nav-number">4.1.</span> <span class="nav-text">Task添加描述</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

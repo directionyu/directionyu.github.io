@@ -1,0 +1,890 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Basic knowledge," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="拓扑结构网状拓扑结构优点 可靠性高，容易扩展 可以改善通信路径上的信息分配 可以在多条路径中选择最优路径，减少传输延迟 网络可以组件各种形状，采用多种通信信道，多种传输速率，适合广域网复杂环境  缺点 成本高 结构复杂，难于管理和维护，每一点都与多个节点连接，必须采用路径算法和流量控制  环型拓扑结构优点 采取光纤做主干线 可靠性较好，不存在点单失效的情况，可以灵活的建立链路备份策略  缺点星型拓">
+<meta name="keywords" content="Basic knowledge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络工程基础知识">
+<meta property="og:url" content="http://directionyu.cn/2015/09/29/Base/网络工程知识查漏补缺/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="拓扑结构网状拓扑结构优点 可靠性高，容易扩展 可以改善通信路径上的信息分配 可以在多条路径中选择最优路径，减少传输延迟 网络可以组件各种形状，采用多种通信信道，多种传输速率，适合广域网复杂环境  缺点 成本高 结构复杂，难于管理和维护，每一点都与多个节点连接，必须采用路径算法和流量控制  环型拓扑结构优点 采取光纤做主干线 可靠性较好，不存在点单失效的情况，可以灵活的建立链路备份策略  缺点星型拓">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.721Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络工程基础知识">
+<meta name="twitter:description" content="拓扑结构网状拓扑结构优点 可靠性高，容易扩展 可以改善通信路径上的信息分配 可以在多条路径中选择最优路径，减少传输延迟 网络可以组件各种形状，采用多种通信信道，多种传输速率，适合广域网复杂环境  缺点 成本高 结构复杂，难于管理和维护，每一点都与多个节点连接，必须采用路径算法和流量控制  环型拓扑结构优点 采取光纤做主干线 可靠性较好，不存在点单失效的情况，可以灵活的建立链路备份策略  缺点星型拓">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2015/09/29/Base/网络工程知识查漏补缺/"/>
+
+
+
+
+
+  <title> 网络工程基础知识 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2015/09/29/Base/网络工程知识查漏补缺/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                网络工程基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T00:00:42+08:00">
+                2015-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Basic-knowledge/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic knowledge</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="拓扑结构"><a href="#拓扑结构" class="headerlink" title="拓扑结构"></a>拓扑结构</h1><h2 id="网状拓扑结构"><a href="#网状拓扑结构" class="headerlink" title="网状拓扑结构"></a>网状拓扑结构</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>可靠性高，容易扩展</li>
+<li>可以改善通信路径上的信息分配</li>
+<li>可以在多条路径中选择最优路径，减少传输延迟</li>
+<li>网络可以组件各种形状，采用多种通信信道，多种传输速率，适合广域网复杂环境</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>成本高</li>
+<li>结构复杂，难于管理和维护，每一点都与多个节点连接，必须采用路径算法和流量控制</li>
+</ol>
+<h2 id="环型拓扑结构"><a href="#环型拓扑结构" class="headerlink" title="环型拓扑结构"></a>环型拓扑结构</h2><h3 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>采取光纤做主干线</li>
+<li>可靠性较好，不存在点单失效的情况，可以灵活的建立链路备份策略</li>
+</ol>
+<h3 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h3><h2 id="星型拓扑结构"><a href="#星型拓扑结构" class="headerlink" title="星型拓扑结构"></a>星型拓扑结构</h2><h3 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>以中央节点为中心，采用单独连线与其他节点进行通信，节点之间通信需要通过中央节点</li>
+<li>增删站点容易</li>
+<li>成本低</li>
+<li>通道分离</li>
+</ol>
+<h3 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>一旦中心节点瘫痪，整个网络瘫痪，可靠性差</li>
+</ol>
+<h2 id="环型拓扑结构-1"><a href="#环型拓扑结构-1" class="headerlink" title="环型拓扑结构"></a>环型拓扑结构</h2><h3 id="优点-3"><a href="#优点-3" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>控制简单</li>
+<li>不存在数据冲突</li>
+<li>容量有限</li>
+<li>通信利用率高</li>
+</ol>
+<h3 id="缺点-3"><a href="#缺点-3" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>任意节点故障都会造成网络瘫痪</li>
+<li>故障诊断难</li>
+<li>增加节点困难</li>
+<li>对节点要求高</li>
+</ol>
+<h2 id="总线型拓扑结构"><a href="#总线型拓扑结构" class="headerlink" title="总线型拓扑结构"></a>总线型拓扑结构</h2><p>树形拓扑结构中，计算机都是既连接它的父结点（除根结点外）又连接它的子结点（除叶结点外），连接关系呈树状</p>
+<h3 id="优点-4"><a href="#优点-4" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>结构连接简单</li>
+<li>维护方便</li>
+<li>适用于汇集信息的应用要求</li>
+</ol>
+<h3 id="缺点-4"><a href="#缺点-4" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>资源共享能力差</li>
+<li>可靠性不高</li>
+</ol>
+<h1 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h1><h2 id="指出协议归属哪一层"><a href="#指出协议归属哪一层" class="headerlink" title="指出协议归属哪一层"></a>指出协议归属哪一层</h2><ol>
+<li>应用层：DNS,RMON,FTP</li>
+<li>传输层：TCP,UDP</li>
+<li>网际层：IP，OSPF</li>
+<li>网络接口层：HDLC,PPP,CMSA/CD</li>
+</ol>
+<h2 id="OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种"><a href="#OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种" class="headerlink" title="OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种"></a>OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种</h2><ol>
+<li>路由器LSA</li>
+<li>网络LSA</li>
+<li>IP网路汇总</li>
+<li>自治边缘路由器汇总</li>
+<li>外部链路LSA</li>
+</ol>
+<h2 id="编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项"><a href="#编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项" class="headerlink" title="编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项"></a>编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项</h2><ol>
+<li>技术可行性</li>
+<li>应用可行性</li>
+<li>人员资金可行性</li>
+<li>设备可行性</li>
+<li>安全可行性</li>
+</ol>
+<h2 id="L2TP使用的信息类型有哪些？每种信息的主要作用是什么"><a href="#L2TP使用的信息类型有哪些？每种信息的主要作用是什么" class="headerlink" title="L2TP使用的信息类型有哪些？每种信息的主要作用是什么"></a>L2TP使用的信息类型有哪些？每种信息的主要作用是什么</h2><p>两种信息类型</p>
+<ol>
+<li>控制，用于隧道的建立、维护、清除</li>
+<li>数据，封装隧道所携带的PPP帧</li>
+</ol>
+<h2 id="简述网络安全的研究领域"><a href="#简述网络安全的研究领域" class="headerlink" title="简述网络安全的研究领域"></a>简述网络安全的研究领域</h2><p>设计到网络信息的保密性、完整性、可用性、真实性、可控性的相关技术理论都是研究领域</p>
+<h2 id="GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息"><a href="#GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息" class="headerlink" title="GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息"></a>GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息</h2><ol>
+<li>用户类型</li>
+<li>访问能力</li>
+<li>补充业务</li>
+<li>MS最新位置</li>
+</ol>
+<h2 id="什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗"><a href="#什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗" class="headerlink" title="什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗"></a>什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗</h2><ol>
+<li>VLAN</li>
+</ol>
+<ul>
+<li>讲局域网设备从逻辑上划分成一个个网段，从而实现虚拟工作组的数据交换技术</li>
+</ul>
+<ol start="2">
+<li>VPN</li>
+</ol>
+<ul>
+<li>讲物理分布在不同地点的网络设备通过公用骨干网，尤其是Internet 链接而成的逻辑上的虚拟子网。</li>
+</ul>
+<h2 id="防火墙主要功能是什么"><a href="#防火墙主要功能是什么" class="headerlink" title="防火墙主要功能是什么"></a>防火墙主要功能是什么</h2><ol>
+<li>管理进出网络的访问</li>
+<li>保护内网的服务</li>
+<li>内部地址隐藏</li>
+<li>日志分析统计</li>
+<li>检测与报警</li>
+</ol>
+<h2 id="SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议"><a href="#SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议" class="headerlink" title="SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议"></a>SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议</h2><ol>
+<li>网络管理站和网管代理</li>
+<li>采取C/S方式工作</li>
+<li>udp协议</li>
+</ol>
+<h2 id="网络规划中需要考虑到的交换机性能指标是什么"><a href="#网络规划中需要考虑到的交换机性能指标是什么" class="headerlink" title="网络规划中需要考虑到的交换机性能指标是什么"></a>网络规划中需要考虑到的交换机性能指标是什么</h2><ol>
+<li>交换速率</li>
+<li>端口数</li>
+<li>MAC地址表容量</li>
+<li>流量控制方式</li>
+<li>VLAN能力</li>
+</ol>
+<h2 id="OSPF-开放最短路径协议"><a href="#OSPF-开放最短路径协议" class="headerlink" title="OSPF(开放最短路径协议)"></a>OSPF(开放最短路径协议)</h2><ul>
+<li>采用最短路径算法</li>
+<li>属于内部网关协议</li>
+<li>支持区域划分和路由分级管理</li>
+</ul>
+<h2 id="SNAP-简单网络管理协议"><a href="#SNAP-简单网络管理协议" class="headerlink" title="SNAP(简单网络管理协议)"></a>SNAP(简单网络管理协议)</h2><ul>
+<li>采用C/S</li>
+<li>C实现manager</li>
+<li>S实现agent</li>
+</ul>
+<h2 id="RMON"><a href="#RMON" class="headerlink" title="RMON"></a>RMON</h2><ul>
+<li>探查程序能将收集到的信息存储在本地MIB</li>
+<li>探查程序具有维护历史网管信息的功能</li>
+<li>SNMP为RMON探查程序和控制台之间传输网管信息提供通信层功能</li>
+</ul>
+<h2 id="网络管理5大功能"><a href="#网络管理5大功能" class="headerlink" title="网络管理5大功能"></a>网络管理5大功能</h2><ol>
+<li>故障</li>
+<li>配置</li>
+<li>安全</li>
+<li>性能</li>
+<li>计费</li>
+</ol>
+<h2 id="ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL-Model按使用方式分哪两种类？"><a href="#ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL-Model按使用方式分哪两种类？" class="headerlink" title="ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL Model按使用方式分哪两种类？"></a>ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL Model按使用方式分哪两种类？</h2><ol>
+<li>处于网络协议中的物理层</li>
+<li>介质是双绞线</li>
+<li>频分复用技术</li>
+<li>桥接和路由</li>
+</ol>
+<h2 id="IPSec中的ESP提供哪些服务"><a href="#IPSec中的ESP提供哪些服务" class="headerlink" title="IPSec中的ESP提供哪些服务"></a>IPSec中的ESP提供哪些服务</h2><ol>
+<li>ESP可以提供数据报加密、数据流加密、数据源身份认证、数据完整性验证、防止重放攻击。</li>
+</ol>
+<h2 id="SNMP-V2-对于SNMP-有哪些改进？-v2是否允许一些站点既充当manger又充当agent"><a href="#SNMP-V2-对于SNMP-有哪些改进？-v2是否允许一些站点既充当manger又充当agent" class="headerlink" title="SNMP V2 对于SNMP 有哪些改进？ v2是否允许一些站点既充当manger又充当agent"></a>SNMP V2 对于SNMP 有哪些改进？ v2是否允许一些站点既充当manger又充当agent</h2><p>改进：</p>
+<ol>
+<li>提供一次性取回大量数据的能力</li>
+<li>支持分布式管理</li>
+<li>提供验证、加密、时间同步等机制</li>
+<li>可运行与多种网络协议上 允许</li>
+</ol>
+<h2 id="客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？"><a href="#客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？" class="headerlink" title="客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？"></a>客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？</h2><ol>
+<li>B/S</li>
+<li>优点：系统访问灵活、维护简单、升级简单、松耦合、开发简单</li>
+</ol>
+<h2 id="网络性能评估要素"><a href="#网络性能评估要素" class="headerlink" title="网络性能评估要素"></a>网络性能评估要素</h2><ol>
+<li>可用性</li>
+<li>响应时间</li>
+<li>网路利用效率</li>
+<li>吞吐量</li>
+<li>带宽容量</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Basic-knowledge/" rel="tag"># Basic knowledge</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/29/Base/网络安全基础知识/" rel="next" title="网络安全基础知识">
+                <i class="fa fa-chevron-left"></i> 网络安全基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/29/Base/互联网及其应用基础/" rel="prev" title="互联网及其应用">
+                互联网及其应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#拓扑结构"><span class="nav-number">1.</span> <span class="nav-text">拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#网状拓扑结构"><span class="nav-number">1.1.</span> <span class="nav-text">网状拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">1.1.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.1.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环型拓扑结构"><span class="nav-number">1.2.</span> <span class="nav-text">环型拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#星型拓扑结构"><span class="nav-number">1.3.</span> <span class="nav-text">星型拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-2"><span class="nav-number">1.3.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环型拓扑结构-1"><span class="nav-number">1.4.</span> <span class="nav-text">环型拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-3"><span class="nav-number">1.4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-3"><span class="nav-number">1.4.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总线型拓扑结构"><span class="nav-number">1.5.</span> <span class="nav-text">总线型拓扑结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点-4"><span class="nav-number">1.5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问答"><span class="nav-number">2.</span> <span class="nav-text">问答</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指出协议归属哪一层"><span class="nav-number">2.1.</span> <span class="nav-text">指出协议归属哪一层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种"><span class="nav-number">2.2.</span> <span class="nav-text">OSPF协议路由器向网络中发布的链路状态报告LSA有哪5种</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项"><span class="nav-number">2.3.</span> <span class="nav-text">编写网络规划方案的可行性论证报告，需要说明的项目除了系统建设目的，还需要哪5项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#L2TP使用的信息类型有哪些？每种信息的主要作用是什么"><span class="nav-number">2.4.</span> <span class="nav-text">L2TP使用的信息类型有哪些？每种信息的主要作用是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简述网络安全的研究领域"><span class="nav-number">2.5.</span> <span class="nav-text">简述网络安全的研究领域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息"><span class="nav-number">2.6.</span> <span class="nav-text">GSM系统中，HLR（归属位置寄存器）记录了手机用户的哪些信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗"><span class="nav-number">2.7.</span> <span class="nav-text">什么事虚拟局域网（VLAN），什么是虚拟专用网络（VPN），两者使用技术相同吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#防火墙主要功能是什么"><span class="nav-number">2.8.</span> <span class="nav-text">防火墙主要功能是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议"><span class="nav-number">2.9.</span> <span class="nav-text">SNMP体系结构主要由哪两部分组成，什么方式工作，进程间的通信使用哪个传输层协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络规划中需要考虑到的交换机性能指标是什么"><span class="nav-number">2.10.</span> <span class="nav-text">网络规划中需要考虑到的交换机性能指标是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OSPF-开放最短路径协议"><span class="nav-number">2.11.</span> <span class="nav-text">OSPF(开放最短路径协议)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNAP-简单网络管理协议"><span class="nav-number">2.12.</span> <span class="nav-text">SNAP(简单网络管理协议)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RMON"><span class="nav-number">2.13.</span> <span class="nav-text">RMON</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络管理5大功能"><span class="nav-number">2.14.</span> <span class="nav-text">网络管理5大功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL-Model按使用方式分哪两种类？"><span class="nav-number">2.15.</span> <span class="nav-text">ADSL处于网络协议中哪一层？使用哪种传输介质？使用什么技术将电话和数据业务进行分离？ADSL Model按使用方式分哪两种类？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPSec中的ESP提供哪些服务"><span class="nav-number">2.16.</span> <span class="nav-text">IPSec中的ESP提供哪些服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SNMP-V2-对于SNMP-有哪些改进？-v2是否允许一些站点既充当manger又充当agent"><span class="nav-number">2.17.</span> <span class="nav-text">SNMP V2 对于SNMP 有哪些改进？ v2是否允许一些站点既充当manger又充当agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？"><span class="nav-number">2.18.</span> <span class="nav-text">客户端仅采用浏览器与服务器通信的网络服务模式是哪种服务模式？优点是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络性能评估要素"><span class="nav-number">2.19.</span> <span class="nav-text">网络性能评估要素</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

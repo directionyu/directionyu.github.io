@@ -1,0 +1,810 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Basic knowledge," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="网络分层结构 层间的独立性 适用的灵活性 结构上的可分割性 易于实现和维护 促进标准化  互联网采用通信方式 分组交换 包交换  互联网的性能指标 带宽 时延：传播时延、发送时延、排队时延 发送时延与数据块的长度和信道带宽有关 吞吐率 关于数据传输率的测度。主要应用在并行处理上，单位是bit/s。 服务质量 用来解决网络延迟和阻塞的方法  Intranet基于Internet的TCP\IP协议构建">
+<meta name="keywords" content="Basic knowledge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="互联网及其应用">
+<meta property="og:url" content="http://directionyu.cn/2015/09/29/Base/互联网及其应用基础/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="网络分层结构 层间的独立性 适用的灵活性 结构上的可分割性 易于实现和维护 促进标准化  互联网采用通信方式 分组交换 包交换  互联网的性能指标 带宽 时延：传播时延、发送时延、排队时延 发送时延与数据块的长度和信道带宽有关 吞吐率 关于数据传输率的测度。主要应用在并行处理上，单位是bit/s。 服务质量 用来解决网络延迟和阻塞的方法  Intranet基于Internet的TCP\IP协议构建">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="互联网及其应用">
+<meta name="twitter:description" content="网络分层结构 层间的独立性 适用的灵活性 结构上的可分割性 易于实现和维护 促进标准化  互联网采用通信方式 分组交换 包交换  互联网的性能指标 带宽 时延：传播时延、发送时延、排队时延 发送时延与数据块的长度和信道带宽有关 吞吐率 关于数据传输率的测度。主要应用在并行处理上，单位是bit/s。 服务质量 用来解决网络延迟和阻塞的方法  Intranet基于Internet的TCP\IP协议构建">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2015/09/29/Base/互联网及其应用基础/"/>
+
+
+
+
+
+  <title> 互联网及其应用 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2015/09/29/Base/互联网及其应用基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                互联网及其应用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T00:00:42+08:00">
+                2015-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Basic-knowledge/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic knowledge</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="网络分层结构"><a href="#网络分层结构" class="headerlink" title="网络分层结构"></a>网络分层结构</h1><ol>
+<li>层间的独立性</li>
+<li>适用的灵活性</li>
+<li>结构上的可分割性</li>
+<li>易于实现和维护</li>
+<li>促进标准化</li>
+</ol>
+<h1 id="互联网采用通信方式"><a href="#互联网采用通信方式" class="headerlink" title="互联网采用通信方式"></a>互联网采用通信方式</h1><ol>
+<li>分组交换</li>
+<li>包交换</li>
+</ol>
+<h1 id="互联网的性能指标"><a href="#互联网的性能指标" class="headerlink" title="互联网的性能指标"></a>互联网的性能指标</h1><ol>
+<li>带宽</li>
+<li>时延：传播时延、发送时延、排队时延 发送时延与数据块的长度和信道带宽有关</li>
+<li>吞吐率 关于数据传输率的测度。主要应用在并行处理上，单位是bit/s。</li>
+<li>服务质量 用来解决网络延迟和阻塞的方法</li>
+</ol>
+<h1 id="Intranet"><a href="#Intranet" class="headerlink" title="Intranet"></a>Intranet</h1><p>基于Internet的TCP\IP协议构建的企业内部网络，包括纯局域网，不与外网互连；与外网有限互连</p>
+<h1 id="互联网结构的特点"><a href="#互联网结构的特点" class="headerlink" title="互联网结构的特点"></a>互联网结构的特点</h1><ol>
+<li>对用户隐藏网络底层特点</li>
+<li>不指定网络互联的拓扑结构</li>
+<li>能通过各种网络收发数据</li>
+<li>网络所有计算机共享一个全局标识符</li>
+<li>用户界面独立与网络</li>
+</ol>
+<p>互联网通过TCP/IP技术实现互连。实质上是在低层网络技术和高层应用程序之间增加一个中间软件层</p>
+<h1 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h1><p>网际协议（IP）是互联网最基本最重要的协议。IP协议定义的分组称为IP数据报。 有3个基本功能：</p>
+<ol>
+<li>基本数据单元的传送，规定了通过TCP/IP网的数据的格式。</li>
+<li>IP协议软件执行路由功能，选择传递数据的路径。</li>
+<li>确定主机和路由器如何处理分组的规则，以及产生差错报文后的处理方法。</li>
+</ol>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>为取得可靠传输而进行的分组丢失检测，收不到确认信息的自动重传，处理延迟的重复数据报。TCP提供了解决数据在互联网中传送过程中丢失数据报、重复传送数据报和数据报失序的方法，从而保证了数据的可靠传输。</p>
+<p>IP提供了灵活性，而TCP提供了可靠性</p>
+<p>UDP采用的协议有Ping、TFTP、SNMP。 1-255称为公用端口号</p>
+<h1 id="域名"><a href="#域名" class="headerlink" title="域名"></a>域名</h1><p>域名系统的结构式层次型的。计算机名由局部名、组织名和组织类型名3部分组成。 也叫名字服务器。DNS负责控制本地域名数据库中的名字解析，通过采用复制技术和缓存技术，在保持整个数据库坚固性的同时，保持各个域名服务器的同步。早期的域名解析通过hosts文件。</p>
+<h1 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h1><h2 id="域名服务器作用"><a href="#域名服务器作用" class="headerlink" title="域名服务器作用"></a>域名服务器作用</h2><p>又称名字服务器，负责控制本地域名数据库中的名字解析、即IP和域名的映射</p>
+<h2 id="主域名服务器功能"><a href="#主域名服务器功能" class="headerlink" title="主域名服务器功能"></a>主域名服务器功能</h2><p>负责维护本区所有域名空间信息，并授权</p>
+<h2 id="辅助域名服务器功能"><a href="#辅助域名服务器功能" class="headerlink" title="辅助域名服务器功能"></a>辅助域名服务器功能</h2><p>是主域名服务器的备份、当主域名服务器关闭、出现故障或者负载过重，提供域名解析服务</p>
+<h2 id="主辅协作关系"><a href="#主辅协作关系" class="headerlink" title="主辅协作关系"></a>主辅协作关系</h2><p>主域名服务器对子域名服务器授权、辅助从主获取授权、从主服上去的管辖区的数据、周期性的与主服对比、更新数据</p>
+<h1 id="IPSec"><a href="#IPSec" class="headerlink" title="IPSec"></a>IPSec</h1><p>IPSec包括AH认证头，ESP封装安全负载，IKE internet密钥交换协议。 AH协议为IP通信提供数据源认证、数据完整性和反重播保证，免受篡改，不防窃听。 ESP用于确保IP数据包的机密性、数据的完整性及对数据源的身份验证，提供可靠性。每一个IPSec结点都有一个安全策略库（SPD），据其对IP流的处理：拒绝、绕过或进行IPSec保护。</p>
+<h1 id="IPV6"><a href="#IPV6" class="headerlink" title="IPV6"></a>IPV6</h1><p>IPv6地址自动配置分为无状态地址自动配置和有状态地址自动配置。 IPv4向IPv6的过渡技术有隧道技术、双栈技术和地址翻译技术。</p>
+<h1 id="中继器"><a href="#中继器" class="headerlink" title="中继器"></a>中继器</h1><p>工作在物理层，具有转发位功能，用于网络负载很轻和网络延时要求不高的情况。主要作用是信号再生放大、延长网络距离。</p>
+<h1 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h1><p>连接两个局域网的的一种存储/转发设备，工作在数据链路层，具有帧转发功能。用来控制数据流量、处理传送差错、提供物理寻址、介质访问算法。 用网桥划分网段目的，一是减少每个LAN段上的通信量；二是要确保网段间的通信量小于每个网段内部的通信量。</p>
+<h1 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h1><p>在网络层提供多个独立的子网间连接服务的一种存储/转发设备，用于报文转发。用路由器连接的网络可以使用在数据链路层和物理层协议完全不同的网络互连。路由器可根据传输费用，转接时延，网络拥塞或信源和终点间的距离来选择最佳路径。 路由器的主要工作是为经过路由器的数据寻找一个最佳的传输路径，并将该数据有效地传送到目的地。在路由器中最关键的就是它采用的路由算法，即最佳的传输路径方法。</p>
+<h1 id="三层交换技术"><a href="#三层交换技术" class="headerlink" title="三层交换技术"></a>三层交换技术</h1><p>利用第三层路由协议来确定要传送的路径，为数据包建立一条虚电路，绕过路由器快速转发出去。一次选路，多次交换。</p>
+<h1 id="第四层交换技术"><a href="#第四层交换技术" class="headerlink" title="第四层交换技术"></a>第四层交换技术</h1><p>利用第三层和第四层包头中的信息来识别应用数据流会话，包括TCP/UDP端口号、标记应用会话开始结束的标记位、源和目的IP地址。第四层交换技术是用于传输数据和实现多台服务器间负载均衡的理想机制。</p>
+<h1 id="网络电话"><a href="#网络电话" class="headerlink" title="网络电话"></a>网络电话</h1><p>采用了分组交换和统计复用技术，常用软件有阿里通、SKYPE、ETON。</p>
+<h1 id="网页设计的原则"><a href="#网页设计的原则" class="headerlink" title="网页设计的原则"></a>网页设计的原则</h1><p>满足用户的需求是最优先的考虑；有效的使用资源，网页设计的目标是高效地操作、方便地使用、轻松地维护；生成一个一致的、令人愉快的、有效的网页外观；</p>
+<p>flash特点：矢量图形；交互性；流技术。</p>
+<h1 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h1><p>解释性语言，特点：简单性；动态性；跨平台性，依赖于浏览器本身</p>
+<h1 id="网络安全控制措施"><a href="#网络安全控制措施" class="headerlink" title="网络安全控制措施"></a>网络安全控制措施</h1><ol>
+<li>物理安全</li>
+<li>访问控制</li>
+</ol>
+<ul>
+<li>密码</li>
+<li>网络资源的属主、属性和访问权限。</li>
+<li>网络安全监视</li>
+<li>审计和跟踪</li>
+</ul>
+<ol start="3">
+<li>传输安全</li>
+</ol>
+<h1 id="网络加密"><a href="#网络加密" class="headerlink" title="网络加密"></a>网络加密</h1><ol>
+<li>数据链路层加密</li>
+<li>传输层的加密</li>
+<li>应用层上的加密</li>
+</ol>
+<p>数字签名是建立在公开密钥体制上的。常用的数字签名方法有：RSA签名、DSS签名和hash签名。</p>
+<h1 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h1><ol>
+<li>采用B/S</li>
+<li>DHCP客户机发送discovery message（发现信息），并广播</li>
+<li>所有DCHP服务器收到信息后向提出申请的DHCP客户发送一个offer message</li>
+<li>DHCP客户收集服务器提供的配置信息，选择一个发送一个标识着被选中DHCP服务器 requesr message</li>
+<li>被选中的服务器就发送一个包含所有哦诶之参数的DHCP确认波，客户机收到消息后进行进行绑定</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Basic-knowledge/" rel="tag"># Basic knowledge</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/29/Base/网络工程知识查漏补缺/" rel="next" title="网络工程基础知识">
+                <i class="fa fa-chevron-left"></i> 网络工程基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/29/Base/哲学与马克思主义/" rel="prev" title="哲学与马克思主义">
+                哲学与马克思主义 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#网络分层结构"><span class="nav-number">1.</span> <span class="nav-text">网络分层结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网采用通信方式"><span class="nav-number">2.</span> <span class="nav-text">互联网采用通信方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网的性能指标"><span class="nav-number">3.</span> <span class="nav-text">互联网的性能指标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Intranet"><span class="nav-number">4.</span> <span class="nav-text">Intranet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#互联网结构的特点"><span class="nav-number">5.</span> <span class="nav-text">互联网结构的特点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP协议"><span class="nav-number">6.</span> <span class="nav-text">IP协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP"><span class="nav-number">7.</span> <span class="nav-text">TCP</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#域名"><span class="nav-number">8.</span> <span class="nav-text">域名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#域名服务器"><span class="nav-number">9.</span> <span class="nav-text">域名服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#域名服务器作用"><span class="nav-number">9.1.</span> <span class="nav-text">域名服务器作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主域名服务器功能"><span class="nav-number">9.2.</span> <span class="nav-text">主域名服务器功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助域名服务器功能"><span class="nav-number">9.3.</span> <span class="nav-text">辅助域名服务器功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主辅协作关系"><span class="nav-number">9.4.</span> <span class="nav-text">主辅协作关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPSec"><span class="nav-number">10.</span> <span class="nav-text">IPSec</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPV6"><span class="nav-number">11.</span> <span class="nav-text">IPV6</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中继器"><span class="nav-number">12.</span> <span class="nav-text">中继器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网桥"><span class="nav-number">13.</span> <span class="nav-text">网桥</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#路由器"><span class="nav-number">14.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三层交换技术"><span class="nav-number">15.</span> <span class="nav-text">三层交换技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第四层交换技术"><span class="nav-number">16.</span> <span class="nav-text">第四层交换技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络电话"><span class="nav-number">17.</span> <span class="nav-text">网络电话</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网页设计的原则"><span class="nav-number">18.</span> <span class="nav-text">网页设计的原则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaScript"><span class="nav-number">19.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络安全控制措施"><span class="nav-number">20.</span> <span class="nav-text">网络安全控制措施</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络加密"><span class="nav-number">21.</span> <span class="nav-text">网络加密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DHCP"><span class="nav-number">22.</span> <span class="nav-text">DHCP</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

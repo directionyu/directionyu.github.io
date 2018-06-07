@@ -1,0 +1,747 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是代码混淆代码混淆（code obfuscation）是指将计算机程序的代码，转换成一种功能上等价，所谓功能上的等价是指其在变换前后功能相同或相近。 其解释如下：程序P经过混淆变换为P’，若P没有结束或错误结束，那么P’也不能结束或错误结束；而且P’程序的结果应与程序P具有相同的输出。否则P’不是P的有效的混淆。 目前对于混淆的分类，普遍是以Collberg 的理论为基础，分为布局混淆（lay">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 混淆技术">
+<meta property="og:url" content="http://directionyu.cn/2018/03/16/Android/Android 混淆技术/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="什么是代码混淆代码混淆（code obfuscation）是指将计算机程序的代码，转换成一种功能上等价，所谓功能上的等价是指其在变换前后功能相同或相近。 其解释如下：程序P经过混淆变换为P’，若P没有结束或错误结束，那么P’也不能结束或错误结束；而且P’程序的结果应与程序P具有相同的输出。否则P’不是P的有效的混淆。 目前对于混淆的分类，普遍是以Collberg 的理论为基础，分为布局混淆（lay">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 混淆技术">
+<meta name="twitter:description" content="什么是代码混淆代码混淆（code obfuscation）是指将计算机程序的代码，转换成一种功能上等价，所谓功能上的等价是指其在变换前后功能相同或相近。 其解释如下：程序P经过混淆变换为P’，若P没有结束或错误结束，那么P’也不能结束或错误结束；而且P’程序的结果应与程序P具有相同的输出。否则P’不是P的有效的混淆。 目前对于混淆的分类，普遍是以Collberg 的理论为基础，分为布局混淆（lay">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2018/03/16/Android/Android 混淆技术/"/>
+
+
+
+
+
+  <title> Android 混淆技术 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2018/03/16/Android/Android 混淆技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 混淆技术
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:43:12+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是代码混淆"><a href="#什么是代码混淆" class="headerlink" title="什么是代码混淆"></a>什么是代码混淆</h1><p>代码混淆（code obfuscation）是指将计算机程序的代码，转换成一种功能上等价，所谓功能上的等价是指其在变换前后功能相同或相近。 其解释如下：程序P经过混淆变换为P’，若P没有结束或错误结束，那么P’也不能结束或错误结束；而且P’程序的结果应与程序P具有相同的输出。否则P’不是P的有效的混淆。</p>
+<p>目前对于混淆的分类，普遍是以Collberg 的理论为基础，分为布局混淆（layout obfuscation）、数据混淆（data obfuscation）、控制混淆（control obfuscation）和预防混淆（preventive obfuscation）这四种类型。</p>
+<h1 id="布局混淆（layout-obfuscation）"><a href="#布局混淆（layout-obfuscation）" class="headerlink" title="布局混淆（layout obfuscation）"></a>布局混淆（layout obfuscation）</h1><p>布局混淆是指删除或者混淆软件源代码或者中间代码中与执行无关的辅助文本信息，增加攻击者阅读和理解代码的难度。软件源代码中的注释文本、调试信息可以直接删除，用不到的方法和类等代码或数据结构也可以删除，这样即可以使攻击者难以理解代码的语义，也可以减小软件体积，提高软件装载和执行的效率。软件代码中的常量名、变量名、类名和方法名等标识符的命名规则和字面意义有利于攻击者对代码的理解，布局混淆通过混淆这些标识符增加攻击者对软件代码理解的难度。标识符混淆的方法有多种，例如哈希函数命名、标识符交换和重载归纳等。哈希函数命名是简单地将原来标识符的字符串替换成该字符串的哈希值，这样标识符的字符串就与软件代码不相关了；标识符交换是指先收集软件代码中所有的标识符字符串，然后再随机地分配给不同的标识符，该方法不易被攻击者察觉；重载归纳是指利用高级编程语言命名规则中的一些特点，例如在不同的命名空间中变量名可以相同，使软件中不同的标识符尽量使用相同的字符串，增加攻击者对软件源代码的理解难度。布局混淆是最简单的混淆方法，它不改变软件的代码和执行过程。</p>
+<h1 id="数据混淆（data-obfuscation）"><a href="#数据混淆（data-obfuscation）" class="headerlink" title="数据混淆（data obfuscation）"></a>数据混淆（data obfuscation）</h1><p>数据混淆是修改程序中的数据域，而对代码段不作处理。常用的数据混淆方式有合并变量、分割变量、数组重组、字符串加密等。</p>
+<p>合并变量是将几个变量合并为一个数据，原来的每个变量占据其中一个区域，类似于一个大的数据结构。分割变量则是将一个变量分割为两个变量，对分割前后提供一种映射关系，将对一个变量的操作转化为对分割后两个变量的操作。</p>
+<p>数组重组有数组的分割、合并、折叠和平滑等几种方式。分割是将一个数组分成2个或多个相同维度的数组；合并则相反；折叠是增加数组的维数；平滑则是相反。</p>
+<p>在ELF文件中，全局变量和常量字符串存放在数据段中，反汇编工具可以轻易查找到字符串与代码之间的引用关系。在软件破解中，通过一些字符串提示可以很方便的找到代码关键语句，从而破解软件。字符串加密则可以对这些明显的字符串进行加密存储，在需要时再进行解密。</p>
+<h1 id="控制混淆（control-obfuscation）"><a href="#控制混淆（control-obfuscation）" class="headerlink" title="控制混淆（control obfuscation）"></a>控制混淆（control obfuscation）</h1><p>控制混淆也称流程混淆，它是改变程序的执行流程，从而打断逆向分析人员的跟踪思路，达到保护软件的目的。一般采用的技术有插入指令、伪装条件语句、断点等。伪装条件语句是当程序顺序执行从A到B，混淆后在A和B之间加入条件判断，使A执行完后输出TRUE或FALSE，但不论怎么输出，B一定会执行。</p>
+<p>控制混淆采用比较多的还有模糊谓词、内嵌外联、打破顺序等方法。</p>
+<p>模糊谓词是利用消息不对称的原理，在加入模糊谓词时其值对混淆者是已知的，而对反混淆者却很难推知。所以加入后将干扰反汇编者对值的分析。模糊谓词的使用一般是插入一些死的或不相关的代码（bogus code），或者是插入在循环或分支语句中，打断程序执行流程。</p>
+<p>内嵌（in-line）是将一小段程序嵌入到被调用的每一个程序点，外联（out-line）是将没有任何逻辑联系的一段代码抽象成一段可被多次调用的程序。</p>
+<p>打破顺序是指打破程序的局部相关性。由于程序员往往倾向于把相关代码放在一起，通过打破顺序改变程序空间结构，将加大破解者的思维跳跃。</p>
+<h1 id="预防混淆（preventive-obfuscation）"><a href="#预防混淆（preventive-obfuscation）" class="headerlink" title="预防混淆（preventive obfuscation）"></a>预防混淆（preventive obfuscation）</h1><p>预防混淆一般是针对专用的反编译器设计的，目的就是预防被这类反编译器反编译。他是利用特定的反编译器或反混淆器的弱点进行专门设计。预防混淆对于特定的反编译器非常有效，所以在使用时要综合利用各种反编译器的特点进行设计。</p>
+<h1 id="各家安全商做法"><a href="#各家安全商做法" class="headerlink" title="各家安全商做法"></a>各家安全商做法</h1><h2 id="腾讯御安全"><a href="#腾讯御安全" class="headerlink" title="腾讯御安全"></a>腾讯御安全</h2><p>御安全保护方案提供了以上所述四种混淆分类的多维度的保护，布局混淆方面，御安全提供了针对native代码层中的函数名进行了混淆删除调试信息等功能；数据混淆方面，御安全提供了针对常量字符串加密及全局变量的混淆的功能；控制混淆方面，御安全针对代码流程上，提供了扁平化，插入bogus 分支以及代码等价变换等功能；预防混淆方面，御安全在混淆过程中加入了针对主流反编译器的预防混淆的代码，能够有效地抵抗其分析。御安全还对应用开发者提供不同等级的保护力度及多种混淆方式的功能的选择，用户可以根据自己的需求定制不同的混淆功能保护。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/18/Android/Android 签名原理/" rel="next" title="Android 签名原理">
+                <i class="fa fa-chevron-left"></i> Android 签名原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/16/Android 恶意应用检测系统分析/" rel="prev" title="Android 恶意应用检测系统分析">
+                Android 恶意应用检测系统分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是代码混淆"><span class="nav-number">1.</span> <span class="nav-text">什么是代码混淆</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#布局混淆（layout-obfuscation）"><span class="nav-number">2.</span> <span class="nav-text">布局混淆（layout obfuscation）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据混淆（data-obfuscation）"><span class="nav-number">3.</span> <span class="nav-text">数据混淆（data obfuscation）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#控制混淆（control-obfuscation）"><span class="nav-number">4.</span> <span class="nav-text">控制混淆（control obfuscation）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#预防混淆（preventive-obfuscation）"><span class="nav-number">5.</span> <span class="nav-text">预防混淆（preventive obfuscation）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#各家安全商做法"><span class="nav-number">6.</span> <span class="nav-text">各家安全商做法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#腾讯御安全"><span class="nav-number">6.1.</span> <span class="nav-text">腾讯御安全</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

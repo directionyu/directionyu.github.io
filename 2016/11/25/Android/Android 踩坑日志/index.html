@@ -1,0 +1,817 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="异常Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running? 原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。 分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 踩坑日志">
+<meta property="og:url" content="http://directionyu.cn/2016/11/25/Android/Android 踩坑日志/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="异常Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running? 原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。 分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115225.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115253.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115328.png">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 踩坑日志">
+<meta name="twitter:description" content="异常Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running? 原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。 分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115225.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2016/11/25/Android/Android 踩坑日志/"/>
+
+
+
+
+
+  <title> Android 踩坑日志 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2016/11/25/Android/Android 踩坑日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android 踩坑日志
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-11-25T15:17:42+08:00">
+                2016-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h1><h2 id="Unable-to-add-window-–-token-android-os-BinderProxy-164db98f-is-not-valid；is-your-activity-running"><a href="#Unable-to-add-window-–-token-android-os-BinderProxy-164db98f-is-not-valid；is-your-activity-running" class="headerlink" title="Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running?"></a>Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running?</h2><ul>
+<li>原因：在弹出Dialog时出现此异常，原因是dialog依附的Activity已经不存在所导致。</li>
+<li>分析：很多时候需要一个非组件类来调用一个view类的方法来弹出Dialog，这样需要提供一个静态的Context来创建dialog或者Toast，当然并不是所有静态context都是可以用来创建dialog的，例如getApplication().getApplicationContext()这个context就不行，因为它并不代表哪一个Activity或者View。。这样就无法add这个dialog。此view用于绑定显示数据，在其构造方法中初始化一个静态变量mContextNew为此view的mContext。这样就可以通过一个静态类来弹出对话框了，只需传入这个静态的context（mContextNew）就可以了。。但是这个静态的context如果只在构造方法中初始化的话是会存在问题的，因为如果另起了一个界面其绑定数据的view也是用的这个view那么这个静态context就会被重新修改。。因此当这个新的界面finish后返回到上次的界面，这个静态的context是刚才已经finish的view的context。因此如果仍然传入这个静态变量通过一个静态类来弹出对话框就会出现上述找不到window的错误了。</li>
+<li><p>解决方案：</p>
+<ul>
+<li>对于tab页出现的错误可以用其父类的context来弹出dialog；</li>
+<li>对于界面已经销毁引起的错误就只能判断界面是否存在然后再弹出了；</li>
+<li>对于利用静态context来弹出的dialog可以通过规避的方式来解决，比如避免出现静态context被修改。但是这样就可能限制了我们程序的功能。因此我们可以通过在bind数据时时时更新这个静态context就可以解决此问题了，这样就可以保证这个静态的context在任何view中都是当前的界面的view的context。就不会出现找不到其父类window了。</li>
+<li>对于依附Activity上的Fragment，用显示之前调用activity的isFinishing方法判断一下，如果是false再显示。</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h1 id="系统API"><a href="#系统API" class="headerlink" title="系统API"></a>系统API</h1><h2 id="try-catch-finally，try里有return，finally还执行么？"><a href="#try-catch-finally，try里有return，finally还执行么？" class="headerlink" title="try catch finally，try里有return，finally还执行么？"></a>try catch finally，try里有return，finally还执行么？</h2><ul>
+<li>Condition 1： 如果try中没有异常且try中有return （执行顺序）</li>
+</ul>
+<p>try — finally – return</p>
+<ul>
+<li>Condition 2： 如果try中有异常并且try中有return</li>
+</ul>
+<p>try—catch–finally– return 总之 finally 永远执行！</p>
+<ul>
+<li>Condition 3： try中有异常，try-catch-finally里都没有return ，finally 之后有个return</li>
+</ul>
+<p>try—catch–finally try中有异常以后，根据java的异常机制先执行catch后执行finally，此时错误异常已经抛出，程序因异常而终止，所以你的return是不会执行的</p>
+<ul>
+<li><p>Condition 4： 当 try和finally中都有return时，finally中的return会覆盖掉其它位置的return（多个return会报unreachable code，编译不会通过）。</p>
+</li>
+<li><p>Condition 5： 当finally中不存在return，而catch中存在return，但finally中要修改catch中return 的变量值时</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> Exception();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span>(Exception e)</span><br><span class="line">&#123;</span><br><span class="line">    ret = <span class="number">1</span>;  <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">finally</span>&#123;</span><br><span class="line">    ret = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="EditText-字体动态大小"><a href="#EditText-字体动态大小" class="headerlink" title="EditText 字体动态大小"></a>EditText 字体动态大小</h2><p>EditText默认的hint文字大小为12sp，当有文字填写时，文字大小变为18sp，在xml文件中无法实现，只能通过下列java代码实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">edit = (EditText) findViewById(R.id.edit);</span><br><span class="line">SpannableString ss = <span class="keyword">new</span> SpannableString(<span class="string">"请填写已经注册的手机号码"</span>);<span class="comment">//定义hint的值</span></span><br><span class="line">AbsoluteSizeSpan ass = <span class="keyword">new</span> AbsoluteSizeSpan(<span class="number">12</span>, <span class="keyword">true</span>);<span class="comment">//设置字体大小 true表示单位是sp</span></span><br><span class="line">ss.setSpan(ass, <span class="number">0</span>, ss.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);</span><br><span class="line">edit.setHint(<span class="keyword">new</span> SpannedString(ss));</span><br></pre></td></tr></table></figure>
+<h2 id="绘制虚线"><a href="#绘制虚线" class="headerlink" title="绘制虚线"></a>绘制虚线</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">shape</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>   </span></span><br><span class="line"><span class="tag">     <span class="attr">android:shape</span>=<span class="string">"line"</span>&gt;</span>  </span><br><span class="line">     <span class="comment">&lt;!-- 显示一条虚线，破折线的宽度为dashWith，破折线之间的空隙的宽度为dashGap，当dashGap=0dp时，为实线 --&gt;</span>  </span><br><span class="line">   <span class="tag">&lt;<span class="name">stroke</span> <span class="attr">android:width</span>=<span class="string">"1dp"</span> <span class="attr">android:color</span>=<span class="string">"#D5D5D5"</span>      </span></span><br><span class="line"><span class="tag">             <span class="attr">android:dashWidth</span>=<span class="string">"2dp"</span> <span class="attr">android:dashGap</span>=<span class="string">"3dp"</span> /&gt;</span>     </span><br><span class="line">             <span class="comment">&lt;!-- 虚线的高度 --&gt;</span>   </span><br><span class="line">   <span class="tag">&lt;<span class="name">size</span> <span class="attr">android:height</span>=<span class="string">"2dp"</span> /&gt;</span>      </span><br><span class="line"><span class="tag">&lt;/<span class="name">shape</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><ol>
+<li>查询数据库没有关闭Cursor。</li>
+<li>使用BaseAdapter作为适配器时没有复用convertView。</li>
+<li>bitmap没有回收。</li>
+<li>注册对象后没有反注册，比如Broadcast Receiver等。</li>
+<li>handler问题，如果handler是非静态的，会导致Activity或者Service不被回收，所以应当注册为静态内部类，同时在onDestroy时停止线程:mThread.getLooper().quit()。</li>
+<li>Activity被静态引用，特别是缓存bitmap时，解决方法可以考虑使用Application的context代替Activity的context。</li>
+<li>View在callback中被引用,可能回调还没有结束,但是view处于引用状态,无法回收。</li>
+<li>WebView的泄露问题:在魅族上面发现webView打开再关闭就会内存泄露。目前使用的解决方法是在webview外面嵌套一层layout作为Container.在Activity的onDestroy中调用container.removeAllViews()方法。</li>
+<li>Dialog导致Window泄露,如果需要在dialog依附的Activity销毁前没有调用dialog.dismiss()会导致Activity泄露</li>
+</ol>
+<h2 id="多进程"><a href="#多进程" class="headerlink" title="多进程"></a>多进程</h2><p>使用多进程可能会造成以下问题：</p>
+<ol>
+<li>静态成员和单例模式完全失效；</li>
+<li>线程同步完全失效;</li>
+<li>SharedPreferences可靠性下降；</li>
+<li>Application会多次创建；</li>
+</ol>
+<h2 id="Android-library中的资源ID在R-java中不是final类型"><a href="#Android-library中的资源ID在R-java中不是final类型" class="headerlink" title="Android library中的资源ID在R.java中不是final类型"></a>Android library中的资源ID在R.java中不是final类型</h2><p>问题现象：在library中使用switch语句区分不同的资源ID时，IDE会报错；</p>
+<p>原因分析：这个问题在Android Studio Project Site (<a href="http://tools.android.com/tips/non-constant-fields" target="_blank" rel="noopener">http://tools.android.com/tips/non-constant-fields</a>) 有提及，在ADT14及以上的版本中，library所对应的R.java中所有ID不再是final类型，所以不能将ID作为switch语句中的case分支属性值。这个问题和IDE无关，在Eclipse和AS中都存在。</p>
+<p>解决方案：如果涉及到区分多个ID的情况（比如监听回调事件、初始化通过xml给自定义View设置的属性值等）应该使用if…else if…else代替switch语句；</p>
+<h2 id="同一个程序内的多个进程之间使用SharedPreferences不安全："><a href="#同一个程序内的多个进程之间使用SharedPreferences不安全：" class="headerlink" title="同一个程序内的多个进程之间使用SharedPreferences不安全："></a>同一个程序内的多个进程之间使用SharedPreferences不安全：</h2><p>问题现象：在同一个程序内使用多进程时，在不同进程间使用SharedPreferences操作数据会导致SF中的数据随机丢失的情况（获取到的值为空）；</p>
+<p>原因分析：虽然API中提供了Context.MODE MULTI PROCESS模式打开SF文件，但在官方文档 (<a href="https://developer.android.com/reference/android/content/SharedPreferences.html" target="_blank" rel="noopener">https://developer.android.com/reference/android/content/SharedPreferences.html</a>) 中已有说明：”currently this class does not support use across multiple processes”，因为SF在多进程间操作是不安全的，并行操作时会导致写冲突。</p>
+<p>解决方案：Github上有个开源项目Tray (<a href="https://github.com/grandcentrix/tray" target="_blank" rel="noopener">https://github.com/grandcentrix/tray</a>) ，专门针对在多进程中使用SF不安全的问题提供的解决方案。</p>
+<h2 id="Typeface初始化自定义字体慢："><a href="#Typeface初始化自定义字体慢：" class="headerlink" title="Typeface初始化自定义字体慢："></a>Typeface初始化自定义字体慢：</h2><p>问题现象：在使用自定义字体的页面，进入慢；</p>
+<p>原因分析：使用Typeface初始化字体很耗时，至少需要100ms（不同文件耗时不一样）以上的时间。</p>
+<p>解决方案：如果在Activity的onCreate方法中初始化Typeface，会导致进入Activity慢，出现黑屏/白屏现象，所以应该尽量在非UI线程中做自定义字体的初始化操作。</p>
+<h2 id="Toast连续显示时长时间不消失："><a href="#Toast连续显示时长时间不消失：" class="headerlink" title="Toast连续显示时长时间不消失："></a>Toast连续显示时长时间不消失：</h2><p>问题现象：多个Toast同时显示时，Toast一直显示不消失，退出程序了仍然显示；</p>
+<p>原因分析：看Toast的源码可以发现，同时显示多个toast时是排队显示的，所以才会出现同时显示多个Toast时很久都不消失的情况；</p>
+<p>解决方案：这属于体验问题，很多应用都存在。建议定义一个全局的Toast对象，这样可以避免连续显示Toast时不能取消上一次Toast消息的情况（如果你有连续弹出Toast的情况，避免使用Toast.makeText）；</p>
+<h2 id="不要通过Bundle传递很大块的数据："><a href="#不要通过Bundle传递很大块的数据：" class="headerlink" title="不要通过Bundle传递很大块的数据："></a>不要通过Bundle传递很大块的数据：</h2><p>问题现象：从目录界面跳转到内容显示界面，出现随机崩溃的现象，报的异常是：TransactionTooLargeException；</p>
+<p>原因分析：跟踪发现如果通过Bundle传递太大块（&gt;1M）的数据会在程序运行时报TransactionTooLargeException异常，具体原因可以上官网查看，大致意思是传递的序列化数据不能超过1M，否则会报TransactionTooLargeException异常；之所以随机是因为每次传递的数据大小不一样。</p>
+<p>解决方案：如果你在不同组件之间传递的数据太大，甚至超过了1M，为了提高效率和程序的稳定性，建议通过持久化的方式传递数据，即在传递方写文件，在接收方去读取这个文件；</p>
+<h1 id="AndroidStudio"><a href="#AndroidStudio" class="headerlink" title="AndroidStudio"></a>AndroidStudio</h1><h2 id="Adb-connection-Error-远程主机强迫关闭了一个现有的连接"><a href="#Adb-connection-Error-远程主机强迫关闭了一个现有的连接" class="headerlink" title="Adb connection Error:远程主机强迫关闭了一个现有的连接"></a>Adb connection Error:远程主机强迫关闭了一个现有的连接</h2><p>原因分析：运行的adb.exe进程被意外结束，已经建立连接的模拟器或测试手机强行关闭</p>
+<p>解决办法：在前面运行adb指令的1/2/3/4点中，错误打印killing这个词，可能因为运行C盘的adb.exe进程需要结束已运行的E盘的adb.exe进程，本地电脑即使有多个adb.exe，都会在运行另一个进程前结束另一个，造成Android Studio或Eclipse现有的连接被异常关闭。</p>
+<p>总结：运行另一个adb进程会先结束已运行的进程，出现killing错误提示，一个adb进程依赖唯一的5037端口号，已运行的adb占用127.0.0.1:5037，提示套接字只允许使用一次错误。测试手机通过数据线连接当前电脑，一些第三方的手机软件自动运行，优先占用5037端口号，造成adb.exe无法正常使用。以往的做法，重新插拔数据线或者重启电脑恢复正常，读完TeachCourse的这篇文章，只需要几个指令即可正常启动adb进程。</p>
+<h2 id="Android-Sudio出现-Error-No-Service-of-type-Factory-available-in-ProjectScopeServices。"><a href="#Android-Sudio出现-Error-No-Service-of-type-Factory-available-in-ProjectScopeServices。" class="headerlink" title="Android Sudio出现 Error:No Service of type Factory available in ProjectScopeServices。"></a>Android Sudio出现 Error:No Service of type Factory available in ProjectScopeServices。</h2><p><img src="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115225.png" alt="image"></p>
+<p>定位到</p>
+<p><img src="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115253.png" alt="image"></p>
+<p>应该是Meaven插件的问题</p>
+<p><img src="https://raw.githubusercontent.com/directionyu/BlogPhotos/master/res/QQ%E6%88%AA%E5%9B%BE20161101115328.png" alt="image"></p>
+<p>在<a href="https://code.google.com/p/android/issues/detail?id=219692" target="_blank" rel="noopener">https://code.google.com/p/android/issues/detail?id=219692</a> 已经有人提了issue</p>
+<p>解决方法就是将</p>
+<p>‘ classpath com.github.dcendents:android-maven-gradle-plugin:1.3’ 版本升级到1.4.1 再次编译Success。</p>
+<h1 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h1><p>#</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/08/Gradle/Gradle-SignConfig(签名配置)/" rel="next" title="Gradle-SignConfig(签名配置)">
+                <i class="fa fa-chevron-left"></i> Gradle-SignConfig(签名配置)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/29/Android/Android代码内存优化建议-Android官方篇/" rel="prev" title="Android代码内存优化建议-Android官方篇">
+                Android代码内存优化建议-Android官方篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#异常"><span class="nav-number">1.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unable-to-add-window-–-token-android-os-BinderProxy-164db98f-is-not-valid；is-your-activity-running"><span class="nav-number">1.1.</span> <span class="nav-text">Unable to add window – token android.os.BinderProxy@164db98f is not valid；is your activity running?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#系统API"><span class="nav-number">2.</span> <span class="nav-text">系统API</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#try-catch-finally，try里有return，finally还执行么？"><span class="nav-number">2.1.</span> <span class="nav-text">try catch finally，try里有return，finally还执行么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EditText-字体动态大小"><span class="nav-number">2.2.</span> <span class="nav-text">EditText 字体动态大小</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制虚线"><span class="nav-number">2.3.</span> <span class="nav-text">绘制虚线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存泄漏"><span class="nav-number">2.4.</span> <span class="nav-text">内存泄漏</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多进程"><span class="nav-number">2.5.</span> <span class="nav-text">多进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-library中的资源ID在R-java中不是final类型"><span class="nav-number">2.6.</span> <span class="nav-text">Android library中的资源ID在R.java中不是final类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同一个程序内的多个进程之间使用SharedPreferences不安全："><span class="nav-number">2.7.</span> <span class="nav-text">同一个程序内的多个进程之间使用SharedPreferences不安全：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Typeface初始化自定义字体慢："><span class="nav-number">2.8.</span> <span class="nav-text">Typeface初始化自定义字体慢：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Toast连续显示时长时间不消失："><span class="nav-number">2.9.</span> <span class="nav-text">Toast连续显示时长时间不消失：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不要通过Bundle传递很大块的数据："><span class="nav-number">2.10.</span> <span class="nav-text">不要通过Bundle传递很大块的数据：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AndroidStudio"><span class="nav-number">3.</span> <span class="nav-text">AndroidStudio</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Adb-connection-Error-远程主机强迫关闭了一个现有的连接"><span class="nav-number">3.1.</span> <span class="nav-text">Adb connection Error:远程主机强迫关闭了一个现有的连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-Sudio出现-Error-No-Service-of-type-Factory-available-in-ProjectScopeServices。"><span class="nav-number">3.2.</span> <span class="nav-text">Android Sudio出现 Error:No Service of type Factory available in ProjectScopeServices。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle"><span class="nav-number">4.</span> <span class="nav-text">Gradle</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

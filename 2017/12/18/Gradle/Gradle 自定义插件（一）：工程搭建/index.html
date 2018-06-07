@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Gradle 插件," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是Gradle插件Gradle 在它的核心中提供了一些小但有用的功能，用于在真实世界中的自动化。所有有用的功能， 例如以能够编译 Java 代码为例，都是通过插件进行添加的。插件添加了新任务 （例如JavaCompile）， 域对象 （例如SourceSet），约定（例如主要的 Java 源代码是位于 src/main/java），以及扩展的核心对象和其他插件的对象。 插件本身特性是幂等操作，">
+<meta name="keywords" content="Gradle 插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 自定义插件（一）：工程搭建">
+<meta property="og:url" content="http://directionyu.cn/2017/12/18/Gradle/Gradle 自定义插件（一）：工程搭建/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="什么是Gradle插件Gradle 在它的核心中提供了一些小但有用的功能，用于在真实世界中的自动化。所有有用的功能， 例如以能够编译 Java 代码为例，都是通过插件进行添加的。插件添加了新任务 （例如JavaCompile）， 域对象 （例如SourceSet），约定（例如主要的 Java 源代码是位于 src/main/java），以及扩展的核心对象和其他插件的对象。 插件本身特性是幂等操作，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.725Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle 自定义插件（一）：工程搭建">
+<meta name="twitter:description" content="什么是Gradle插件Gradle 在它的核心中提供了一些小但有用的功能，用于在真实世界中的自动化。所有有用的功能， 例如以能够编译 Java 代码为例，都是通过插件进行添加的。插件添加了新任务 （例如JavaCompile）， 域对象 （例如SourceSet），约定（例如主要的 Java 源代码是位于 src/main/java），以及扩展的核心对象和其他插件的对象。 插件本身特性是幂等操作，">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2017/12/18/Gradle/Gradle 自定义插件（一）：工程搭建/"/>
+
+
+
+
+
+  <title> Gradle 自定义插件（一）：工程搭建 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2017/12/18/Gradle/Gradle 自定义插件（一）：工程搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gradle 自定义插件（一）：工程搭建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T10:54:29+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gradle/" itemprop="url" rel="index">
+                    <span itemprop="name">Gradle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是Gradle插件"><a href="#什么是Gradle插件" class="headerlink" title="什么是Gradle插件"></a>什么是Gradle插件</h1><p>Gradle 在它的核心中提供了一些小但有用的功能，用于在真实世界中的自动化。所有有用的功能， 例如以能够编译 Java 代码为例，都是通过插件进行添加的。插件添加了新任务 （例如JavaCompile）， 域对象 （例如SourceSet），约定（例如主要的 Java 源代码是位于 src/main/java），以及扩展的核心对象和其他插件的对象。</p>
+<p>插件本身特性是幂等操作，可以被应用多次，多次执行后的影响与一次执行的的影响相同，不会影响系统状态，不用担心重复执行会对系统造成改变。</p>
+<p><a href="http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/introduction/README.html" target="_blank" rel="noopener">Gradle插件用户指南</a></p>
+<h1 id="插件可以做什么"><a href="#插件可以做什么" class="headerlink" title="插件可以做什么"></a>插件可以做什么</h1><ol>
+<li>将Task（编译、测试等）加入到项目构建的生命周期去。</li>
+<li>使用新的默认配置对将要进行构建的项目进行预配置。</li>
+<li>向项目中添加新的依赖配置。</li>
+<li>通过扩展现有的插件属性，添加新的方法。</li>
+</ol>
+<a id="more"></a>
+<h1 id="插件的类型"><a href="#插件的类型" class="headerlink" title="插件的类型"></a>插件的类型</h1><h2 id="本地插件"><a href="#本地插件" class="headerlink" title="本地插件"></a>本地插件</h2><p>直接在项目里编写，如之前的utils.gradle，这种方式的缺点是无法复用代码，在其他项目使用必须复制过去。</p>
+<h2 id="远程插件"><a href="#远程插件" class="headerlink" title="远程插件"></a>远程插件</h2><p>在独立项目里编写，打包成jar，jar包含多个插件入口，发布到线上仓库，达到复用的效果。</p>
+<h1 id="插件的引用"><a href="#插件的引用" class="headerlink" title="插件的引用"></a>插件的引用</h1><p>举个例子：gradle依赖javaplugin插件的写法有多种方式</p>
+<ul>
+<li><p>完整路径</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> org.gradle.api.plugins.JavaPlugin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>短名称 插件都有一个标识自己的短名称，如JavaPlugin的短名称就是java。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'java'</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>插件名</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> JavaPlugin</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="插件开发"><a href="#插件开发" class="headerlink" title="插件开发"></a>插件开发</h1><h2 id="工程创建"><a href="#工程创建" class="headerlink" title="工程创建"></a>工程创建</h2><p>AS不像IDEA那样并没有groovy工程模板，但是原理是一样的</p>
+<ol>
+<li>新建一个Android Project</li>
+<li>再新建一个Module，这个Module用于开发Gradle插件，同样，Module里面没有gradle plugin给你选，但是我们只是需要一个”容器”来容纳我们写的插件，因此，可以随便选择一个Module类型（如Phone&amp;Tablet Module或Android Librarty）,将里面的大部分内容删除，所以选择哪个类型的Module不重要。</li>
+<li>将Module里面的内容删除，只保留build.gradle文件和src/main目录。 由于gradle是基于groovy，因此，我们开发的gradle插件相当于一个groovy项目。所以需要在main目录下新建groovy目录</li>
+<li><p>groovy又是基于Java，因此，接下来创建groovy的过程跟创建java很类似。在groovy目录下新建包名，如：com.roy.plugin，然后在该包下新建xxx.groovy文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">├── app</span><br><span class="line">│   ├── build.gradle</span><br><span class="line">│   ├── libs</span><br><span class="line">│   └── src</span><br><span class="line">│       ├── androidTest</span><br><span class="line">│       │   └── java</span><br><span class="line">│       ├── main</span><br><span class="line">│       │   ├── AndroidManifest.xml</span><br><span class="line">│       │   ├── java</span><br><span class="line">│       │   └── res</span><br><span class="line">│       └── test</span><br><span class="line">├── build.gradle</span><br><span class="line">├── plugin</span><br><span class="line">│   ├── build.gradle            </span><br><span class="line">│   └── src</span><br><span class="line">│       └── main</span><br><span class="line">│           ├── groovy          </span><br><span class="line">│           └── resources</span><br><span class="line">|               └── META-INF   </span><br><span class="line">|                   └── gradle-plugins     </span><br><span class="line">|                       └── xxx.properties</span><br><span class="line">├── gradle</span><br><span class="line">│   └── wrapper</span><br><span class="line">│       ├── gradle-wrapper.jar</span><br><span class="line">│       └── gradle-wrapper.properties</span><br><span class="line">├── gradle.properties</span><br><span class="line">├── gradlew</span><br><span class="line">├── gradlew.bat</span><br><span class="line">├── local.properties</span><br><span class="line">└── settings.gradle</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除pluginModel下的xxx.gradle中全部代码，添加如下代码，依赖开发插件必须的库</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apply <span class="string">plugin:</span> <span class="string">'groovy'</span></span><br><span class="line">apply <span class="string">plugin:</span> <span class="string">'maven'</span></span><br><span class="line"></span><br><span class="line">dependencies &#123;</span><br><span class="line">  <span class="comment">//gradle sdk</span></span><br><span class="line">  compile gradleApi()</span><br><span class="line">  <span class="comment">//groovy sdk</span></span><br><span class="line">  compile localGroovy()</span><br><span class="line">  compile fileTree(<span class="string">dir:</span> <span class="string">'libs'</span>, <span class="string">include:</span> [<span class="string">'*.jar'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在plugin.gradle中添加上传仓库的Task，例子如下</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">uploadArchives &#123;</span><br><span class="line">  configuration = configurations.archives</span><br><span class="line">  repositories.mavenDeployer &#123;</span><br><span class="line">      repository(<span class="string">url:</span> LOCAL_REPO_URL) <span class="comment">// 本地测试仓库</span></span><br><span class="line"><span class="comment">//            repository(url: REMOTE_REPO_URL) &#123; // 远程仓库</span></span><br><span class="line"><span class="comment">//                authentication(userName: REMOTE_REPO_NAME, password: REMOTE_REPO_PASSWORD)</span></span><br><span class="line"><span class="comment">//            &#125;</span></span><br><span class="line">      pom.groupId = PROJECT_GROUP_ID</span><br><span class="line">      pom.artifactId = PROJECTECT_ARTIFACTID</span><br><span class="line">      pom.version = PROJECT_VERSION</span><br><span class="line">      description PROJECT_DESCRIPTION</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Gradle-插件/" rel="tag"># Gradle 插件</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/29/Android/ScheduledExecutorService 分析/" rel="next" title="ScheduledExecutorService 分析">
+                <i class="fa fa-chevron-left"></i> ScheduledExecutorService 分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/20/Gradle/Gradle 自定义插件（二）：插件初探/" rel="prev" title="Gradle 自定义插件（二）：插件初探">
+                Gradle 自定义插件（二）：插件初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Gradle插件"><span class="nav-number">1.</span> <span class="nav-text">什么是Gradle插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件可以做什么"><span class="nav-number">2.</span> <span class="nav-text">插件可以做什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件的类型"><span class="nav-number">3.</span> <span class="nav-text">插件的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地插件"><span class="nav-number">3.1.</span> <span class="nav-text">本地插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远程插件"><span class="nav-number">3.2.</span> <span class="nav-text">远程插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件的引用"><span class="nav-number">4.</span> <span class="nav-text">插件的引用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#插件开发"><span class="nav-number">5.</span> <span class="nav-text">插件开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工程创建"><span class="nav-number">5.1.</span> <span class="nav-text">工程创建</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

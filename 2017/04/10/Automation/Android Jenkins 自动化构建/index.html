@@ -1,0 +1,795 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android,Jenkins,自动化," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="环境搭建Android SDKandroid sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下： 1234567# aaptsudo dpkg --add-architecture i386# adbsudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 l">
+<meta name="keywords" content="Android,Jenkins,自动化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Jenkins自动化构建">
+<meta property="og:url" content="http://directionyu.cn/2017/04/10/Automation/Android Jenkins 自动化构建/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="环境搭建Android SDKandroid sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下： 1234567# aaptsudo dpkg --add-architecture i386# adbsudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 l">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.718Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Jenkins自动化构建">
+<meta name="twitter:description" content="环境搭建Android SDKandroid sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下： 1234567# aaptsudo dpkg --add-architecture i386# adbsudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 l">
+<meta name="twitter:image" content="https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2017/04/10/Automation/Android Jenkins 自动化构建/"/>
+
+
+
+
+
+  <title> Android Jenkins自动化构建 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2017/04/10/Automation/Android Jenkins 自动化构建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android Jenkins自动化构建
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-10T16:00:42+08:00">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Jenkins/" itemprop="url" rel="index">
+                    <span itemprop="name">Jenkins</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h2><p>android sdk 工具包的一些命令行工具是基于32位系统的，在64为平台运行32程序必须安装 i386 的一些依赖库，方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># aapt</span><br><span class="line">sudo dpkg --add-architecture i386</span><br><span class="line"></span><br><span class="line"># adb</span><br><span class="line">sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1</span><br><span class="line"></span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p> 安装完成32位的依赖库后，我们使用wget 去官方下载最新的linux下android SDK包。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz</span><br><span class="line">tar xvzf android-sdk_r24.4.1-linux.tgz</span><br></pre></td></tr></table></figure>
+<p>编辑 .profile 或者 .bash_profile 把下面的目录增加到 path的搜索路径中，确保android SDK的的一些命令工具可以直接在终端使用，比如 adb 命令。 ANDROID_HOME=$HOME/android-sdk-linux PATH=”$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools”</p>
+<p>使环境变量生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.profile</span><br></pre></td></tr></table></figure>
+<p>环境变量生效后，你可以使用android命令 列出sdk相关的列表，以便我们选择和自己项目匹配的SDK版本。(刚才只是安装了最基础的SDK，要完全满足你的开发环境需要还得从下面的列表中选择你需要的SDK和工具更新下载)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android list sdk --all</span><br></pre></td></tr></table></figure>
+<p>输出如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">Packages available for installation or update: 176</span><br><span class="line">   1- Android SDK Tools, revision 25.2.5</span><br><span class="line">   2- Android SDK Platform-tools, revision 25.0.4</span><br><span class="line">   3- Android SDK Platform-tools, revision 26 rc1</span><br><span class="line">   4- Android SDK Build-tools, revision 26 rc1</span><br><span class="line">   5- Android SDK Build-tools, revision 25.0.2</span><br><span class="line">   6- Android SDK Build-tools, revision 25.0.1</span><br><span class="line">   7- Android SDK Build-tools, revision 25</span><br><span class="line">   8- Android SDK Build-tools, revision 24.0.3</span><br><span class="line">   9- Android SDK Build-tools, revision 24.0.2</span><br><span class="line">  10- Android SDK Build-tools, revision 24.0.1</span><br><span class="line">  11- Android SDK Build-tools, revision 24</span><br><span class="line">  12- Android SDK Build-tools, revision 23.0.3</span><br><span class="line">  13- Android SDK Build-tools, revision 23.0.2</span><br><span class="line">  14- Android SDK Build-tools, revision 23.0.1</span><br><span class="line">  15- Android SDK Build-tools, revision 23 (Obsolete)</span><br><span class="line">  16- Android SDK Build-tools, revision 22.0.1</span><br><span class="line">  17- Android SDK Build-tools, revision 22 (Obsolete)</span><br><span class="line">  18- Android SDK Build-tools, revision 21.1.2</span><br><span class="line">  19- Android SDK Build-tools, revision 21.1.1 (Obsolete)</span><br><span class="line">  20- Android SDK Build-tools, revision 21.1 (Obsolete)</span><br><span class="line">  21- Android SDK Build-tools, revision 21.0.2 (Obsolete)</span><br><span class="line">  22- Android SDK Build-tools, revision 21.0.1 (Obsolete)</span><br><span class="line">  23- Android SDK Build-tools, revision 21 (Obsolete)</span><br><span class="line">  24- Android SDK Build-tools, revision 20</span><br><span class="line">  25- Android SDK Build-tools, revision 19.1</span><br><span class="line">  26- Android SDK Build-tools, revision 19.0.3 (Obsolete)</span><br><span class="line">  27- Android SDK Build-tools, revision 19.0.2 (Obsolete)</span><br><span class="line">  28- Android SDK Build-tools, revision 19.0.1 (Obsolete)</span><br><span class="line">  29- Android SDK Build-tools, revision 19 (Obsolete)</span><br><span class="line">  30- Android SDK Build-tools, revision 18.1.1 (Obsolete)</span><br><span class="line">  31- Android SDK Build-tools, revision 18.1 (Obsolete)</span><br><span class="line">  32- Android SDK Build-tools, revision 18.0.1 (Obsolete)</span><br><span class="line">  33- Android SDK Build-tools, revision 17 (Obsolete)</span><br><span class="line">  34- Documentation for Android SDK, API 24, revision 1</span><br><span class="line">  35- SDK Platform Android 7.1.1, API 25, revision 3</span><br><span class="line">  36- SDK Platform Android 7.0, API 24, revision 2</span><br><span class="line">  37- SDK Platform Android 6.0, API 23, revision 3</span><br><span class="line">  38- SDK Platform Android 5.1.1, API 22, revision 2</span><br><span class="line">  39- SDK Platform Android 5.0.1, API 21, revision 2</span><br><span class="line">  40- SDK Platform Android 4.4W.2, API 20, revision 2</span><br><span class="line">  41- SDK Platform Android 4.4.2, API 19, revision 4</span><br><span class="line">  42- SDK Platform Android 4.3.1, API 18, revision 3</span><br><span class="line">  43- SDK Platform Android 4.2.2, API 17, revision 3</span><br><span class="line">  44- SDK Platform Android 4.1.2, API 16, revision 5</span><br><span class="line">  45- SDK Platform Android 4.0.3, API 15, revision 5</span><br><span class="line">  46- SDK Platform Android 4.0, API 14, revision 4</span><br></pre></td></tr></table></figure>
+<p>这里包括不同的Android API 版本和不同的构建工具，选择你想要安装项目的序号，这里我想安装 build tools 25 ,build tools 25 及 android 4.4以上的SDK所以选择序号 “1,2,3,4,5,37,38,39,40,41”</p>
+<p><code>android update sdk -u -a -t 1,2,3,4,5,37,38,39,40,41</code></p>
+<h2 id="Gradle-3-3"><a href="#Gradle-3-3" class="headerlink" title="Gradle 3.3"></a>Gradle 3.3</h2><p>wget <a href="https://services.gradle.org/distributions/gradle-3.3-bin.zip" target="_blank" rel="noopener">https://services.gradle.org/distributions/gradle-3.3-bin.zip</a></p>
+<p>释放到本地Home目录,创建名字为”gradle”的符号链接，符号连接的好处是方便版本更新，有了新的版本直接修改符号链接即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unzip gradle-2.12-bin.zip</span><br><span class="line">ln -s gradle-2.12 gradle</span><br></pre></td></tr></table></figure>
+<p>配置gradle环境变量并使其生效,编辑 ~/.profje 文件增加下面内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GRADLE_HOME=$HOME/gradle</span><br><span class="line">export PATH=$PATH:$GRADLE_HOME/bin</span><br></pre></td></tr></table></figure>
+<p>保存后使环境变量使其生效 <code>source ~/.profile</code> 环境变量生效后你可以在终端敲入’gradle’命令并运行用以检测gradle是否安装成功。</p>
+<p><code>gradle</code></p>
+<p>如果安装配置的没有问题将会提示类似下面的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">:help</span><br><span class="line">Welcome to Gradle 2.12</span><br><span class="line">To run a build, run gradle &lt;task&gt; ...</span><br><span class="line">To see a list of available tasks, run gradle tasks</span><br><span class="line">To see a list of command-line options, run gradle --help</span><br><span class="line">BUILD SUCCESSFUL</span><br></pre></td></tr></table></figure>
+<h1 id="签名详解"><a href="#签名详解" class="headerlink" title="签名详解"></a>签名详解</h1><h2 id="生成秘钥"><a href="#生成秘钥" class="headerlink" title="生成秘钥"></a>生成秘钥</h2><p>keytool: 是一个Java数据证书的管理工具，keytool 将密钥（key）和证书（certificates）存在一个keystore的文件中，或者是jks的文件</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">-genkey: 在用户目录中创建一个默认.keystore文件</span><br><span class="line">-alias 产生别名,不区分大小写</span><br><span class="line">-keystore 指定密钥库的名称(产生的各类信息将不在.keystore文件中),其中包含密钥和公钥，指定导出的证书位置和名称</span><br><span class="line">-keyalg 指定密钥的算法 (如 RSA DSA（如果不指定默认采用DSA）)</span><br><span class="line">-validity 指定创建的证书有效期多少天 -keysize 指定密钥长度</span><br><span class="line">-storepass 指定密钥库的密码(获取keystore信息所需的密码)</span><br><span class="line">-keypass 指定别名条目的密码(私钥的密码) -dname 指定证书拥有者信息 例如： &quot;CN=名字与姓氏,OU=组织单位名称,O=组织名称,L=城市或区域名称,ST=州或省份名称,C=单位的两字母国家代码&quot; -list 显示密钥库中的证书信息 keytool -list -v -keystore 指定keystore -storepass 密码 -v 显示密钥库中的证书详细信息</span><br><span class="line">-export 将别名指定的证书导出到文件 keytool -export -alias 需要导出的别名</span><br><span class="line">-keystore 指定keystore -file 指定导出的证书位置及证书名称</span><br><span class="line">-storepass 密码</span><br><span class="line">-file 参数指定导出到文件的文件名</span><br><span class="line">-delete 删除密钥库中某条目 keytool -delete -alias 指定需删除的别名</span><br><span class="line">-keystore 指定keystore -storepass 密码</span><br><span class="line">-printcert 查看导出的证书信息 keytool -printcert -file yushan.crt -keypasswd 修改密钥库中指定条目口令keytool -keypasswd -alias 需修改的别名</span><br><span class="line">-keypass 旧密码</span><br><span class="line">-new 新密码</span><br><span class="line">-storepass keystore密码 -keystore sage -storepasswd 修改keystore口令 keytool -storepasswd -keystore xxx.keystore(需修改口令的keystore)</span><br><span class="line">-storepass 123456(原始密码)</span><br><span class="line">-new yuanyu(新密码)</span><br><span class="line">-import 将已签名数字证书导入密钥库 keytool -import -alias 指定导入条目的别名 -keystore 指定keystore -file 需导入的证书</span><br></pre></td></tr></table></figure>
+<h2 id="一次性生成Key"><a href="#一次性生成Key" class="headerlink" title="一次性生成Key"></a>一次性生成Key</h2><p><code>keytool -genkey -alias $ALIAS -keypass 123456 -keyalg RSA -keysize 1024 -validity 3650 -keystore $PATH -storepass 123456 -dname &quot;CN=fanle, OU=xx, O=xx, L=xx, ST=xx, C=xx&quot;</code></p>
+<!-- more -->
+<h2 id="签名-APK"><a href="#签名-APK" class="headerlink" title="签名 APK"></a>签名 APK</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 输入完整信息签名一个应用，注意填写[]中对应的内容</span><br><span class="line"></span><br><span class="line"># [yourStorepass] 签名文件密码 [aliasesPass] 别名密码 [forSignAPKPath] 要签名的apk路径  [aliases] 别名</span><br><span class="line"></span><br><span class="line">jarsigner -verbose -keystore myKey.keystore -storepass [yourStorepass] -keypass [aliasesPass] [forSignAPKPath] [aliases]</span><br></pre></td></tr></table></figure>
+<h2 id="校验签名"><a href="#校验签名" class="headerlink" title="校验签名"></a>校验签名</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 查看一个路径为 [verifyApkPath] 的APK 是否签名</span><br><span class="line"></span><br><span class="line">jarsigner -verify [verifyApkPath]</span><br><span class="line"></span><br><span class="line"># 通过一个路径为 [keystorePath] 的签名文件，校验一个 路径为 [verifyApkPath] 的apk</span><br><span class="line"></span><br><span class="line">jarsigner -verbose -verify -keystore [keystorePath] -certs [verifyApkPath]</span><br></pre></td></tr></table></figure>
+<h2 id="查看签名文件信息"><a href="#查看签名文件信息" class="headerlink" title="查看签名文件信息"></a>查看签名文件信息</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 查看一个路径为 [keystorePath] 的签名文件的信息，需要签名的库密码</span><br><span class="line"></span><br><span class="line">keytool -list -keystore [keystorePath]</span><br></pre></td></tr></table></figure>
+<h1 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h1><h2 id="动态参数"><a href="#动态参数" class="headerlink" title="动态参数"></a>动态参数</h2><p>|–参数名-|参数类型| 参数值列表| BUILD_TYPE Choice Release or Debug IS_JENKINS Choice true PRODUCT_FLAVORS Choice Xiaomi 、Wandoujia等 BUILD_TIME Dynamic Parameter 2016-12-21-11-11 APP_VERSION Choice 1.0.0、1.0.1等 GIT_TAG Git Parameter tag1.0.0等</p>
+<h2 id="构建触发器"><a href="#构建触发器" class="headerlink" title="构建触发器"></a>构建触发器</h2><p>Jenkins支持上图所示的触发时机配置，如果都不选，则为手动构建，需要点击”立即构建”按钮才构建。</p>
+<p>Build periodically：周期进行项目构建（它不关心源码是否发生变化）； Build when a change is pushed to GItHub：表示只要GitHub上面源码一更新即进行构件； Poll SCM：定时检查源码变更（根据SCM软件的版本号），如果有更新就checkout最新code下来，然后执行构建动作。</p>
+<p>Build periodically和Poll SCM都支持日程表的设置，这个与Spring框架中定时器的日程表配置类似，有5个参数：</p>
+<p>第一个参数代表的是分钟 minute，取值 0~59； 第二个参数代表的是小时 hour，取值 0~23； 第三个参数代表的是天 day，取值 1~31； 第四个参数代表的是月 month，取值 1~12； 最后一个参数代表的是星期 week，取值 0~7，0 和 7 都是表示星期天。</p>
+<p>如：</p>
+<p>选择Build periodically并设置日程表为”0 4 “，则表示每天凌晨4点构建一次源码。 选择Poll SCM并设置日程表为”/10 “，则表示每10分钟检查一次源码变化，如果有更新才进行构建。</p>
+<h1 id="上传S3"><a href="#上传S3" class="headerlink" title="上传S3"></a>上传S3</h1><h2 id="环境搭建-1"><a href="#环境搭建-1" class="headerlink" title="环境搭建"></a>环境搭建</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 安装pip</span><br><span class="line">apt-get install python-pip</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 安装awscli</span><br><span class="line">apt-get install awscli</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 初始化配置</span><br><span class="line">aws configure</span><br><span class="line"><span class="meta">#</span> 做这一步时系统会要求输入“访问密钥ID”、“私有访问密钥”、“默认区域名称”、“默认输出格式”，前两个在创建IAM用户时会自动生成，“默认区域名称”最好选择桶EC2所在的区域，“默认输出格式”可以填json和text格式，默认是json格式。</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 创建存储桶</span><br><span class="line">aws s3 mb s3://test20170418</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 上传文件到存储桶</span><br><span class="line">aws s3 cp /usr/share/jenkins/test.txt s3://test20170418/</span><br></pre></td></tr></table></figure>
+<h1 id="build-description"><a href="#build-description" class="headerlink" title="build description"></a>build description</h1><p>在持续集成过程中，随着feature的不断加入，版本越来越多，你希望每个build成功之后能显示一些很重要的信息，比如版本号，当前该build支持的主要feature等。</p>
+<p>这样不论是开发还是测试，在拿build的时候都能一眼就看出该build对应的版本号以及主要的feature。</p>
+<p>使用description setter plugin。安装该插件后，在【Post-build Actions】栏目中会多出description setter功能，可以实现构建完成后设置当次build的描述信息。这个描述信息不仅会显示在build页面中，同时也会显示在历史构建列表中。 该功能的强大之处在于，它可以在构建日志中通过正则表达式来匹配内容，并将匹配到的内容添加到BuildDescription中去。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">'http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/qrcode/$&#123;APP_NAME&#125;_$&#123;PRODUCT_FLAVORS&#125;_$&#123;BUILD_TYPES&#125;_v$&#123;APP_VERSION&#125;.png'</span>&gt;</span><span class="tag">&lt;/<span class="name">img</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">'http://justdownit.s3.amazonaws.com/apps/gkt/android_jenkins/apk/$&#123;APP_NAME&#125;_$&#123;PRODUCT_FLAVORS&#125;_$&#123;BUILD_TYPES&#125;_v$&#123;APP_VERSION&#125;.apk'</span>&gt;</span>点击从S3下载Apk<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span>GooglePlay线上URL：https://play.google.com/store/apps/details?id=$APPLICATION_ID<span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">包名：$APPLICATION_ID <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">应用名:$APP_NAME <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">APP_ID：$APP_ID <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">APP_SECRET：$APP_SECRET <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">ANALYTICS_ID：$ANALYTICS_ID <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">FACEBOOK_ID：$FACEBOOK_ID <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">FB GooglePlay Package Name：$APPLICATION_ID <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">ADJUST_TOKEN：$ADJUST_TOKEN <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">ADJUST_TRACK_EVENT_PAYMENT：$ADJUST_TRACK_EVENT_PAYMENT <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="展示二维码图片"><a href="#展示二维码图片" class="headerlink" title="展示二维码图片"></a>展示二维码图片</h2><p>有了这个前提，要将二维码图片展示在历史构建列表中貌似就可以实现了，能直观想到的方式就是采用HTML的img标签，将<code>&lt;img src=&#39;qr_code_url&#39;&gt;</code>写入到build描述信息中。</p>
+<p>这个方法的思路是正确的，不过这么做以后并不会实现我们预期的效果。</p>
+<p>这是因为Jenkins出于安全的考虑，所有描述信息的Markup Formatter默认都是采用Plain text模式，在这种模式下是不会对build描述信息中的HTML编码进行解析的。</p>
+<p>要改变也很容易，Manage Jenkins -&gt; Configure Global Security，将Markup Formatter的设置更改为Safe HTML即可。</p>
+<p>更改配置后，我们就可以在build描述信息中采用HTML的img标签插入图片了。</p>
+<p>另外还需要补充一个点。如果是使用蒲公英（pyger）平台，会发现每次上传安装包后返回的二维码图片是一个短链接，神奇的是这个短连接居然是固定的（对同一个账号而言）。这个短连接总是指向最近生成的二维码图片，但是对于二维码图片的唯一URL地址，平台并没有在响应中进行返回。在这种情况下，我们每次构建完成后保存二维码图片的URL链接就没有意义了。</p>
+<p>应对的做法是，每次上传完安装包后，通过返回的二维码图片短链接将二维码图片下载并保存到本地，然后在build描述信息中引用该图片的Jenkins地址即可。</p>
+<h1 id="Jenkins-权限组分配"><a href="#Jenkins-权限组分配" class="headerlink" title="Jenkins 权限组分配"></a>Jenkins 权限组分配</h1><h1 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h1><p>见git：<a href="http://git.dy/gkt/testjenkins/tree/master" target="_blank" rel="noopener">http://git.dy/gkt/testjenkins/tree/master</a></p>
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><h2 id="Jenkins-在Linux下出现权限等问题"><a href="#Jenkins-在Linux下出现权限等问题" class="headerlink" title="Jenkins 在Linux下出现权限等问题"></a>Jenkins 在Linux下出现权限等问题</h2><ol>
+<li>进入/etc/default/目录 在jenkins文件中修改JENKINS_USER=”root”</li>
+<li>重启Jenkins服务</li>
+</ol>
+<h2 id="编译出现-AAPT-C-Windows-System32-config-systemprofile-等错误"><a href="#编译出现-AAPT-C-Windows-System32-config-systemprofile-等错误" class="headerlink" title="编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile_*_等错误"></a>编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile_*_等错误</h2><p><img src="https://github.com/directionyu/BlogPhotos/blob/master/res/jenkins_AAPT_error_1.png" alt=""></p>
+<p>原因：因为本地Jenkins Service 的账号使用了系统账户登录， 解决方案：在Service 列表中找到Jenkins服务，在属性中选择登录选项卡，选用具体的桌面用户账号登录，再重启服务即可.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+          
+            <a href="/tags/自动化/" rel="tag"># 自动化</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/20/Android/Android 设计模式--单例模式分析/" rel="next" title="Android 设计模式--单例模式分析">
+                <i class="fa fa-chevron-left"></i> Android 设计模式--单例模式分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/08/Android/AndroidManifest中BackupManager属性详解/" rel="prev" title="AndroidManifest中BackupManager属性详解">
+                AndroidManifest中BackupManager属性详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#环境搭建"><span class="nav-number">1.</span> <span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android-SDK"><span class="nav-number">1.1.</span> <span class="nav-text">Android SDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradle-3-3"><span class="nav-number">1.2.</span> <span class="nav-text">Gradle 3.3</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#签名详解"><span class="nav-number">2.</span> <span class="nav-text">签名详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生成秘钥"><span class="nav-number">2.1.</span> <span class="nav-text">生成秘钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令"><span class="nav-number">2.2.</span> <span class="nav-text">命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一次性生成Key"><span class="nav-number">2.3.</span> <span class="nav-text">一次性生成Key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#签名-APK"><span class="nav-number">2.4.</span> <span class="nav-text">签名 APK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#校验签名"><span class="nav-number">2.5.</span> <span class="nav-text">校验签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看签名文件信息"><span class="nav-number">2.6.</span> <span class="nav-text">查看签名文件信息</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构建"><span class="nav-number">3.</span> <span class="nav-text">构建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态参数"><span class="nav-number">3.1.</span> <span class="nav-text">动态参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建触发器"><span class="nav-number">3.2.</span> <span class="nav-text">构建触发器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上传S3"><span class="nav-number">4.</span> <span class="nav-text">上传S3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境搭建-1"><span class="nav-number">4.1.</span> <span class="nav-text">环境搭建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#build-description"><span class="nav-number">5.</span> <span class="nav-text">build description</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#展示二维码图片"><span class="nav-number">5.1.</span> <span class="nav-text">展示二维码图片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jenkins-权限组分配"><span class="nav-number">6.</span> <span class="nav-text">Jenkins 权限组分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#脚本"><span class="nav-number">7.</span> <span class="nav-text">脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FAQ"><span class="nav-number">8.</span> <span class="nav-text">FAQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Jenkins-在Linux下出现权限等问题"><span class="nav-number">8.1.</span> <span class="nav-text">Jenkins 在Linux下出现权限等问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译出现-AAPT-C-Windows-System32-config-systemprofile-等错误"><span class="nav-number">8.2.</span> <span class="nav-text">编译出现 AAPT: \?\C:\Windows\System32\config\systemprofile_*_等错误</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

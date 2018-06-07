@@ -1,0 +1,834 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Basic knowledge," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="基础 对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。  消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。  类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的">
+<meta name="keywords" content="Basic knowledge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础知识">
+<meta property="og:url" content="http://directionyu.cn/2015/09/29/Base/Java/Java基础知识查漏补缺/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="基础 对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。  消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。  类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java基础知识">
+<meta name="twitter:description" content="基础 对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。  消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。  类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2015/09/29/Base/Java/Java基础知识查漏补缺/"/>
+
+
+
+
+
+  <title> Java基础知识 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2015/09/29/Base/Java/Java基础知识查漏补缺/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-29T00:00:42+08:00">
+                2015-09-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Basic-knowledge/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic knowledge</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><ol>
+<li><p>对象 对象具有状态、行为和标识。意味着每一个对象可以拥有内部数据（它们给出该对象的状态）和方法（产生的行为），并且每一个对象都可以唯一的与其他对象区分开来（每一个对象在内存中都有一个唯一的地址）。</p>
+</li>
+<li><p>消息 在面向对象中，对象之间通过相互发送消息来进行交互，在Java中通过调用方法来传递消息。</p>
+</li>
+<li><p>类 类定义了某种类型所有对象所具有的属性和行为，是用来创建对象的蓝图或者模板；对象是某个确切的类的实例，在创建一个类的实例（对象）之前必须定义这个类。</p>
+</li>
+<li><p>继承</p>
+</li>
+</ol>
+<ul>
+<li>属于一个子类（派生类）的对象从父类（基类）中继承了全部属性和行为。所有可以发送给父类对象的消息也可以发送给子类对象。</li>
+<li>子类自然地继承其父类中非private的成员变量以及成员方法作为自己的成员变量和成员方法。</li>
+</ul>
+<ol start="5">
+<li><p>多态 对象的多态性是指在超类中定义的属性或者行为被子类继承后，可以具有不同的数据类型或者表现不同的行为，这使得同一个属性或者行为在一般类及其各子类中具有不同语义。</p>
+</li>
+<li><p>联编 是指将发送给对象的消息与包含执行该消息方法的对象连接起来。 静态联编：在编译和连接阶段实现的联编。 动态联编：在运行阶段实现的联编，是实现适应性多态的基础。</p>
+</li>
+<li><p>类变量 用static关键字修饰的就是类变量，类变量是常驻于内存的，是所有类的实例变量，可以不通过类名来访问，</p>
+</li>
+<li><p>实例变量 没有用static修饰的就是实例变量，类变量只能通过类来访问。</p>
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1></li>
+</ol>
+<h2 id="final"><a href="#final" class="headerlink" title="final"></a>final</h2><ol>
+<li>final类，final类是不能再被继承的类，没有子类。</li>
+<li>final方法，不能够被重写的方法。</li>
+<li>final变量，不能被更改初始化的值。</li>
+</ol>
+<h2 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h2><ol>
+<li>一个类不能同时声明final与abstract，abstract类是抽象类，抽象类只声明一种模板，是没有具体实现代码的类，所有抽象类必须被继承，必须有子类，然后在子类中实现超类的抽象方法，否则不可能有实例。</li>
+</ol>
+<h1 id="类作用"><a href="#类作用" class="headerlink" title="类作用"></a>类作用</h1><ol>
+<li>DriverManager：处理驱动程序加载和建立新数据连接。</li>
+<li>Statment：用于在制定的连接中处理SQL语句。</li>
+<li>Connection: 用于处理特定数据库的连接。</li>
+<li>ResultSet：用于处理SQL语句执行后的查询结果。</li>
+</ol>
+<h1 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h1><ol>
+<li>标识符第一位不能是数字</li>
+</ol>
+<h1 id="浮点型常量"><a href="#浮点型常量" class="headerlink" title="浮点型常量"></a>浮点型常量</h1><ol>
+<li>表示浮点型常量有两种方法:</li>
+<li>直接写一个实数，或者在实数后面加字幕D，或者d，例如123.54、123.54d;</li>
+<li>科学技术发，用10的方幂表示，用字符e或者E表示幂底10，例如123.54e0、123.54e1，不能在e或者E的两边没有数字，</li>
+</ol>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><ol>
+<li><p>“%”为求余运算符，求余数运算所得结果的符号与被除数符号相同。</p>
+</li>
+<li><p>自增自减运算符运算对象只能是变量，不能是常量表达式。</p>
+</li>
+<li><p>移位运算符的优先级低于算术运算符，高于关系运算符，他们结合的方向是自左向右。</p>
+</li>
+</ol>
+<a id="more"></a>
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h2 id="public-void-concat"><a href="#public-void-concat" class="headerlink" title="public void concat()"></a>public void concat()</h2><p>拼接字符串，没有concat(String,String) 这种形式</p>
+<h2 id="indexof"><a href="#indexof" class="headerlink" title="indexof"></a>indexof</h2><p>指定字符串中从某个位置开始检索参数字符串，返回字符串首次出现的位置，如果没有检索到返回-1，String字符串从0开始编号。</p>
+<h2 id="startsWith-String-prefix"><a href="#startsWith-String-prefix" class="headerlink" title="startsWith(String prefix)"></a>startsWith(String prefix)</h2><p>方法判断字符串S1是否从字符串xx开始</p>
+<h2 id="endWith-String-suffix"><a href="#endWith-String-suffix" class="headerlink" title="endWith(String suffix)"></a>endWith(String suffix)</h2><p>方法判断字符串s1是否从字符串xx结尾</p>
+<h2 id="StringTokenizer"><a href="#StringTokenizer" class="headerlink" title="StringTokenizer"></a>StringTokenizer</h2><p>StringTokenizer是字符串分隔解析类型，属于Java.util包。</p>
+<ol>
+<li><p>StringTokenizer的构造函数 StringTokenizer（String str）：构造一个用来解析str的StringTokenizer对象。java默认的分隔符是”空格”、”制表符（’\t’）”、”换行符(‘\n’）”、”回车符（’\r’）”。 StringTokenizer（String str，String delim）指定delim为分割符。 StringTokenizer（String str，String delim，boolean returnDelims）：构造一个用来解析str的StringTokenizer对象，并提供一个指定的分隔符，同时，指定是否返回分隔符。</p>
+</li>
+<li><p>StringTokenizer的一些常用方法 int countTokens（）：返回nextToken方法被调用的次数。 boolean hasMoreTokens（）：返回是否还有分隔符。 boolean hasMoreElements（）：返回是否还有分隔符。 String nextToken（）：返回从当前位置到下一个分隔符的字符串。 Object nextElement（）：返回从当前位置到下一个分隔符的字符串。 String nextToken（String delim）：与4类似，以指定的分隔符返回结果。</p>
+</li>
+</ol>
+<h2 id="compareTo-String-str"><a href="#compareTo-String-str" class="headerlink" title="compareTo(String str)"></a>compareTo(String str)</h2><p>按照字典顺序比较两个字符串的大小，该比较基于字符串中各个字符的Unicode值，如果String对象小于参数字符串，则返回一个负整数。若大于返回一个正整数，如果两个字符串相等，则返回0.</p>
+<h2 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf()"></a>indexOf()</h2><p>用于在字符串中从左到右查找一个字符或者子串的索引位置</p>
+<h2 id="substring"><a href="#substring" class="headerlink" title="substring()"></a>substring()</h2><p>可以用来从一个String里检索一个字符子串 String str = “helloworld”; str.substring(5) = “world”; str.substring(9) = “d”</p>
+<h2 id="replace-char-oldChar-char-newChar"><a href="#replace-char-oldChar-char-newChar" class="headerlink" title="replace(char oldChar, char newChar)"></a>replace(char oldChar, char newChar)</h2><p>返回一个新字符串，通过用newChar替换此字符串中出现的所有oldChar得到的</p>
+<h2 id="trim"><a href="#trim" class="headerlink" title="trim()"></a>trim()</h2><p>返回字符串的副本，去掉前后空白</p>
+<h2 id="valueOf-NaN"><a href="#valueOf-NaN" class="headerlink" title="valueOf()"></a>valueOf()</h2><p>用于把某种基本类型的值转换成一个String对象</p>
+<h1 id="包"><a href="#包" class="headerlink" title="包"></a>包</h1><h2 id="java-awt"><a href="#java-awt" class="headerlink" title="java.awt"></a>java.awt</h2><p>java.awt是一个软件包，包含用于创建用户界面和绘制图形图像的所有分类。在AWT术语中，诸如按钮或滚动条之类的用户界面对象称为组件。Component类是所有 AWT 组件的根。</p>
+<h2 id="java-applet"><a href="#java-applet" class="headerlink" title="java.applet"></a>java.applet</h2><p>Java Applet就是用Java语言编写的一些小应用程序，它们可以直接嵌入到网页中，并能够产生特殊的效果。包含Applet的网页被称为Java-Powered页，可以称其为Java支持的网页</p>
+<h2 id="java-io"><a href="#java-io" class="headerlink" title="java.io"></a>java.io</h2><p>Java的核心库java.io提供了全面的IO接口。包括：文件读写、标准设备输出等。Java中IO是以流为基础进行输入输出的，所有数据被串行化写入输出流，或者从输入流读入。</p>
+<h2 id="java-awt-event"><a href="#java-awt-event" class="headerlink" title="java.awt.event"></a>java.awt.event</h2><p>提供用于处理AWT组件触发的不同类型事件的接口和类。</p>
+<h1 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h1><p>线程由”创建-&gt;工作-&gt;死亡”的过程成为线程的声明周期 线程声明周期的五个状态：新建(new Thread())、就绪(start())、运行(run())、阻塞、死亡。 调度优先级由数值表示，数组越大优先级越高(范围是0~10).</p>
+<h2 id="Thread类和Runnable接口"><a href="#Thread类和Runnable接口" class="headerlink" title="Thread类和Runnable接口"></a>Thread类和Runnable接口</h2><h3 id="Thread"><a href="#Thread" class="headerlink" title="Thread"></a>Thread</h3><p>利用Thread类的子类创建的线程对象和在类中实现Runnable接口的run()方法是Java程序实现多线程技术的两种途径。 具体操作步骤： 用Thread子类实现多线程 =&gt; 先声明创建一个Thread类的子类，并在子类中重新定义run()方法，当程序需要多线程时,可以创建Thread子类的实例，并让此线程实例调用start()方法，这时run()方法将自动执行。</p>
+<h3 id="Runable"><a href="#Runable" class="headerlink" title="Runable"></a>Runable</h3><p>用Runnable接口实现多线程 =&gt; 声明实现Runnable接口的类，在类中实现run()方法，并在该类中声明线程对象，在init()方法或者start()方法中创建线程实例，并在start()中启动此线程实例。</p>
+<h1 id="I-O"><a href="#I-O" class="headerlink" title="I/O"></a>I/O</h1><p>FileInputStream类和FileOutputStream类实现字节的读写操作。 FileReader类和FileWriter类实现字符的读写操作。</p>
+<h1 id="Connection类、Statement类、ResultSet类"><a href="#Connection类、Statement类、ResultSet类" class="headerlink" title="Connection类、Statement类、ResultSet类"></a>Connection类、Statement类、ResultSet类</h1><p>Connection类是java.sql包中用于处理与特定数据库连接的类。 Statement creatStatement()方法 用于创建Statement对象。 Statement类是java.sql包中用于在指定的连接中处理SQL语句的类。数据库编程的要点是在程序中嵌入SQL命令。 ResultSet类的实例是用来存储查询结果集的。 数据库编程连接的步骤：</p>
+<ol>
+<li>声明和创建连接数据库的Connection对象，并让该对象连接数据库。 Connection con;</li>
+<li>调用类DriverManager的静态方法getConnection()获得Connection对象 Connection con = DriverManager.getConnection(url，username，password);</li>
+<li>用Statement类声明SQL语句对象,并调用Connection对象的creatStatement()方法创建SQL语句对象。 Statement sqlstr = con.createStatement();</li>
+<li>利用SQL语句对象调用executeQuery()执行SQL语句查询，并将查询结果存在一个ResultSet类的实例里。 ResultSet rs = sqlstr.executeQuery(SQL语句);</li>
+</ol>
+<h1 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h1><h2 id="URLConnection"><a href="#URLConnection" class="headerlink" title="URLConnection"></a>URLConnection</h2><h3 id="网络访问基本过程"><a href="#网络访问基本过程" class="headerlink" title="网络访问基本过程"></a>网络访问基本过程</h3><p>先创建一个URL对象，利用URL对象的openConnection()方法从系统获取一个URLConnection对象，使用URLConnection对象提供的方法获取流对象实现网络连接。</p>
+<h1 id="InetAddress类。"><a href="#InetAddress类。" class="headerlink" title="InetAddress类。"></a>InetAddress类。</h1><p>InetAddress类的对象用于存储IP地址和域名.</p>
+<h2 id="构造方法："><a href="#构造方法：" class="headerlink" title="构造方法："></a>构造方法：</h2><p>String getHostName()//用于获取InetAddress类对象的域名。 String getHostAddress()//用于获取InetAddress类对象的IP地址 getLoaclHost()//获取一个含有本机域名和IP地址的InetAddress类实例</p>
+<h1 id="图形"><a href="#图形" class="headerlink" title="图形"></a>图形</h1><h2 id="Graphics2D"><a href="#Graphics2D" class="headerlink" title="Graphics2D"></a>Graphics2D</h2><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><ul>
+<li>建立字体、设定显示颜色、显示图像的文本、绘制和填充各种几何图形</li>
+<li>Graphics类的drawline(int x1,int y1,int x2,int y2)方法可以画一条线段</li>
+</ul>
+<h2 id="Font"><a href="#Font" class="headerlink" title="Font"></a>Font</h2><p>Font(String fontName，int style,int size),设置字体、风格、字号</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ol>
+<li>stroke 该属性控制线条的宽度、笔形样式、线段连接方式或者短划线图案。</li>
+<li>paint 该属性控制填充效果</li>
+</ol>
+<h1 id="C-S模式"><a href="#C-S模式" class="headerlink" title="C/S模式"></a>C/S模式</h1><p>IP地址和端口号的组合成为网络套接字(Socket)。 端口号0~1023供系统专用；端口号1024~65536供应用程序使用。 在Client端，Socket类支持网络的底层通信; 在Server端，ServerSocket支持底层的网络通信。 当Client程序需要和Server程序通信时，可以通过Socket类创建套接字对象实现通信连接。 双方实现通信的两种方式： 流式Socket =&gt; 面向有连接通信(TCP)，每次通信前需要建立连接，通信结束后需要断开连接。特点就是可以保证数据传输的正确性、可靠性。 数据报式Socket =&gt; 面向无连接通信(UDP)，将欲发送的数据分成小数据包，直接上网发送。特点是传输数据时无需建立和拆除连接，速度快，没有可靠性保证</p>
+<h1 id="未归类"><a href="#未归类" class="headerlink" title="未归类"></a>未归类</h1><ol>
+<li>在Swing中，与JComponent类有直接父子关系的是JLabel。</li>
+<li>得到菜单项名称的方法是getLabel()。</li>
+<li>在访问数据库的程序中，建立statement对象后，利用该对象进行数据库更新，实现SQL数据库更新的方法是executeUpdate(). 4.</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Basic-knowledge/" rel="tag"># Basic knowledge</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/29/Base/网络安全基础知识/" rel="prev" title="网络安全基础知识">
+                网络安全基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础"><span class="nav-number">1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键字"><span class="nav-number">2.</span> <span class="nav-text">关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#final"><span class="nav-number">2.1.</span> <span class="nav-text">final</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-number">2.2.</span> <span class="nav-text">abstract</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#类作用"><span class="nav-number">3.</span> <span class="nav-text">类作用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标识符"><span class="nav-number">4.</span> <span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#浮点型常量"><span class="nav-number">5.</span> <span class="nav-text">浮点型常量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运算符"><span class="nav-number">6.</span> <span class="nav-text">运算符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符串"><span class="nav-number">7.</span> <span class="nav-text">字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#public-void-concat"><span class="nav-number">7.1.</span> <span class="nav-text">public void concat()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#indexof"><span class="nav-number">7.2.</span> <span class="nav-text">indexof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#startsWith-String-prefix"><span class="nav-number">7.3.</span> <span class="nav-text">startsWith(String prefix)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#endWith-String-suffix"><span class="nav-number">7.4.</span> <span class="nav-text">endWith(String suffix)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringTokenizer"><span class="nav-number">7.5.</span> <span class="nav-text">StringTokenizer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compareTo-String-str"><span class="nav-number">7.6.</span> <span class="nav-text">compareTo(String str)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#indexOf"><span class="nav-number">7.7.</span> <span class="nav-text">indexOf()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#substring"><span class="nav-number">7.8.</span> <span class="nav-text">substring()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#replace-char-oldChar-char-newChar"><span class="nav-number">7.9.</span> <span class="nav-text">replace(char oldChar, char newChar)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#trim"><span class="nav-number">7.10.</span> <span class="nav-text">trim()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#valueOf-NaN"><span class="nav-number">7.11.</span> <span class="nav-text">valueOf()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包"><span class="nav-number">8.</span> <span class="nav-text">包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-awt"><span class="nav-number">8.1.</span> <span class="nav-text">java.awt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-applet"><span class="nav-number">8.2.</span> <span class="nav-text">java.applet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-io"><span class="nav-number">8.3.</span> <span class="nav-text">java.io</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-awt-event"><span class="nav-number">8.4.</span> <span class="nav-text">java.awt.event</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多线程"><span class="nav-number">9.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thread类和Runnable接口"><span class="nav-number">9.1.</span> <span class="nav-text">Thread类和Runnable接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Thread"><span class="nav-number">9.1.1.</span> <span class="nav-text">Thread</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runable"><span class="nav-number">9.1.2.</span> <span class="nav-text">Runable</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#I-O"><span class="nav-number">10.</span> <span class="nav-text">I/O</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Connection类、Statement类、ResultSet类"><span class="nav-number">11.</span> <span class="nav-text">Connection类、Statement类、ResultSet类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络"><span class="nav-number">12.</span> <span class="nav-text">网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#URLConnection"><span class="nav-number">12.1.</span> <span class="nav-text">URLConnection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络访问基本过程"><span class="nav-number">12.1.1.</span> <span class="nav-text">网络访问基本过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InetAddress类。"><span class="nav-number">13.</span> <span class="nav-text">InetAddress类。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造方法："><span class="nav-number">13.1.</span> <span class="nav-text">构造方法：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图形"><span class="nav-number">14.</span> <span class="nav-text">图形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Graphics2D"><span class="nav-number">14.1.</span> <span class="nav-text">Graphics2D</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#功能"><span class="nav-number">14.1.1.</span> <span class="nav-text">功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Font"><span class="nav-number">14.2.</span> <span class="nav-text">Font</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">14.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C-S模式"><span class="nav-number">15.</span> <span class="nav-text">C/S模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#未归类"><span class="nav-number">16.</span> <span class="nav-text">未归类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

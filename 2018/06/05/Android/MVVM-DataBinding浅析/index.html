@@ -1,0 +1,808 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是Data BindingDataBinding是一个实现数据和UI绑定的框架，是实现MVVM模式的工具，而MVVM中的VM（ViewModel）和View可以通过DataBinding来实现数据绑定（目前已支持双向绑定）。 能做什么? XML中实现控件绑定,能实现简单逻辑,减少view id 的定义,数据绑定直接发生在xml 简化Activity &amp;amp;&amp;amp; Fragment 内的">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MVVM-DataBinding浅析">
+<meta property="og:url" content="http://directionyu.cn/2018/06/05/Android/MVVM-DataBinding浅析/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="什么是Data BindingDataBinding是一个实现数据和UI绑定的框架，是实现MVVM模式的工具，而MVVM中的VM（ViewModel）和View可以通过DataBinding来实现数据绑定（目前已支持双向绑定）。 能做什么? XML中实现控件绑定,能实现简单逻辑,减少view id 的定义,数据绑定直接发生在xml 简化Activity &amp;amp;&amp;amp; Fragment 内的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-07T07:48:49.641Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MVVM-DataBinding浅析">
+<meta name="twitter:description" content="什么是Data BindingDataBinding是一个实现数据和UI绑定的框架，是实现MVVM模式的工具，而MVVM中的VM（ViewModel）和View可以通过DataBinding来实现数据绑定（目前已支持双向绑定）。 能做什么? XML中实现控件绑定,能实现简单逻辑,减少view id 的定义,数据绑定直接发生在xml 简化Activity &amp;amp;&amp;amp; Fragment 内的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2018/06/05/Android/MVVM-DataBinding浅析/"/>
+
+
+
+
+
+  <title> MVVM-DataBinding浅析 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2018/06/05/Android/MVVM-DataBinding浅析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MVVM-DataBinding浅析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-05T15:16:32+08:00">
+                2018-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是Data-Binding"><a href="#什么是Data-Binding" class="headerlink" title="什么是Data Binding"></a>什么是Data Binding</h1><p>DataBinding是一个实现数据和UI绑定的框架，是实现MVVM模式的工具，而MVVM中的VM（ViewModel）和View可以通过DataBinding来实现数据绑定（目前已支持双向绑定）。</p>
+<h1 id="能做什么"><a href="#能做什么" class="headerlink" title="能做什么?"></a>能做什么?</h1><ol>
+<li>XML中实现控件绑定,能实现简单逻辑,减少view id 的定义,数据绑定直接发生在xml</li>
+<li>简化Activity &amp;&amp; Fragment 内的UI操作代码.</li>
+</ol>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>data binding的意义主要数据的变动可以自动触发UI界面的刷新。但是如果我们使用的是传统的java bean对象的时候，是没有办法实现“数据变更触发ui界面”的目的的。而 Bindable 注解就是帮助我们完成这个任务的。</p>
+<p>如果我们要实现“数据变更触发ui界面”的话，途径主要有两个：</p>
+<ul>
+<li>继承 BaseObservable ，使用 Bindable 注解field的getter并且在调用setter的使用使用 OnPropertyChangedCallback#onPropertyChanged</li>
+<li>使用data-binding library当中提供的诸如 ObservableField&lt;&gt;, ObservableInt作为属性值</li>
+</ul>
+<a id="more"></a>
+<h1 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h1><p> UI代码放到了xml中，布局和数据更紧密<br> 性能超过手写代码<br> 保证执行在主线程</p>
+<h1 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h1><p> IDE支持还不那么完善（提示、表达式）<br> 报错信息不那么直接<br> 重构支持不好（xml中进行重构，java代码不会自动修改）</p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    …</span><br><span class="line">    dataBinding &#123;</span><br><span class="line">        enabled = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="layout"><a href="#layout" class="headerlink" title="layout"></a>layout</h2><p>布局根节点必须是<layout> . 同时layout只能包含一个View标签. 不能直接包含<merge></merge></layout></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">layout</span>&gt;</span></span><br><span class="line">	// 原来的layout</span><br><span class="line"><span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在xml的最外层套上layout标签即可，修改后就可以看到生成了该布局对应的*Binding类。</p>
+<h2 id="data"><a href="#data" class="headerlink" title="data"></a>data</h2><p><data>标签的内容即DataBinding的数据. data标签只能存在一个.<br>layout tag<br>把一个普通的layout变成data binding layout也只要几行的修改:</data></p>
+<h2 id="variable"><a href="#variable" class="headerlink" title="variable"></a>variable</h2><p>通过<variable>标签可以指定类, 然后在控件的属性值中就可以使用</variable></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">variable</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">type</span>=<span class="string">"com.liangfeizc.databindingsamples.basic.User"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过DataBinding的setxx()方法可以给Variable设置数据. name值不能包含_下划线</p>
+<h2 id="import"><a href="#import" class="headerlink" title="import"></a>import</h2><p>第二种写法(导入), 默认导入了java/lang包下的类(String/Integer). 可以直接使用被导入的类的静态方法.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--导入类--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">type</span>=<span class="string">"com.liangfeizc.databindingsamples.basic.User"</span> /&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--因为User已经导入, 所以可以简写类名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">variable</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">type</span>=<span class="string">"User"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="class"><a href="#class" class="headerlink" title="class"></a>class</h2><p><data>标签有个属性<class>可以自定义DataBinding生成的类名以及路径</class></data></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--自定义类名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">data</span> <span class="attr">class</span>=<span class="string">"CustomDataBinding"</span>&gt;</span><span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--自定义生成路径以及类型--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">data</span> <span class="attr">class</span>=<span class="string">".CustomDataBinding"</span>&gt;</span><span class="tag">&lt;/<span class="name">data</span>&gt;</span> <span class="comment">&lt;!--自动在包名下生成包以及类--&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="Binding生成规则"><a href="#Binding生成规则" class="headerlink" title="Binding生成规则"></a>Binding生成规则</h1><p>默认生成规则：xml通过文件名生成，使用下划线分割大小写。<br>比如activity_demo.xml，则会生成ActivityDemoBinding，item_search_hotel则会生成ItemSearchHotelBinding。</p>
+<p>view的生成规则类似，只是由于是类变量，首字母不是大写，比如有一个TextView的id是first_name，则会生成名为firstName的TextView。</p>
+<p>我们也可以自定义生成的class名字，只需要：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span> <span class="attr">class</span>=<span class="string">“ContactItem”</span>&gt;</span></span><br><span class="line">…</span><br><span class="line"><span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h1><p>算术 + - / * %<br>字符串合并 +<br>逻辑 &amp;&amp; ||<br>二元 &amp; | ^<br>一元 + - ! ~<br>移位 &gt;&gt; &gt;&gt;&gt; &lt;&lt;<br>比较 == &gt; &lt; &gt;= &lt;=<br>Instanceof<br>Grouping ()<br>文字 - character, String, numeric, null<br>Cast<br>方法调用<br>Field 访问<br>Array 访问 []<br>三元 ?:<br>空合并运算符: android:text=“@{user.displayName ?? user.lastName}”</p>
+<p>android:marginLeft=”@{@dimen/margin + @dimen/avatar_size}”</p>
+<p>组合字符串<br>android:text=”@{@string/nameFormat(firstName, lastName)}”</p>
+<string name="nameFormat">%s, %s</string>
+
+<h1 id="避免空指针"><a href="#避免空指针" class="headerlink" title="避免空指针"></a>避免空指针</h1><p>data binding会自动帮助我们进行空指针的避免，比如说@{employee.firstName}，如果employee是null的话，employee.firstName则会被赋默认值（null）。int的话，则是0。</p>
+<p>需要注意的是数组的越界，毕竟这儿是xml而不是java，没地方让你去判断size的。</p>
+<h1 id="include"><a href="#include" class="headerlink" title="include"></a>include</h1><p>对于include的布局，使用方法类似，不过需要在里面绑定两次，外面include该布局的layout使用bind:user给set进去。</p>
+<p>这里需要注意的一点是，被include的布局必须顶层是一个ViewGroup，目前Data Binding的实现，如果该布局顶层是一个View，而不是ViewGroup的话，binding的下标会冲突（被覆盖），从而产生一些预料外的结果。</p>
+<h2 id="引入的页面怎样加载点击事件"><a href="#引入的页面怎样加载点击事件" class="headerlink" title=" 引入的页面怎样加载点击事件"></a><include> 引入的页面怎样加载点击事件</include></h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">variable</span></span></span><br><span class="line"><span class="tag">            <span class="attr">name</span>=<span class="string">"clickListener"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">type</span>=<span class="string">"android.view.View.OnClickListener"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">include</span> <span class="attr">layout</span>=<span class="string">"@layout/diy_back_title"</span> <span class="attr">bind:clickListener</span>=<span class="string">"@&#123;clickListener&#125;"</span> <span class="attr">bind:title</span>=<span class="string">"@&#123;title&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>diy_back_title.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">variable</span>    <span class="attr">name</span>=<span class="string">"clickListener"</span>    <span class="attr">type</span>=<span class="string">"android.view.View.OnClickListener"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">android:onClick="@&#123;clickListener&#125;"</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">binding.setClickListener(<span class="keyword">this</span>);</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (v.getId())&#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="ViewStubs"><a href="#ViewStubs" class="headerlink" title="ViewStubs"></a>ViewStubs</h1><p>ViewStub比较特殊，在被实际inflate前是不可见的，所以使用了特殊的方案，用了final的ViewStubProxy来代表它，并监听了ViewStub.OnInflateListener:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> OnInflateListener mProxyListener = <span class="keyword">new</span> OnInflateListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onInflate</span><span class="params">(ViewStub stub, View inflated)</span> </span>&#123;</span><br><span class="line">        mRoot = inflated;</span><br><span class="line">        mViewDataBinding = DataBindingUtil.bind(mContainingBinding.mBindingComponent,</span><br><span class="line">                inflated, stub.getLayoutResource());</span><br><span class="line">        mViewStub = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (mOnInflateListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mOnInflateListener.onInflate(stub, inflated);</span><br><span class="line">            mOnInflateListener = <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mContainingBinding.invalidateAll();</span><br><span class="line">        mContainingBinding.forceExecuteBindings();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在onInflate的时候才会进行真正的初始化。</p>
+<h1 id="Observable-Fields"><a href="#Observable-Fields" class="headerlink" title="Observable Fields"></a>Observable Fields</h1><p>如果所有要绑定的都需要创建Observable类，那也太麻烦了。所以Data Binding还提供了一系列Observable，包括 ObservableBoolean, ObservableByte, ObservableChar, ObservableShort, ObservableInt, ObservableLong, ObservableFloat, ObservableDouble, 和ObservableParcelable。我们还能通过ObservableField泛型来申明其他类型，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; firstName =</span><br><span class="line">       <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; lastName =</span><br><span class="line">       <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">final</span> ObservableInt age = <span class="keyword">new</span> ObservableInt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而在xml中，使用方法和普通的String，int一样，只是会自动刷新，但在java中访问则会相对麻烦：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user.firstName.set(<span class="string">"Google"</span>);</span><br><span class="line"><span class="keyword">int</span> age = user.age.get();</span><br></pre></td></tr></table></figure>
+<p>相对来说，每次要get/set还是挺麻烦，私以为还不如直接去继承BaseObservable。</p>
+<h1 id="Observable-Collections"><a href="#Observable-Collections" class="headerlink" title="Observable Collections"></a>Observable Collections</h1><p>有一些应用使用更动态的结构来保存数据，这时候我们会希望使用Map来存储数据结构。Observable提供了ObservableArrayMap:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObservableArrayMap&lt;String, Object&gt; user = <span class="keyword">new</span> ObservableArrayMap&lt;&gt;();</span><br><span class="line">user.put(<span class="string">"firstName"</span>, <span class="string">"Google"</span>);</span><br><span class="line">user.put(<span class="string">"lastName"</span>, <span class="string">"Inc."</span>);</span><br><span class="line">user.put(<span class="string">"age"</span>, <span class="number">17</span>);</span><br></pre></td></tr></table></figure>
+<h1 id="动态变量"><a href="#动态变量" class="headerlink" title="动态变量"></a>动态变量</h1><p>有时候，我们并不知道具体生成的binding类是什么。比如在RecyclerView中，可能有多种ViewHolder，而我们拿到的holder只是一个基类（这个基类具体怎么写下篇中会提到），这时候，我们可以在这些item的layout中都定义名字同样的variable，比如item，然后直接调用setVariable：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(BindingHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">final</span> T item = mItems.get(position);</span><br><span class="line">   holder.getBinding().setVariable(BR.item, item);</span><br><span class="line">   holder.getBinding().executePendingBindings();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>executePendingBindings会强制立即刷新绑定的改变。</p>
+<h1 id="表达式链"><a href="#表达式链" class="headerlink" title="表达式链"></a>表达式链</h1><h2 id="重复的表达式"><a href="#重复的表达式" class="headerlink" title="重复的表达式"></a>重复的表达式</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ImageView</span> <span class="attr">android:visibility</span>=<span class="string">“@&#123;user.isAdult</span> ? <span class="attr">View.VISIBLE</span> <span class="attr">:</span> <span class="attr">View.GONE</span>&#125;”/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">TextView</span> <span class="attr">android:visibility</span>=<span class="string">“@&#123;user.isAdult</span> ? <span class="attr">View.VISIBLE</span> <span class="attr">:</span> <span class="attr">View.GONE</span>&#125;”/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">CheckBox</span> <span class="attr">android:visibility</span>=<span class="string">"@&#123;user.isAdult ? View.VISIBLE : View.GONE&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以简化为:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ImageView</span> <span class="attr">android:id</span>=<span class="string">“@+id/avatar”</span></span></span><br><span class="line"><span class="tag"> <span class="attr">android:visibility</span>=<span class="string">“@&#123;user.isAdult</span> ? <span class="attr">View.VISIBLE</span> <span class="attr">:</span> <span class="attr">View.GONE</span>&#125;”/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">TextView</span> <span class="attr">android:visibility</span>=<span class="string">“@&#123;avatar.visibility&#125;”/</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">CheckBox</span> <span class="attr">android:visibility</span>=<span class="string">"@&#123;avatar.visibility&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="隐式更新"><a href="#隐式更新" class="headerlink" title="隐式更新"></a>隐式更新</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">CheckBox</span> <span class="attr">android:id</span>=<span class="string">”@+id/seeAds“/</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ImageView</span> <span class="attr">android:visibility</span>=<span class="string">“@&#123;seeAds.checked</span> ?</span></span><br><span class="line"><span class="tag">  <span class="attr">View.VISIBLE</span> <span class="attr">:</span> <span class="attr">View.GONE</span>&#125;”/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样CheckBox的状态变更后ImageView会自动改变visibility。</p>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>除了直接使用方法引用，在Presenter中写和OnClickListener一样参数的方法，我们还能使用Lambda表达式:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">android:onClick=“@&#123;(view)-&gt;presenter.save(view, item)&#125;”</span><br><span class="line">android:onClick=“@&#123;()-&gt;presenter.save(item)&#125;”</span><br><span class="line">android:onFocusChange=“@&#123;(v, fcs)-&gt;presenter.refresh(item)&#125;”</span><br></pre></td></tr></table></figure>
+<p>我们还可以在lambda表达式引用view id（像上面表达式链那样），以及context。</p>
+<h2 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h2><ol>
+<li>尽量在项目中进行尝试，只有在不断碰到业务的需求时，才会在真正的场景下使用并发现Data Binding的强大之处。</li>
+<li>摸索xml和java的界限，不要以为Data Binding是万能的，而想尽办法把逻辑写在xml中，如果你的同事没法一眼看出这个表达式是做什么的，那可能它就应该放在Java代码中，以ViewModel的形式去承担部分逻辑。</li>
+<li>Lambda表达式/测试时注入等Data Binding的高级功能也可以自己多试试，尤其是注入，相当强大。</li>
+<li>callback绑定只做事件传递，NO业务逻辑</li>
+<li>保持表达式简单（不要做过于复杂的字符串、函数调用操作）</li>
+</ol>
+<p>参考资料：</p>
+<blockquote>
+<p>[1]<a href="http://blog.zhaiyifan.cn/2016/07/06/android-new-project-from-0-p8/" target="_blank" rel="noopener">markzhai’s home</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/04/BlockChain/数字货币/" rel="next" title="数字货币">
+                <i class="fa fa-chevron-left"></i> 数字货币
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/06/DataBase/Mac下MySql服务启动问题/" rel="prev" title="Mac下MySql服务启动问题">
+                Mac下MySql服务启动问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是Data-Binding"><span class="nav-number">1.</span> <span class="nav-text">什么是Data Binding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#能做什么"><span class="nav-number">2.</span> <span class="nav-text">能做什么?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">3.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优势"><span class="nav-number">4.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#劣势"><span class="nav-number">5.</span> <span class="nav-text">劣势</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用"><span class="nav-number">6.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#layout"><span class="nav-number">6.1.</span> <span class="nav-text">layout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data"><span class="nav-number">6.2.</span> <span class="nav-text">data</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#variable"><span class="nav-number">6.3.</span> <span class="nav-text">variable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import"><span class="nav-number">6.4.</span> <span class="nav-text">import</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#class"><span class="nav-number">6.5.</span> <span class="nav-text">class</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Binding生成规则"><span class="nav-number">7.</span> <span class="nav-text">Binding生成规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表达式"><span class="nav-number">8.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#避免空指针"><span class="nav-number">9.</span> <span class="nav-text">避免空指针</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#include"><span class="nav-number">10.</span> <span class="nav-text">include</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引入的页面怎样加载点击事件"><span class="nav-number">10.1.</span> <span class="nav-text"> 引入的页面怎样加载点击事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ViewStubs"><span class="nav-number">11.</span> <span class="nav-text">ViewStubs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Observable-Fields"><span class="nav-number">12.</span> <span class="nav-text">Observable Fields</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Observable-Collections"><span class="nav-number">13.</span> <span class="nav-text">Observable Collections</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动态变量"><span class="nav-number">14.</span> <span class="nav-text">动态变量</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#表达式链"><span class="nav-number">15.</span> <span class="nav-text">表达式链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重复的表达式"><span class="nav-number">15.1.</span> <span class="nav-text">重复的表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式更新"><span class="nav-number">15.2.</span> <span class="nav-text">隐式更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda表达式"><span class="nav-number">15.3.</span> <span class="nav-text">Lambda表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用建议"><span class="nav-number">15.4.</span> <span class="nav-text">使用建议</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

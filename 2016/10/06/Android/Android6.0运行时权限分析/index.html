@@ -1,0 +1,757 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="权限," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="6.0版本（23）前权限规则在23版本之前，用户在安装App时，系统会将所有在Manfiest清单上的所有权限默认授权。 6.0版本（23）后权限规则Google是这样解释的传送门，大意可以理解从Android 6.0(API级别23)开始,程序权限授予在应用程序运行时，APP除了需要在Manifest文件中声明相应的权限之外，还要在APP运行时向用户进行请求每个dangerous类的权限。用户可">
+<meta name="keywords" content="权限">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android6.0运行时权限分析">
+<meta property="og:url" content="http://directionyu.cn/2016/10/06/Android/Android6.0运行时权限分析/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="6.0版本（23）前权限规则在23版本之前，用户在安装App时，系统会将所有在Manfiest清单上的所有权限默认授权。 6.0版本（23）后权限规则Google是这样解释的传送门，大意可以理解从Android 6.0(API级别23)开始,程序权限授予在应用程序运行时，APP除了需要在Manifest文件中声明相应的权限之外，还要在APP运行时向用户进行请求每个dangerous类的权限。用户可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.713Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android6.0运行时权限分析">
+<meta name="twitter:description" content="6.0版本（23）前权限规则在23版本之前，用户在安装App时，系统会将所有在Manfiest清单上的所有权限默认授权。 6.0版本（23）后权限规则Google是这样解释的传送门，大意可以理解从Android 6.0(API级别23)开始,程序权限授予在应用程序运行时，APP除了需要在Manifest文件中声明相应的权限之外，还要在APP运行时向用户进行请求每个dangerous类的权限。用户可">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2016/10/06/Android/Android6.0运行时权限分析/"/>
+
+
+
+
+
+  <title> Android6.0运行时权限分析 | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2016/10/06/Android/Android6.0运行时权限分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Android6.0运行时权限分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-06T08:55:29+08:00">
+                2016-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="6-0版本（23）前权限规则"><a href="#6-0版本（23）前权限规则" class="headerlink" title="6.0版本（23）前权限规则"></a>6.0版本（23）前权限规则</h1><p>在23版本之前，用户在安装App时，系统会将所有在Manfiest清单上的所有权限默认授权。</p>
+<h1 id="6-0版本（23）后权限规则"><a href="#6-0版本（23）后权限规则" class="headerlink" title="6.0版本（23）后权限规则"></a>6.0版本（23）后权限规则</h1><p>Google是这样解释的<a href="http://developer.android.com/intl/zh-cn/training/permissions/requesting.html" target="_blank" rel="noopener">传送门</a>，大意可以理解从Android 6.0(API级别23)开始,程序权限授予在应用程序运行时，APP除了需要在Manifest文件中声明相应的权限之外，还要在APP运行时向用户进行请求每个dangerous类的权限。用户可以选择授予或不授予该权限，即使用户不授予该权限APP也可以继续运行，但是相关的需要权限的操作是没法进行的。</p>
+<a id="more"></a>
+<h1 id="影响"><a href="#影响" class="headerlink" title="影响"></a>影响</h1><p>在棉花糖中，系统关闭了对某些数据的访问权限，比如不能再访问本地 WiFi 和蓝牙 MAC 地址信息。 从现在开始，针对 WifiInfo 对象调用 getMacAddress()方法和 BluetoothAdapter.getDefaultAdapter().getAddress() 方法均会返回 02:00:00:00:00:00。</p>
+<h1 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h1><p>23之前的app都能在6.0系统运行，走的还是老权限模式，manifest注册权限全部授予，但是如果开发中以不低于23来编译的话，app走的是新权限模式，如果包含dangerous权限，必须进行申请，否则App会崩掉。</p>
+<h1 id="6-0的权限分类"><a href="#6-0的权限分类" class="headerlink" title="6.0的权限分类"></a>6.0的权限分类</h1><p>系统权限分为两类： 1.normal</p>
+<ul>
+<li>Normal类的权限不会直接涉及到用户隐私风险。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。</li>
+</ul>
+<p>2.dangerous</p>
+<ul>
+<li>Dangerous类的权限可能会让APP涉及到用户机密的数据。如果APP在Manifest文件中声明了Normal类的权限，系统会自动授予这些权限。如果在Manifest文件中添加了Dangerous类的权限，用户必须明确的授予对应的权限后APP才具有这些权限。</li>
+</ul>
+<p>关于哪些权限属于Normal类，哪些属于Dangerous类，如下图：</p>
+<h1 id="权限申请流程"><a href="#权限申请流程" class="headerlink" title="权限申请流程"></a>权限申请流程</h1><p>1.在AndroidManifest文件中添加需要的权限。</p>
+<p>2.检查权限</p>
+<pre><code>// Assume thisActivity is the current activity
+int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,Manifest.permission.WRITE_CALENDAR);
+</code></pre><p>ContextCompat.checkSelfPermission，主要用于检测某个权限是否已经被授予，方法返回值为 PackageManager.PERMISSION_DENIED或者PackageManager.PERMISSION_GRANTED。当返回DENIED就需要进行申请授权了。</p>
+<p>3.申请授权</p>
+<pre><code>ActivityCompat.requestPermissions(thisActivity,new String[]{Manifest.permission.READ_CONTACTS},MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+</code></pre><p>该方法是异步的，第一个参数是Context；第二个参数是需要申请的权限的字符串数组；第三个参数为requestCode，主要用于回调的时候检测。可以从方法名requestPermissions以及第二个参数看出，是支持一次性申请多个权限的，系统会通过对话框逐一询问用户是否授权。</p>
+<p>4.处理权限申请回调</p>
+<p>（未完待续）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/权限/" rel="tag"># 权限</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/23/Android/逆向分析语法简析/" rel="next" title="Andoroid 逆向分析语法简析">
+                <i class="fa fa-chevron-left"></i> Andoroid 逆向分析语法简析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/06/Automation/AndroidGradle自动化打包/" rel="prev" title="AndroidStudio Gradle 自动化打包">
+                AndroidStudio Gradle 自动化打包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#6-0版本（23）前权限规则"><span class="nav-number">1.</span> <span class="nav-text">6.0版本（23）前权限规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-0版本（23）后权限规则"><span class="nav-number">2.</span> <span class="nav-text">6.0版本（23）后权限规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#影响"><span class="nav-number">3.</span> <span class="nav-text">影响</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#兼容性"><span class="nav-number">4.</span> <span class="nav-text">兼容性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-0的权限分类"><span class="nav-number">5.</span> <span class="nav-text">6.0的权限分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限申请流程"><span class="nav-number">6.</span> <span class="nav-text">权限申请流程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>

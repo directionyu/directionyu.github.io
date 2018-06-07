@@ -1,0 +1,775 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Android提供了FragmentStatePagerAdapter与FragmentPagerAdapter两种适配器来让ViewPager与Fragment进行联动 定义FragmentStatePagerAdapter API注释 1234567891011121314151617/*** Implementation of &amp;#123;@link PagerAdapter&amp;#125; t">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解析FragmentStatePagerAdapter与FragmentPagerAdapter">
+<meta property="og:url" content="http://directionyu.cn/2016/12/16/Android/解析FragmentStatePagerAdapter与FragmentPagerAdapter/index.html">
+<meta property="og:site_name" content="Direction">
+<meta property="og:description" content="Android提供了FragmentStatePagerAdapter与FragmentPagerAdapter两种适配器来让ViewPager与Fragment进行联动 定义FragmentStatePagerAdapter API注释 1234567891011121314151617/*** Implementation of &amp;#123;@link PagerAdapter&amp;#125; t">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-01T09:01:29.717Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解析FragmentStatePagerAdapter与FragmentPagerAdapter">
+<meta name="twitter:description" content="Android提供了FragmentStatePagerAdapter与FragmentPagerAdapter两种适配器来让ViewPager与Fragment进行联动 定义FragmentStatePagerAdapter API注释 1234567891011121314151617/*** Implementation of &amp;#123;@link PagerAdapter&amp;#125; t">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://directionyu.cn/2016/12/16/Android/解析FragmentStatePagerAdapter与FragmentPagerAdapter/"/>
+
+
+
+
+
+  <title> 解析FragmentStatePagerAdapter与FragmentPagerAdapter | Direction </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-77810039-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Direction</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://directionyu.cn/2016/12/16/Android/解析FragmentStatePagerAdapter与FragmentPagerAdapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Roy ren">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Direction">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                解析FragmentStatePagerAdapter与FragmentPagerAdapter
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-16T14:16:12+08:00">
+                2016-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android提供了FragmentStatePagerAdapter与FragmentPagerAdapter两种适配器来让ViewPager与Fragment进行联动</p>
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><h2 id="FragmentStatePagerAdapter"><a href="#FragmentStatePagerAdapter" class="headerlink" title="FragmentStatePagerAdapter"></a>FragmentStatePagerAdapter</h2><ul>
+<li><p>API注释</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Implementation of &#123;@link PagerAdapter&#125; that</span><br><span class="line">* uses a &#123;@link Fragment&#125; to manage each page. This class also handles</span><br><span class="line">* saving and restoring of fragment's state.</span><br><span class="line">*</span><br><span class="line">* This version of the pager is more useful when there are a large number</span><br><span class="line">* of pages, working more like a list view.  When pages are not visible to</span><br><span class="line">* the user, their entire fragment may be destroyed, only keeping the saved</span><br><span class="line">* state of that fragment.  This allows the pager to hold on to much less</span><br><span class="line">* memory associated with each visited page as compared to</span><br><span class="line">* &#123;@link FragmentPagerAdapter&#125; at the cost of potentially more overhead when</span><br><span class="line">* switching between pages.</span><br><span class="line">*</span><br><span class="line">* When using FragmentPagerAdapter the host ViewPager must have a</span><br><span class="line">* valid ID set.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">*</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+</li>
+</ul>
+<h2 id="FragmentPagerAdapter"><a href="#FragmentPagerAdapter" class="headerlink" title="FragmentPagerAdapter"></a>FragmentPagerAdapter</h2><ul>
+<li><p>API注释</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* Implementation of &#123;@link PagerAdapter&#125; that</span><br><span class="line">* represents each page as a &#123;@link Fragment&#125; that is persistently</span><br><span class="line">* kept in the fragment manager as long as the user can return to the page.</span><br><span class="line">*</span><br><span class="line">* This version of the pager is best for use when there are a handful of</span><br><span class="line">* typically more static fragments to be paged through, such as a set of tabs.</span><br><span class="line">* The fragment of each page the user visits will be kept in memory, though its</span><br><span class="line">* view hierarchy may be destroyed when not visible.  This can result in using</span><br><span class="line">* a significant amount of memory since fragment instances can hold on to an</span><br><span class="line">* arbitrary amount of state.  For larger sets of pages, consider</span><br><span class="line">* &#123;@link FragmentStatePagerAdapter&#125;.</span><br><span class="line">*</span><br><span class="line">* When using FragmentPagerAdapter the host ViewPager must have a</span><br><span class="line">* valid ID set.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">*</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>注释中用法已经写的很明白，FragmentPagerAdapter会将访问的每个fragment保存在内存中，带来的好处就是频繁切换时非常迅速，但大量使用时会占用大量内存，而FragmentStatePagerAdapter在fragment不可见时使用少量内存保存当前状态，但是频繁切换时会有更多的开销。</p>
+</li>
+</ul>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>两者功能的实质都是用来管理fragment，那么最核心的机制自然是fragment存储/恢复与销毁，从这个角度切入来学习两个类的不同。</p>
+<h2 id="存储和恢复"><a href="#存储和恢复" class="headerlink" title="存储和恢复"></a>存储和恢复</h2><ul>
+<li><p>FragmentPagerAdapter</p>
+<ol>
+<li><p>先从创造看起</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">if</span> (mCurTransaction == <span class="keyword">null</span>) &#123;</span><br><span class="line">       mCurTransaction = mFragmentManager.beginTransaction();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">final</span> <span class="keyword">long</span> itemId = getItemId(position);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Do we already have this fragment?5让</span></span><br><span class="line">   <span class="comment">// 这里给fragment命名</span></span><br><span class="line">   String name = makeFragmentName(container.getId(), itemId);</span><br><span class="line">   <span class="comment">// 根据名字在FragmentManager中找对应的fragment</span></span><br><span class="line">   Fragment fragment = mFragmentManager.findFragmentByTag(name);</span><br><span class="line">   <span class="keyword">if</span> (fragment != <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="keyword">if</span> (DEBUG) Log.v(TAG, <span class="string">"Attaching item #"</span> + itemId + <span class="string">": f="</span> + fragment);</span><br><span class="line">       mCurTransaction.attach(fragment);</span><br><span class="line">   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="comment">//  getItem是一个抽象方法，在继承类中具体实现，当前position的fragment不存在时才会走这一步去找对象</span></span><br><span class="line">       fragment = getItem(position);</span><br><span class="line">       <span class="keyword">if</span> (DEBUG) Log.v(TAG, <span class="string">"Adding item #"</span> + itemId + <span class="string">": f="</span> + fragment);</span><br><span class="line">       mCurTransaction.add(container.getId(), fragment,</span><br><span class="line">               makeFragmentName(container.getId(), itemId));</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="keyword">if</span> (fragment != mCurrentPrimaryItem) &#123;</span><br><span class="line">       fragment.setMenuVisibility(<span class="keyword">false</span>);</span><br><span class="line">       FragmentCompat.setUserVisibleHint(fragment, <span class="keyword">false</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> fragment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重点看下makeFragmentName()这个方法</p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">makeFragmentName</span><span class="params">(<span class="keyword">int</span> viewId, <span class="keyword">long</span> id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"android:switcher:"</span> + viewId + <span class="string">":"</span> + id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每个fragment通过父容器Id以及getItemId返回值组合成唯一命名，通过键值对的方式放入fragmentManager中，从而实现存储和恢复fragment的功能，这种方式带来一个缺陷就是如果当fragment列表顺序发生改变，比如添加或删除fragment，就会导致崩溃。</p>
+<ol>
+<li><p>销毁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">if</span> (mCurTransaction == <span class="keyword">null</span>) &#123;</span><br><span class="line">     mCurTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span> (DEBUG) Log.v(TAG, <span class="string">"Detaching item #"</span> + getItemId(position) + <span class="string">": f="</span> + object</span><br><span class="line">         + <span class="string">" v="</span> + ((Fragment)object).getView());</span><br><span class="line"> mCurTransaction.detach((Fragment)object);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在销毁方法里，仅仅是将fragment detach掉，并没有进行销毁，所以fragment仍然在manager中保存，占用的内存并没有释放，这就解释了为什么说FragmentPagerAdapter不适合fragment数量多的情况。</p>
+</li>
+<li><p>FragmentStatePagerAdapter</p>
+</li>
+<li><p>创造</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">instantiateItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line"> <span class="comment">// If we already have this item instantiated, there is nothing</span></span><br><span class="line"> <span class="comment">// to do.  This can happen when we are restoring the entire pager</span></span><br><span class="line"> <span class="comment">// from its saved state, where the fragment manager has already</span></span><br><span class="line"> <span class="comment">// taken care of restoring the fragments we previously had instantiated.</span></span><br><span class="line"> <span class="keyword">if</span> (mFragments.size() &gt; position) &#123;</span><br><span class="line">     Fragment f = mFragments.get(position);</span><br><span class="line">     <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> f;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span> (mCurTransaction == <span class="keyword">null</span>) &#123;</span><br><span class="line">     mCurTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">// 因为fragment频繁的创建导致这个getItem方法会被多次调用 区别于FragmentPagerAdapter  </span></span><br><span class="line"> Fragment fragment = getItem(position);</span><br><span class="line"> <span class="keyword">if</span> (DEBUG) Log.v(TAG, <span class="string">"Adding item #"</span> + position + <span class="string">": f="</span> + fragment);</span><br><span class="line"> <span class="keyword">if</span> (mSavedState.size() &gt; position) &#123;</span><br><span class="line">   <span class="comment">//从存储fragment的列表中取出对应位置fragment保存的状态  </span></span><br><span class="line">     Fragment.SavedState fss = mSavedState.get(position);</span><br><span class="line">     <span class="keyword">if</span> (fss != <span class="keyword">null</span>) &#123;</span><br><span class="line">       <span class="comment">//将之前fragment状态赋予新的fragment  </span></span><br><span class="line">         fragment.setInitialSavedState(fss);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">while</span> (mFragments.size() &lt;= position) &#123;</span><br><span class="line">     mFragments.add(<span class="keyword">null</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> fragment.setMenuVisibility(<span class="keyword">false</span>);</span><br><span class="line"> FragmentCompat.setUserVisibleHint(fragment, <span class="keyword">false</span>);</span><br><span class="line"> mFragments.set(position, fragment);</span><br><span class="line"> mCurTransaction.add(container.getId(), fragment);</span><br><span class="line"></span><br><span class="line"> <span class="keyword">return</span> fragment;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从源码清楚看到FragmentStatePagerAdapter是通过mFragments数组来存储fragment的，通过mSavedState列表来存储fragment销毁时的状态，每次初始化对应position的fragment时调用getItem方法重新创建新的fragment，然后将mSavedState中存储的状态重新赋予这个新的fragment，达到fragment恢复的效果。而mFragment与mSavedState是按顺序一一对应的，每当一个fragment重建都会set对应的状态，如果mFragment数组中某个fragment的顺序发生改变，那么fragment与savedSate便不会一一对应，导致出现异常。</p>
+</li>
+<li><p>销毁</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroyItem</span><span class="params">(ViewGroup container, <span class="keyword">int</span> position, Object object)</span> </span>&#123;</span><br><span class="line"> Fragment fragment = (Fragment) object;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">if</span> (mCurTransaction == <span class="keyword">null</span>) &#123;</span><br><span class="line">     mCurTransaction = mFragmentManager.beginTransaction();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span> (DEBUG) Log.v(TAG, <span class="string">"Removing item #"</span> + position + <span class="string">": f="</span> + object</span><br><span class="line">         + <span class="string">" v="</span> + ((Fragment)object).getView());</span><br><span class="line"> <span class="keyword">while</span> (mSavedState.size() &lt;= position) &#123;</span><br><span class="line">     mSavedState.add(<span class="keyword">null</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//释放引用之前保存该位置fragment的状态</span></span><br><span class="line"> mSavedState.set(position, fragment.isAdded()</span><br><span class="line">         ? mFragmentManager.saveFragmentInstanceState(fragment) : <span class="keyword">null</span>);</span><br><span class="line"> <span class="comment">//将mFragment列表中该位置的fragment置空，释放引用  </span></span><br><span class="line"> mFragments.set(position, <span class="keyword">null</span>);</span><br><span class="line"> <span class="comment">//同时将manager中的该fragment释放  </span></span><br><span class="line"> mCurTransaction.remove(fragment);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>源码中看到，当fragment在页面不可见时，先将对应的状态保存到mSaveState中，然后fragment实例才会被销毁，从而达到节省内存开销的作用。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/16/Android/Android 重要知识点/" rel="next" title="Android 知识体系梳理">
+                <i class="fa fa-chevron-left"></i> Android 知识体系梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/20/Android/Android 垃圾清理原理解析/" rel="prev" title="Android 垃圾清理原理解析">
+                Android 垃圾清理原理解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzEyNC8xMzY2MA"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Roy ren" />
+          <p class="site-author-name" itemprop="name">Roy ren</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#定义"><span class="nav-number">1.</span> <span class="nav-text">定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FragmentStatePagerAdapter"><span class="nav-number">1.1.</span> <span class="nav-text">FragmentStatePagerAdapter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FragmentPagerAdapter"><span class="nav-number">1.2.</span> <span class="nav-text">FragmentPagerAdapter</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#区别"><span class="nav-number">2.</span> <span class="nav-text">区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储和恢复"><span class="nav-number">2.1.</span> <span class="nav-text">存储和恢复</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Roy ren</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
