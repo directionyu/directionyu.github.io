@@ -104,8 +104,6 @@ MediaController.TransportControls：用于向 MediaSession 发送各种播放指
 
     ```
 
-    ```
-
 ## MediaBrowserCompat
 
 ### 作用

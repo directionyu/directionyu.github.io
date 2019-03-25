@@ -104,12 +104,13 @@ AS不像IDEA那样并没有groovy工程模板，但是原理是一样的
   ```groovy
   apply plugin: 'groovy'
   apply plugin: 'maven'
-
   dependencies {
     //gradle sdk
     compile gradleApi()
     //groovy sdk
     compile localGroovy()
+    //gradle build tools
+    compile 'com.android.tools.build:gradle:3.3.2'
     compile fileTree(dir: 'libs', include: ['*.jar'])
   }
   ```

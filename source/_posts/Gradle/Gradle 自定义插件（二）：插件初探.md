@@ -37,7 +37,7 @@ apply plugin: 'com.android.application'
 
 先用一个栗子来实现最简单的插件
 
-1. 创建一个PluginTest类
+1. 创建一个PluginTest类,记得创建不是java类,而是groovy类.
 
   ```groovy
   public class PluginTest implements Plugin<Project> {

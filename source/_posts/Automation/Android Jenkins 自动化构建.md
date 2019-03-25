@@ -104,9 +104,12 @@ Packages available for installation or update: 176
 
 `android update sdk -u -a -t 1,2,3,4,5,37,38,39,40,41`
 
-## Gradle 3.3
+## Gradle
 
-wget <https://services.gradle.org/distributions/gradle-3.3-bin.zip>
+linux : wget <https://services.gradle.org/distributions/gradle-x.x-bin.zip>
+
+版本只需拉取后缀名bin的包就足够使用
+具体拉取的版本号查询<http://services.gradle.org/distributions/>
 
 释放到本地Home目录,创建名字为"gradle"的符号链接，符号连接的好处是方便版本更新，有了新的版本直接修改符号链接即可。
 
@@ -136,6 +139,21 @@ To see a list of available tasks, run gradle tasks
 To see a list of command-line options, run gradle --help
 BUILD SUCCESSFUL
 ```
+
+## 配置权限
+
+为了不因为权限出现各种问题，这里直接使用root
+修改用户为root
+$ vim /etc/sysconfig/jenkins
+
+修改配置
+JENKINS_USER="root"
+
+## 修改目录权限
+
+$ chown -R root:root /var/lib/jenkins
+$ chown -R root:root /var/cache/jenkins
+$ chown -R root:root /var/log/jenkins
 
 # 签名详解
 
@@ -208,7 +226,15 @@ keytool -list -keystore [keystorePath]
 
 ## 动态参数
 
-|--参数名-|参数类型| 参数值列表| BUILD_TYPE Choice Release or Debug IS_JENKINS Choice true PRODUCT_FLAVORS Choice Xiaomi 、Wandoujia等 BUILD_TIME Dynamic Parameter 2016-12-21-11-11 APP_VERSION Choice 1.0.0、1.0.1等 GIT_TAG Git Parameter tag1.0.0等
+| 参数类型            | 参数值列表                     |
+| --------------- | ------------------------- |
+| BUILD_TYPE      | Choice Release or Debug   |
+| IS_JENKINS      | Choice true or false      |
+| PRODUCT_FLAVORS | Choice Xiaomi 、Wandoujia等 |
+| BUILD_TIME      |                           |
+| APP_VERSION     | 1.0.0、1.0.1....           |
+| GIT_TAG         | 1.0.0、1.0.1....           |
+| ...             | ...                       |
 
 ## 构建触发器
 

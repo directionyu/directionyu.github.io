@@ -1,8 +1,10 @@
 ---
-title: AndroidStudio Gradle 自动化打包
+title: AndroidStudio Gradle 打渠道包
 date: 2016-10-06T08:55:29.000Z
 categories: Android
-tag: 打包
+tags:
+  - Android
+  - Gradle
 toc: true
 ---
 
